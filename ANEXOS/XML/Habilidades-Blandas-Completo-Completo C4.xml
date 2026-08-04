@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="GVuQ6vZUJ5rIwZgxE_tb">
+    <mxGraphModel dx="4690" dy="2635" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" value="C1 - Diagrama de Contexto&lt;br&gt;Sistema Integral de Desarrollo de Habilidades Blandas&lt;div&gt;&lt;br/&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="1000" x="740" y="50" as="geometry" />
+        </mxCell>
+        <object placeholders="1" c4Name="Sistema Integral de Habilidades Blandas" c4Type="Sistema de Software" c4Description="sistemaHabilidadesBlandas" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Sistema web monolítico modular que permite diagnóstico inicial, evaluaciones 360°, gestión de actividades formativas, portafolio de evidencias y analítica de aprendizaje para desarrollo de competencias transversales en estudiantes universitarios.&lt;/font&gt;&lt;/div&gt;" id="3">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#1061B0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#0D5091;metaEdit=1;resizable=0;points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];" vertex="1">
+            <mxGeometry height="180" width="300" x="1090" y="520" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Estudiante" c4Type="Persona" c4Description="estudiante" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Usuario principal. Completa diagnóstico inicial, visualiza perfil competencias, se inscribe en actividades, sube evidencias, realiza evaluación pares, recibe notificaciones.&lt;/font&gt;&lt;/div&gt;" id="4">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;" vertex="1">
+            <mxGeometry height="160" width="200" x="520" y="220" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="5" edge="1" parent="1" source="4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="6" connectable="0" parent="5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Completa diagnóstico,&#xa;realiza evaluaciones,&#xa;sube evidencias,&#xa;consulta progreso&#xa;[Protocolo Seguro]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Docente" c4Type="Persona" c4Description="docente" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Crea y gestiona actividades formativas, valida evidencias, registra evaluaciones de estudiantes.&lt;/font&gt;&lt;/div&gt;" id="7">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;" vertex="1">
+            <mxGeometry height="160" width="200" x="520" y="440" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="8" edge="1" parent="1" source="7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="9" connectable="0" parent="8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Crea actividades,&#xa;valida evidencias,&#xa;registra evaluaciones&#xa;[Protocolo Seguro]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Tutor Académico" c4Type="Persona" c4Description="tutor" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Visualiza progreso de estudiantes tutorados, genera reportes grupales.&lt;/font&gt;&lt;/div&gt;" id="10">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;" vertex="1">
+            <mxGeometry height="160" width="200" x="520" y="660" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="11" edge="1" parent="1" source="10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="12" connectable="0" parent="11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Visualiza progreso,&#xa;genera reportes&#xa;[Protocolo Seguro]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Coordinador de Carrera" c4Type="Persona" c4Description="coordinador" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Administrador académico de la carrera. Registra usuarios académicos, gestiona retos colaborativos, configura competencias y criterios, genera reportes globales, visualiza panel analítico.&lt;/font&gt;&lt;/div&gt;" id="13">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;" vertex="1">
+            <mxGeometry height="200" width="200" x="520" y="880" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="14" edge="1" parent="1" source="13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="15" connectable="0" parent="14" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Registra usuarios académicos,&#xa;configura competencias,&#xa;genera reportes académicos&#xa;[Protocolo Seguro]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint x="-210" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Administrador del Sistema" c4Type="Persona" c4Description="admin" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Gestiona cuentas de usuario y roles, configura parámetros técnicos generales de la plataforma, da soporte técnico, controla accesos del sistema.&lt;/font&gt;&lt;/div&gt;" id="16">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;" vertex="1">
+            <mxGeometry height="200" width="200" x="1760" y="880" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="17" edge="1" parent="1" source="16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="18" connectable="0" parent="17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Modifica roles técnicos,&#xa;configura parámetros plataforma,&#xa;da soporte técnico&#xa;[Protocolo Seguro]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint x="110" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Empresa Colaboradora" c4Type="Persona" c4Description="empresa" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Evalúa estudiantes en prácticas preprofesionales, proporciona retroalimentación sobre desempeño laboral.&lt;/font&gt;&lt;/div&gt;" id="19">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;" vertex="1">
+            <mxGeometry height="160" width="200" x="1760" y="220" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="20" edge="1" parent="1" source="19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="21" connectable="0" parent="20" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Registra evaluaciones&#xa;prácticas&#xa;[Protocolo Seguro]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Graduado" c4Type="Persona" c4Description="graduado" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Registra retroalimentación sobre aplicación de habilidades blandas en vida laboral, actúa como mentor.&lt;/font&gt;&lt;/div&gt;" id="22">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;" vertex="1">
+            <mxGeometry height="160" width="200" x="1760" y="440" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="23" edge="1" parent="1" source="22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="24" connectable="0" parent="23" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Comparte experiencias,&#xa;retroalimentación&#xa;[Protocolo Seguro]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Personal de Bienestar Universitario" c4Type="Persona" c4Description="bienestar" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Accede a información consolidada sobre desarrollo competencial de estudiantes, identifica necesidades de apoyo psicopedagógico.&lt;/font&gt;&lt;/div&gt;" id="25">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;" vertex="1">
+            <mxGeometry height="180" width="200" x="1760" y="660" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="26" edge="1" parent="1" source="25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="27" connectable="0" parent="26" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Consulta info consolidada,&#xa;analiza tendencias&#xa;[Protocolo Seguro]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Directorio Institucional" c4Type="Sistema de Software" c4Description="directorio" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Directorio institucional opcional para validar credenciales. Si no está disponible, el sistema usa registro propio con correo institucional (ver Supuestos).&lt;/font&gt;&lt;/div&gt;" id="28">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#8C8496;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#736782;metaEdit=1;resizable=0;points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];" vertex="1">
+            <mxGeometry height="130" width="240" x="1040" y="870" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="29" edge="1" parent="1" source="28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="30" connectable="0" parent="29" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Valida credenciales&#xa;(opcional)&#xa;[Protocolo Directorio]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint x="-48" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Servidor de Correo" c4Type="Sistema de Software" c4Description="correo" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Servicio externo de correo electrónico para envío de notificaciones a usuarios. Puerto 587/465.&lt;/font&gt;&lt;/div&gt;" id="31">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#8C8496;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#736782;metaEdit=1;resizable=0;points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];" vertex="1">
+            <mxGeometry height="130" width="220" x="1470" y="760" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="32" edge="1" parent="1" source="31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="33" connectable="0" parent="32" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Envía notificaciones,&#xa;correos electrónicos&#xa;[Protocolo Correo]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="34" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=17;fontStyle=1" value="C2 - Diagrama de Contenedores&lt;br&gt;Sistema Integral de Desarrollo de Habilidades Blandas" vertex="1">
+          <mxGeometry height="80" width="1000" x="805" y="1240" as="geometry" />
+        </mxCell>
+        <object placeholders="1" c4Name="Usuarios del Sistema" c4Type="Persona" c4Description="usuarios" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;8 roles: Estudiante, Docente, Tutor, Coordinador, Empresa, Graduado, Bienestar, Administrador con control de accesos basado en roles.&lt;/font&gt;&lt;/div&gt;" id="35">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#1E88E5;strokeColor=#1565C0;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;" vertex="1">
+            <mxGeometry height="160" width="220" x="385" y="1525" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Aplicación Web Interfaz" c4Type="Contenedor: Aplicación Web" c4Description="interfaz" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Interfaz adaptable para interacción con evaluaciones, actividades, evidencias y reportes. Usabilidad menor a 10 min, compatible con navegadores principales. Puerto 80/443 protocolo seguro.&lt;/font&gt;&lt;/div&gt;" id="36">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;labelBackgroundColor=none;fillColor=#23A2D9;fontColor=#ffffff;align=center;arcSize=7;strokeColor=#0E7DAD;metaEdit=1;resizable=0;points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];" vertex="1">
+            <mxGeometry height="160" width="280" x="785" y="1525" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="37" edge="1" parent="1" source="35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="38" connectable="0" parent="37" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;" value="Usa vía navegador&#xa;[Protocolo Seguro]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="39" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1168BD;strokeWidth=4;dashed=1;" value="" vertex="1">
+          <mxGeometry height="510" width="860" x="1215" y="1350" as="geometry" />
+        </mxCell>
+        <mxCell id="40" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;fontColor=#1168BD;" value="&lt;b style=&quot;font-size: 16px;&quot;&gt;SERVIDOR MONOLITO MODULAR [Contenedor: Aplicación Servidor]&lt;/b&gt;&#xa;Arquitectura modular con 7 módulos internos independientes. Alta mantenibilidad, rendimiento menor a 1s para consultas en proceso." vertex="1">
+          <mxGeometry height="50" width="820" x="1235" y="1360" as="geometry" />
+        </mxCell>
+        <object placeholders="1" c4Name="Módulo Usuarios" c4Type="Módulo Interno" c4Description="modUsuarios" label="&lt;font style=&quot;font-size: 14px&quot;&gt;&lt;b&gt;📦 %c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Registro usuarios, autenticación por token, control de accesos basado en roles. Controladores, Servicios, Repositorios.&lt;/font&gt;&lt;/div&gt;" id="41">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;labelBackgroundColor=none;fillColor=#1061B0;fontColor=#ffffff;align=center;arcSize=7;strokeColor=#0D5091;metaEdit=1;resizable=0;" vertex="1">
+            <mxGeometry height="100" width="230" x="1255" y="1430" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Módulo Competencias" c4Type="Módulo Interno" c4Description="modCompetencias" label="&lt;font style=&quot;font-size: 14px&quot;&gt;&lt;b&gt;📦 %c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Configuración de competencias, niveles y rúbricas. Controladores, Servicios, Repositorios.&lt;/font&gt;&lt;/div&gt;" id="42">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;labelBackgroundColor=none;fillColor=#1061B0;fontColor=#ffffff;align=center;arcSize=7;strokeColor=#0D5091;metaEdit=1;resizable=0;" vertex="1">
+            <mxGeometry height="100" width="230" x="1515" y="1430" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Módulo Evaluaciones" c4Type="Módulo Interno" c4Description="modEvaluaciones" label="&lt;font style=&quot;font-size: 14px&quot;&gt;&lt;b&gt;📦 %c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Diagnóstico inicial, evaluaciones 360°, historial inmutable. Controladores, Servicios, Repositorios.&lt;/font&gt;&lt;/div&gt;" id="43">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;labelBackgroundColor=none;fillColor=#1061B0;fontColor=#ffffff;align=center;arcSize=7;strokeColor=#0D5091;metaEdit=1;resizable=0;" vertex="1">
+            <mxGeometry height="100" width="260" x="1775" y="1430" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Módulo Actividades" c4Type="Módulo Interno" c4Description="modActividades" label="&lt;font style=&quot;font-size: 14px&quot;&gt;&lt;b&gt;📦 %c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Gestión de actividades formativas, inscripciones, retos colaborativos. Controladores, Servicios, Repositorios.&lt;/font&gt;&lt;/div&gt;" id="44">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;labelBackgroundColor=none;fillColor=#1061B0;fontColor=#ffffff;align=center;arcSize=7;strokeColor=#0D5091;metaEdit=1;resizable=0;" vertex="1">
+            <mxGeometry height="100" width="230" x="1255" y="1560" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Módulo Evidencias" c4Type="Módulo Interno" c4Description="modEvidencias" label="&lt;font style=&quot;font-size: 14px&quot;&gt;&lt;b&gt;📦 %c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Subida de evidencias, validación, portafolio de estudiantes. Controladores, Servicios, Repositorios.&lt;/font&gt;&lt;/div&gt;" id="45">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;labelBackgroundColor=none;fillColor=#1061B0;fontColor=#ffffff;align=center;arcSize=7;strokeColor=#0D5091;metaEdit=1;resizable=0;" vertex="1">
+            <mxGeometry height="100" width="230" x="1515" y="1560" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Módulo Analítica" c4Type="Módulo Interno" c4Description="modAnalitica" label="&lt;font style=&quot;font-size: 14px&quot;&gt;&lt;b&gt;📦 %c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Perfil de competencias, seguimiento, reportes, panel de control analítico, exportación de datos, información consolidada. Controladores, Servicios, Repositorios.&lt;/font&gt;&lt;/div&gt;" id="46">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;labelBackgroundColor=none;fillColor=#1061B0;fontColor=#ffffff;align=center;arcSize=7;strokeColor=#0D5091;metaEdit=1;resizable=0;" vertex="1">
+            <mxGeometry height="100" width="260" x="1775" y="1560" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Módulo Notificaciones" c4Type="Módulo Interno" c4Description="modNotificaciones" label="&lt;font style=&quot;font-size: 14px&quot;&gt;&lt;b&gt;📦 %c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Envío de notificaciones, mensajería interna entre usuarios. Servicios.&lt;/font&gt;&lt;/div&gt;" id="47">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;labelBackgroundColor=none;fillColor=#1061B0;fontColor=#ffffff;align=center;arcSize=7;strokeColor=#0D5091;metaEdit=1;resizable=0;" vertex="1">
+            <mxGeometry height="100" width="230" x="1255" y="1690" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Compartido / Común" c4Type="Módulo Compartido" c4Description="compartido" label="&lt;font style=&quot;font-size: 14px&quot;&gt;&lt;b&gt;🔧 %c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 10px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Autenticación (por token, basado en roles), Configuración Base de Datos, Manejadores de Excepciones, Objetos de Transferencia comunes, Utilidades. Usado por todos los módulos.&lt;/font&gt;&lt;/div&gt;" id="48">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;labelBackgroundColor=none;fillColor=#FFA726;fontColor=#ffffff;align=center;arcSize=7;strokeColor=#EF6C00;metaEdit=1;resizable=0;" vertex="1">
+            <mxGeometry height="100" width="520" x="1515" y="1690" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="49" edge="1" parent="1" source="36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="39">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="50" connectable="0" parent="49" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontStyle=1" value="Consume Interfaz&amp;nbsp;&lt;div&gt;de Servicios&lt;br&gt;[Protocolo Seguro,&amp;nbsp;&lt;/div&gt;&lt;div&gt;Datos Estructurados]&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint x="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Base de Datos Relacional" c4Type="Contenedor: Base de Datos Relacional" c4Description="basedatos" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Base de datos central para todos los módulos. Tablas: usuarios, competencias, evaluaciones inmutables, actividades, evidencias, analitica, notificaciones. Cifrado de datos, respaldos diarios, protección de privacidad. Puerto 5432.&lt;/font&gt;&lt;/div&gt;" id="51">
+          <mxCell parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#0D7C00;fontColor=#ffffff;strokeColor=#0A6300;fontSize=11;" vertex="1">
+            <mxGeometry height="150" width="300" x="1495" y="2062.5" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="52" edge="1" parent="1" source="39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="51">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="53" connectable="0" parent="52" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=11;fontStyle=1" value="Consultas Estructuradas&#xa;[Grupo de Conexiones]&#xa;Alto rendimiento" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Almacenamiento de Archivos" c4Type="Contenedor: Sistema de Archivos" c4Description="almacenamiento" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Almacenamiento de archivos de evidencias como documentos, imágenes, videos hasta 50MB. Volumen persistente.&lt;/font&gt;&lt;/div&gt;" id="54">
+          <mxCell parent="1" style="shape=datastore;whiteSpace=wrap;html=1;fillColor=#FF9900;fontColor=#ffffff;strokeColor=#CC7A00;fontSize=11;" vertex="1">
+            <mxGeometry height="150" width="200" x="1895" y="2062.5" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="55" edge="1" parent="1" source="45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" target="54">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="56" connectable="0" parent="55" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Lee/Escribe archivos&#xa;[Interfaz de Archivos]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Caché en Memoria (Opcional)" c4Type="Contenedor: Caché en Memoria" c4Description="cache" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Almacenamiento temporal de consultas frecuentes, almacenamiento de sesiones por token. Mejora tiempos de respuesta a menor de 1 segundo. Puerto 6379. Solo si es necesario.&lt;/font&gt;&lt;/div&gt;" id="57">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;labelBackgroundColor=none;fillColor=#D32F2F;fontColor=#ffffff;align=center;arcSize=7;strokeColor=#B71C1C;metaEdit=1;resizable=0;" vertex="1">
+            <mxGeometry height="150" width="280" x="1095" y="2062.5" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="58" edge="1" parent="1" source="39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" target="57">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="59" connectable="0" parent="58" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;fontStyle=2" value="OBTENER/ESTABLECER caché&#xa;[Protocolo Caché]&#xa;Opcional" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Directorio Institucional" c4Type="Sistema de Software" c4Description="directorio" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Directorio institucional opcional para validar credenciales. Si no está disponible, el sistema usa registro propio con correo institucional (ver Supuestos).&lt;/font&gt;&lt;/div&gt;" id="60">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#7E57C2;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#5E35B1;metaEdit=1;resizable=0;fontSize=11;" vertex="1">
+            <mxGeometry height="120" width="220" x="645" y="1785" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="61" edge="1" parent="1" source="41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" target="60">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="62" connectable="0" parent="61" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Valida credenciales&#xa;(opcional)&#xa;[Protocolo Directorio]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="Servidor de Correo" c4Type="Sistema de Software" c4Description="correo" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;Servidor de correo electrónico para notificaciones. Puerto 587/465.&lt;/font&gt;&lt;/div&gt;" id="63">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#7E57C2;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#5E35B1;metaEdit=1;resizable=0;fontSize=11;" vertex="1">
+            <mxGeometry height="120" width="220" x="525" y="1980" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="64" edge="1" parent="1" source="47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;" target="63">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="65" connectable="0" parent="64" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" value="Envía correos&#xa;[Protocolo Correo]" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="66" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" value="C3 - Diagrama de Componentes&lt;br&gt;Sistema Integral de Desarrollo de Habilidades Blandas" vertex="1">
+          <mxGeometry height="70" width="1000" x="695" y="2430" as="geometry" />
+        </mxCell>
+        <object placeholders="1" c4Name="Interfaz" c4Type="Contenedor" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;" id="67">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;fontColor=#ffffff;strokeColor=#666666;fontSize=11;" vertex="1">
+            <mxGeometry height="80" width="180" x="465" y="2660" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="68" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1168BD;strokeWidth=3;dashed=1;" value="" vertex="1">
+          <mxGeometry height="880" width="1290" x="725" y="2560" as="geometry" />
+        </mxCell>
+        <mxCell id="69" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#1168BD;" value="&lt;b&gt;Módulo de Evaluaciones [Módulo Interno del Monolito]&lt;/b&gt;&#xa;Controladores + Servicios + Repositorios + Objetos de Transferencia + Entidades" vertex="1">
+          <mxGeometry height="40" width="700" x="745" y="2575" as="geometry" />
+        </mxCell>
+        <object placeholders="1" c4Name="ControladorDiagnostico" c4Type="Componente: Controlador de Servicios" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font&gt;CREAR /servicios/evaluaciones/diagnostico&lt;br&gt;OBTENER /servicios/evaluaciones/diagnostico/:id&lt;br&gt;Diagnóstico inicial (RF03)&lt;/font&gt;&lt;/div&gt;" id="70">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4CAF50;fontColor=#ffffff;strokeColor=#2E7D32;fontSize=10;" vertex="1">
+            <mxGeometry height="90" width="220" x="735" y="2750" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="ControladorEvaluacionPares" c4Type="Componente: Controlador de Servicios" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font&gt;CREAR /servicios/evaluaciones/pares&lt;br&gt;OBTENER /servicios/evaluaciones/pares/equipo/:id&lt;br&gt;Evaluación entre pares (RF09)&lt;/font&gt;&lt;/div&gt;" id="71">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4CAF50;fontColor=#ffffff;strokeColor=#2E7D32;fontSize=10;" vertex="1">
+            <mxGeometry height="90" width="220" x="1130" y="2910" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="ControladorEvaluacionEmpleador" c4Type="Componente: Controlador de Servicios" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;CREAR /servicios/evaluaciones/empleador&lt;br&gt;OBTENER /servicios/evaluaciones/empleador/:empresa&lt;br&gt;Evaluación por empleador (RF11)&lt;/font&gt;&lt;/div&gt;" id="72">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4CAF50;fontColor=#ffffff;strokeColor=#2E7D32;fontSize=11;" vertex="1">
+            <mxGeometry height="105" width="260" x="1730" y="2805" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="ControladorEvaluacionGraduado" c4Type="Componente: Controlador de Servicios" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;CREAR /servicios/evaluaciones/graduado&lt;br&gt;OBTENER /servicios/evaluaciones/graduado/:id&lt;br&gt;Retroalimentación graduado (RF12)&lt;/font&gt;&lt;/div&gt;" id="73">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4CAF50;fontColor=#ffffff;strokeColor=#2E7D32;fontSize=11;" vertex="1">
+            <mxGeometry height="90" width="220" x="1285" y="2750" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="74" edge="1" parent="1" source="75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="73" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <object placeholders="1" c4Name="ControladorHistorial" c4Type="Componente: Controlador de Servicios" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font&gt;OBTENER /servicios/evaluaciones/historial/:estudiante&lt;br&gt;Historial auditable (RF19)&lt;/font&gt;&lt;/div&gt;" id="75">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4CAF50;fontColor=#ffffff;strokeColor=#2E7D32;fontSize=10;" vertex="1">
+            <mxGeometry height="90" width="185" x="1525" y="2750" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="ServicioEvaluacion" c4Type="Componente: Servicio" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;Lógica negocio: cálculo promedios,&lt;br&gt;validación rúbricas, generación reportes&lt;/font&gt;&lt;/div&gt;" id="76">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2196F3;fontColor=#ffffff;strokeColor=#1565C0;fontSize=11;" vertex="1">
+            <mxGeometry height="100" width="280" x="945" y="3150" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="ServicioValidacion" c4Type="Componente: Servicio" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;Valida permisos basados en roles,&lt;br&gt;fechas límite, criterios evaluación&lt;/font&gt;&lt;/div&gt;" id="77">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2196F3;fontColor=#ffffff;strokeColor=#1565C0;fontSize=11;" vertex="1">
+            <mxGeometry height="100" width="230" x="1265" y="3040" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="ServicioNotificacion" c4Type="Componente: Servicio" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;Envía notificaciones internas&lt;br&gt;al Módulo de Notificaciones&lt;/font&gt;&lt;/div&gt;" id="78">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2196F3;fontColor=#ffffff;strokeColor=#1565C0;fontSize=11;" vertex="1">
+            <mxGeometry height="100" width="200" x="1795" y="3150" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="ServicioHistorial" c4Type="Componente: Servicio" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;Consulta historial auditable,&lt;br&gt;aplica filtros de privacidad&lt;/font&gt;&lt;/div&gt;" id="79">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2196F3;fontColor=#ffffff;strokeColor=#1565C0;fontSize=11;" vertex="1">
+            <mxGeometry height="100" width="200" x="1510" y="2930" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="RepositorioEvaluacion" c4Type="Componente: Repositorio" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;Acceso datos evaluaciones&lt;br&gt;(Mapeo Objeto-Relacional)&lt;/font&gt;&lt;/div&gt;" id="80">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9800;fontColor=#ffffff;strokeColor=#E65100;fontSize=11;" vertex="1">
+            <mxGeometry height="100" width="280" x="945" y="3290" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="RepositorioHistorial" c4Type="Componente: Repositorio" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;Registro auditable INMUTABLE&lt;br&gt;SOLO-AGREGAR, sin modificaciones&lt;/font&gt;&lt;/div&gt;" id="81">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FF9800;fontColor=#ffffff;strokeColor=#E65100;fontSize=11;" vertex="1">
+            <mxGeometry height="100" width="230" x="1495" y="3290" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="82" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8EAF6;strokeColor=#3949AB;fontColor=#1A237E;align=center;verticalAlign=top;fontSize=12;" value="&lt;b&gt;Objetos de Transferencia de Datos&lt;/b&gt;" vertex="1">
+          <mxGeometry height="140" width="770" x="875" y="3730" as="geometry" />
+        </mxCell>
+        <mxCell id="83" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C5CAE9;strokeColor=#5C6BC0;fontColor=#1A237E;fontSize=10;" value="ObjetoSolicitudEvaluacion" vertex="1">
+          <mxGeometry height="60" width="160" x="895" y="3770" as="geometry" />
+        </mxCell>
+        <mxCell id="84" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C5CAE9;strokeColor=#5C6BC0;fontColor=#1A237E;fontSize=10;" value="ObjetoRespuestaEvaluacion" vertex="1">
+          <mxGeometry height="60" width="170" x="1065" y="3770" as="geometry" />
+        </mxCell>
+        <mxCell id="85" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C5CAE9;strokeColor=#5C6BC0;fontColor=#1A237E;fontSize=10;" value="ObjetoDiagnostico" vertex="1">
+          <mxGeometry height="60" width="130" x="1245" y="3770" as="geometry" />
+        </mxCell>
+        <mxCell id="86" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C5CAE9;strokeColor=#5C6BC0;fontColor=#1A237E;fontSize=10;" value="ObjetoResultado" vertex="1">
+          <mxGeometry height="60" width="130" x="1385" y="3770" as="geometry" />
+        </mxCell>
+        <mxCell id="87" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C5CAE9;strokeColor=#5C6BC0;fontColor=#1A237E;fontSize=10;" value="ObjetoError" vertex="1">
+          <mxGeometry height="60" width="100" x="1525" y="3770" as="geometry" />
+        </mxCell>
+        <object placeholders="1" c4Name="Base de Datos Relacional" c4Type="Contenedor" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;Tablas: evaluaciones,&lt;br&gt;historial_auditoria (inmutable)&lt;/font&gt;&lt;/div&gt;" id="88">
+          <mxCell parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#0D7C00;fontColor=#ffffff;strokeColor=#0A6300;fontSize=11;" vertex="1">
+            <mxGeometry height="110" width="200" x="1085" y="3560" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Módulo Notificaciones" c4Type="Módulo Interno" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;Envía correos/notificaciones&lt;/font&gt;&lt;/div&gt;" id="89">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;fontColor=#ffffff;strokeColor=#666666;fontSize=11;" vertex="1">
+            <mxGeometry height="110" width="230" x="1780" y="3570" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name="Módulo Usuarios" c4Type="Módulo Interno" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;Valida permisos basados en roles&lt;/font&gt;&lt;/div&gt;" id="90">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;fontColor=#ffffff;strokeColor=#666666;fontSize=11;" vertex="1">
+            <mxGeometry height="110" width="230" x="1355" y="3560" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="91" edge="1" parent="1" source="67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="70">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="92" edge="1" parent="1" source="67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="71">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="93" edge="1" parent="1" source="67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="114">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="94" edge="1" parent="1" source="67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="72">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="95" edge="1" parent="1" source="67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="73">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="96" edge="1" parent="1" source="67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="75">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="97" edge="1" parent="1" source="70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="76">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="98" edge="1" parent="1" source="114" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="76">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="99" edge="1" parent="1" source="71" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="76">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="100" edge="1" parent="1" source="114" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="76">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="101" edge="1" parent="1" source="72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="76">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="102" edge="1" parent="1" source="75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="79">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="103" edge="1" parent="1" source="79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="81">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="104" edge="1" parent="1" source="76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="80">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="105" edge="1" parent="1" source="76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;" target="77">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="106" edge="1" parent="1" source="76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;" target="78">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="107" edge="1" parent="1" source="76" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;" target="79">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="108" edge="1" parent="1" source="80" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="88">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1085.02" y="3480.02" />
+              <mxPoint x="1185.02" y="3480.02" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="109" edge="1" parent="1" source="78" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;" target="89">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="110" edge="1" parent="1" source="79" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;" target="77">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="111" edge="1" parent="1" source="77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;" target="90">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1380" y="3360" />
+              <mxPoint x="1465" y="3360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="112" parent="1" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;" value="&lt;b&gt;Patrón Arquitectónico:&lt;/b&gt; Modelo-Vista-Controlador + Repositorio + Objeto de Transferencia&#xa;&#xa;&lt;b&gt;Separación de responsabilidades:&lt;/b&gt;&#xa;• Controladores: Manejo solicitudes/respuestas protocolo&#xa;• Servicios: Lógica de negocio y orquestación&#xa;• Repositorios: Acceso a datos mediante mapeo objeto-relacional&#xa;• Objetos de Transferencia: Transferencia datos entre capas&#xa;• Entidades: Modelo de dominio&#xa;&#xa;&lt;b&gt;Características implementadas:&lt;/b&gt;&#xa;• RNF01: ServicioValidacion valida control de accesos basado en roles&#xa;• RNF02: Cifrado de datos personales en evaluaciones (nivel base de datos)&#xa;• RNF04: Comunicación en-proceso menor a 1s de respuesta&#xa;• RNF11: RepositorioHistorial inmutable para auditoría&#xa;• RF20: Se origina aquí mediante ServicioNotificacion, se completa en Módulo de Notificaciones&#xa;• ObjetoError para manejo de errores global" vertex="1">
+          <mxGeometry height="330" width="220" x="465" y="2860" as="geometry" />
+        </mxCell>
+        <mxCell id="113" edge="1" parent="1" source="73" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" target="114" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1215" y="2805" as="sourcePoint" />
+            <mxPoint x="985" y="3130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <object placeholders="1" c4Name="ControladorEvaluacionDocente" c4Type="Componente: Controlador de Servicios" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font&gt;CREAR /servicios/evaluaciones/docente&lt;br&gt;OBTENER /servicios/evaluaciones/docente/curso/:id&lt;br&gt;Evaluación por docente (RF10)&lt;/font&gt;&lt;/div&gt;" id="114">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#4CAF50;fontColor=#ffffff;strokeColor=#2E7D32;fontSize=10;" vertex="1">
+            <mxGeometry height="90" width="220" x="975" y="2750" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="115" edge="1" parent="1" source="81" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="88">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1610" y="3480" />
+              <mxPoint x="1185" y="3480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="116" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" value="C4 - Diagrama de Código (Clases)&lt;br&gt;Sistema Integral de Desarrollo de Habilidades Blandas" vertex="1">
+          <mxGeometry height="70" width="900" x="850.9200000000001" y="4140" as="geometry" />
+        </mxCell>
+        <mxCell id="117" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#4CAF50;fontColor=#ffffff;strokeColor=#2E7D32;fontSize=11;" value="Controlador&#xa;ControladorEvaluacion" vertex="1">
+          <mxGeometry height="236" width="320" x="600.9200000000001" y="4270" as="geometry" />
+        </mxCell>
+        <mxCell id="118" parent="117" style="text;strokeColor=none;fillColor=#4CAF50;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=10;" value="- servicioEvaluacion: ServicioEvaluacion&#xa;- servicioValidacion: ServicioValidacion&#xa;- registrador: Registrador" vertex="1">
+          <mxGeometry height="50" width="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="119" parent="117" style="line;strokeWidth=1;fillColor=#4CAF50;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#ffffff;" value="" vertex="1">
+          <mxGeometry height="8" width="320" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="120" parent="117" style="text;strokeColor=none;fillColor=#4CAF50;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=9;" value="+ crearDiagnostico(ot): EntidadRespuesta&#xa;+ crearEvaluacionPares(ot): EntidadRespuesta&#xa;+ crearEvaluacionDocente(ot): EntidadRespuesta&#xa;+ crearEvaluacionEmpleador(ot): EntidadRespuesta&#xa;+ crearEvaluacionGraduado(ot): EntidadRespuesta&#xa;+ obtenerEvaluaciones(estudianteId): Lista&#xa;+ obtenerHistorial(estudianteId): Lista&#xa;+ validarPermisos(usuario, accion): booleano" vertex="1">
+          <mxGeometry height="138" width="320" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="121" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#2196F3;fontColor=#ffffff;strokeColor=#1565C0;fontSize=11;" value="Servicio&#xa;ServicioEvaluacion" vertex="1">
+          <mxGeometry height="250" width="380" x="1040.92" y="4270" as="geometry" />
+        </mxCell>
+        <mxCell id="122" parent="121" style="text;strokeColor=none;fillColor=#2196F3;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=10;" value="- repositorioEvaluacion: RepositorioEvaluacion&#xa;- servicioHistorial: ServicioHistorial&#xa;- servicioValidacion: ServicioValidacion&#xa;- servicioNotificacion: ServicioNotificacion&#xa;- registrador: Registrador" vertex="1">
+          <mxGeometry height="80" width="380" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="123" parent="121" style="line;strokeWidth=1;fillColor=#2196F3;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#ffffff;" value="" vertex="1">
+          <mxGeometry height="8" width="380" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="124" parent="121" style="text;strokeColor=none;fillColor=#2196F3;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=9;" value="+ crearEvaluacion(tipo, datos): Evaluacion&#xa;+ validarEvaluacion(eval): booleano&#xa;+ calcularPromedio(estudianteId, compId): doble&#xa;+ registrarEnHistorial(evaluacion): vacío&#xa;+ notificarNuevaEvaluacion(eval): vacío&#xa;+ obtenerEvaluaciones(estudianteId): Lista" vertex="1">
+          <mxGeometry height="122" width="380" y="128" as="geometry" />
+        </mxCell>
+        <mxCell id="125" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#FF9800;fontColor=#ffffff;strokeColor=#E65100;fontSize=11;" value="Repositorio&#xa;RepositorioEvaluacion" vertex="1">
+          <mxGeometry height="200" width="380" x="1560.92" y="4710" as="geometry" />
+        </mxCell>
+        <mxCell id="126" parent="125" style="text;strokeColor=none;fillColor=#FF9800;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=10;" value="- gestorEntidades: GestorEntidades&#xa;- fuenteDatos: FuenteDatos" vertex="1">
+          <mxGeometry height="40" width="380" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="127" parent="125" style="line;strokeWidth=1;fillColor=#FF9800;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#ffffff;" value="" vertex="1">
+          <mxGeometry height="8" width="380" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="128" parent="125" style="text;strokeColor=none;fillColor=#FF9800;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=9;" value="+ guardar(evaluacion: Evaluacion): Evaluacion&#xa;+ buscarPorId(id: Largo): Opcional&#xa;+ buscarPorEstudianteId(id: Largo): Lista&#xa;+ buscarPorCompetenciaId(id: Largo): Lista&#xa;+ buscarPorTipo(tipo: TipoEvaluacion): Lista&#xa;+ contarPorEstudianteId(id: Largo): largo&#xa;- ejecutarConsulta(sql: Cadena): ConjuntoResultados" vertex="1">
+          <mxGeometry height="112" width="380" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="129" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#2196F3;fontColor=#ffffff;strokeColor=#1565C0;fontSize=11;" value="Servicio&#xa;ServicioHistorial" vertex="1">
+          <mxGeometry height="140" width="350" x="1560.92" y="4270" as="geometry" />
+        </mxCell>
+        <mxCell id="130" parent="129" style="text;strokeColor=none;fillColor=#2196F3;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=10;" value="- repositorioHistorial: RepositorioHistorial&#xa;- servicioValidacion: ServicioValidacion" vertex="1">
+          <mxGeometry height="40" width="350" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="131" parent="129" style="line;strokeWidth=1;fillColor=#2196F3;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#ffffff;" value="" vertex="1">
+          <mxGeometry height="8" width="350" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="132" parent="129" style="text;strokeColor=none;fillColor=#2196F3;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=9;" value="+ registrarEnHistorial(eval: Evaluacion): vacío&#xa;+ obtenerHistorialAuditable(estudianteId): Lista&#xa;+ validarAccesoHistorial(idUsuario): booleano" vertex="1">
+          <mxGeometry height="52" width="350" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="133" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#FF9800;fontColor=#ffffff;strokeColor=#E65100;fontSize=11;" value="Repositorio&#xa;RepositorioHistorial" vertex="1">
+          <mxGeometry height="170" width="350" x="1560.92" y="4470" as="geometry" />
+        </mxCell>
+        <mxCell id="134" parent="133" style="text;strokeColor=none;fillColor=#FF9800;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=10;" value="- gestorEntidades: GestorEntidades" vertex="1">
+          <mxGeometry height="30" width="350" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="135" parent="133" style="line;strokeWidth=1;fillColor=#FF9800;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#ffffff;" value="" vertex="1">
+          <mxGeometry height="8" width="350" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="136" parent="133" style="text;strokeColor=none;fillColor=#FF9800;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=9;" value="+ registrar(evaluacion: Evaluacion): vacío&#xa;+ buscarPorEstudianteId(id: Largo): Lista&#xa;+ buscarTodos(): Lista&#xa;- prevenirActualizacion(): vacío (INMUTABLE)&#xa;- prevenirEliminacion(): vacío (INMUTABLE)" vertex="1">
+          <mxGeometry height="92" width="350" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="137" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#9C27B0;fontColor=#ffffff;strokeColor=#6A1B9A;fontSize=11;" value="Entidad&#xa;Evaluacion" vertex="1">
+          <mxGeometry height="280" width="320" x="1090.92" y="4690" as="geometry" />
+        </mxCell>
+        <mxCell id="138" parent="137" style="text;strokeColor=none;fillColor=#9C27B0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=10;" value="- id: Largo (PK)&#xa;- estudianteId: Largo (FK)&#xa;- evaluadorId: Largo (FK)&#xa;- competenciaId: Largo (FK)&#xa;- tipo: TipoEvaluacion (ENUM)&#xa;- calificacion: Doble (0-5)&#xa;- comentarios: Cadena&#xa;- fecha: FechaHoraLocal&#xa;- activo: Booleano (eliminación lógica)&#xa;- version: Entero" vertex="1">
+          <mxGeometry height="150" width="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="139" parent="137" style="line;strokeWidth=1;fillColor=#9C27B0;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#ffffff;" value="" vertex="1">
+          <mxGeometry height="8" width="320" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="140" parent="137" style="text;strokeColor=none;fillColor=#9C27B0;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=9;" value="+ obtenerId(): Largo&#xa;+ obtenerEstudianteId(): Largo&#xa;+ establecerCalificacion(calif: Doble): vacío&#xa;+ validar(): Lista&lt;Cadena&gt;&#xa;+ aObjetoTransferencia(): ObjetoRespuestaEvaluacion" vertex="1">
+          <mxGeometry height="82" width="320" y="198" as="geometry" />
+        </mxCell>
+        <mxCell id="141" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#607D8B;fontColor=#ffffff;strokeColor=#455A64;fontSize=11;" value="Enumeración&#xa;TipoEvaluacion" vertex="1">
+          <mxGeometry height="150" width="250" x="1611.16" y="5020" as="geometry" />
+        </mxCell>
+        <mxCell id="142" parent="141" style="text;strokeColor=none;fillColor=#607D8B;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=10;" value="DIAGNOSTICO_INICIAL&#xa;AUTOEVALUACION&#xa;EVALUACION_PARES&#xa;EVALUACION_DOCENTE&#xa;EVALUACION_EMPLEADOR&#xa;EVALUACION_GRADUADO" vertex="1">
+          <mxGeometry height="110" width="250" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="143" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#C5CAE9;fontColor=#1A237E;strokeColor=#5C6BC0;fontSize=11;" value="Objeto de Transferencia&#xa;ObjetoSolicitudEvaluacion" vertex="1">
+          <mxGeometry height="200" width="320" x="600.9200000000001" y="4590" as="geometry" />
+        </mxCell>
+        <mxCell id="144" parent="143" style="text;strokeColor=none;fillColor=#C5CAE9;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#1A237E;fontSize=10;" value="- estudianteId: Largo&#xa;- evaluadorId: Largo&#xa;- competenciaId: Largo&#xa;- tipo: Cadena&#xa;- calificacion: Doble&#xa;- comentarios: Cadena&#xa;- validaciones: Lista&lt;Cadena&gt;" vertex="1">
+          <mxGeometry height="110" width="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="145" parent="143" style="line;strokeWidth=1;fillColor=#C5CAE9;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#5C6BC0;" value="" vertex="1">
+          <mxGeometry height="8" width="320" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="146" parent="143" style="text;strokeColor=none;fillColor=#C5CAE9;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#1A237E;fontSize=10;" value="+ validar(): Lista&lt;Cadena&gt;&#xa;+ aEntidad(): Evaluacion" vertex="1">
+          <mxGeometry height="42" width="320" y="158" as="geometry" />
+        </mxCell>
+        <mxCell id="147" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#C5CAE9;fontColor=#1A237E;strokeColor=#5C6BC0;fontSize=11;" value="Objeto de Transferencia&#xa;ObjetoRespuestaEvaluacion" vertex="1">
+          <mxGeometry height="220" width="320" x="600.9200000000001" y="4910" as="geometry" />
+        </mxCell>
+        <mxCell id="148" parent="147" style="text;strokeColor=none;fillColor=#C5CAE9;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#1A237E;fontSize=10;" value="- id: Largo&#xa;- estudianteNombre: Cadena&#xa;- evaluadorNombre: Cadena&#xa;- competenciaNombre: Cadena&#xa;- tipo: Cadena&#xa;- calificacion: Doble&#xa;- comentarios: Cadena&#xa;- fecha: Cadena (formato estándar)&#xa;- promedio: Doble" vertex="1">
+          <mxGeometry height="130" width="320" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="149" parent="147" style="line;strokeWidth=1;fillColor=#C5CAE9;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#5C6BC0;" value="" vertex="1">
+          <mxGeometry height="8" width="320" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="150" parent="147" style="text;strokeColor=none;fillColor=#C5CAE9;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#1A237E;fontSize=10;" value="+ desdeEntidad(eval: Evaluacion): ObjetoTransferencia&#xa;+ aTextoEstructurado(): Cadena" vertex="1">
+          <mxGeometry height="42" width="320" y="178" as="geometry" />
+        </mxCell>
+        <mxCell id="151" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#00BCD4;fontColor=#ffffff;strokeColor=#00838F;fontSize=11;" value="Servicio&#xa;ServicioValidacion" vertex="1">
+          <mxGeometry height="180" width="350" x="600.9200000000001" y="5230" as="geometry" />
+        </mxCell>
+        <mxCell id="152" parent="151" style="text;strokeColor=none;fillColor=#00BCD4;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=10;" value="- reglas: Mapa&lt;Cadena, Validador&gt;&#xa;- registrador: Registrador" vertex="1">
+          <mxGeometry height="40" width="350" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="153" parent="151" style="line;strokeWidth=1;fillColor=#00BCD4;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#ffffff;" value="" vertex="1">
+          <mxGeometry height="8" width="350" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="154" parent="151" style="text;strokeColor=none;fillColor=#00BCD4;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=9;" value="+ validarCalificacion(calif: Doble): booleano&lt;br&gt;+ validarPermisos(usuario, accion): booleano&lt;br&gt;+ validarObjetoTransferencia(ot): Lista&lt;Cadena&gt;&lt;br&gt;+ validarConsistencia(eval): booleano&lt;br&gt;+ aplicarReglas(datos): ResultadoValidacion" vertex="1">
+          <mxGeometry height="92" width="350" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="155" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#00BCD4;fontColor=#ffffff;strokeColor=#00838F;fontSize=11;" value="&lt;&lt;Servicio&gt;&gt;&#xa;&lt;b&gt;ServicioNotificacion&lt;/b&gt;" vertex="1">
+          <mxGeometry height="180" width="380" x="1080.92" y="5120" as="geometry" />
+        </mxCell>
+        <mxCell id="156" parent="155" style="text;strokeColor=none;fillColor=#00BCD4;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=10;" value="- moduloNotificaciones: ModuloNotificaciones&#xa;- registrador: Registrador" vertex="1">
+          <mxGeometry height="40" width="380" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="157" parent="155" style="line;strokeWidth=1;fillColor=#00BCD4;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=#ffffff;" value="" vertex="1">
+          <mxGeometry height="8" width="380" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="158" parent="155" style="text;strokeColor=none;fillColor=#00BCD4;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;fontColor=#ffffff;fontSize=9;" value="+ enviarNotificacion(eval: Evaluacion): vacío&lt;br&gt;+ notificarEstudiante(estudianteId, mensaje): vacío&lt;br&gt;+ notificarDocente(docenteId, mensaje): vacío&lt;br&gt;+ crearEvento(tipo, datos): EventoNotificacion&lt;br&gt;- delegarAModuloNotificaciones(evento): vacío" vertex="1">
+          <mxGeometry height="92" width="380" y="88" as="geometry" />
+        </mxCell>
+        <object placeholders="1" c4Name="ModuloNotificaciones" c4Type="Módulo Externo" label="&lt;b&gt;%c4Name%&lt;/b&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font size=&quot;2&quot;&gt;Envía correos y notificaciones&#xa;al exterior del módulo&lt;/font&gt;&lt;/div&gt;" id="159">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;fontColor=#ffffff;strokeColor=#666666;fontSize=11;" vertex="1">
+            <mxGeometry height="100" width="250" x="1145.92" y="5400" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="160" edge="1" parent="1" source="155" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#333333;" target="159" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="161" connectable="0" parent="160" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;delega a&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="162" edge="1" parent="1" source="117" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="121" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="920.9300000000001" y="4332.51" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="163" connectable="0" parent="162" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;usa&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="5" y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="164" edge="1" parent="1" source="117" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="151" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540.96" y="4388" />
+              <mxPoint x="540.96" y="5320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="165" connectable="0" parent="164" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;usa&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="-25" y="-278" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="166" edge="1" parent="1" source="117" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="129" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760.8800000000001" y="4220" />
+              <mxPoint x="1500.88" y="4220" />
+              <mxPoint x="1500.88" y="4304.96" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="167" connectable="0" parent="166" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;usa&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="5" y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="168" edge="1" parent="1" source="121" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="125" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1230.99" y="4660.07" />
+              <mxPoint x="1750.99" y="4660.07" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="169" connectable="0" parent="168" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;usa&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint y="-198" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="170" edge="1" parent="1" source="121" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="129" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="171" connectable="0" parent="170" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;usa&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="5" y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="172" edge="1" parent="1" source="129" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#333333;" target="133" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="173" connectable="0" parent="172" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;usa&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="174" edge="1" parent="1" source="124" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=-0.007;exitY=0.009;exitDx=0;exitDy=0;entryX=0.456;entryY=0.007;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;entryPerimeter=0;exitPerimeter=0;" target="151" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="961.0200000000001" y="4399.14" />
+              <mxPoint x="961.0200000000001" y="5170" />
+              <mxPoint x="760.54" y="5170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="175" edge="1" parent="1" source="121" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="155" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1135.92" y="4610.07" />
+              <mxPoint x="1040.99" y="4610.07" />
+              <mxPoint x="1040.99" y="5040.07" />
+              <mxPoint x="1270.99" y="5040.07" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="176" connectable="0" parent="175" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;usa&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="545" y="-168" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="177" edge="1" parent="1" source="125" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="137" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="178" connectable="0" parent="177" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;gestiona&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="5" y="8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="179" edge="1" parent="1" source="137" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="141" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1480.91" y="4760" />
+              <mxPoint x="1480.91" y="5095" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="180" connectable="0" parent="179" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;usa&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="5" y="-168" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="181" edge="1" parent="1" source="143" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="137" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="182" connectable="0" parent="181" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;convierte a&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="595" y="672" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="183" edge="1" parent="1" source="137" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="147" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="184" connectable="0" parent="183" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;convierte a&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="-55" y="432" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="185" edge="1" parent="1" source="117" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="143" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680.9200000000001" y="4530" />
+              <mxPoint x="760.9200000000001" y="4530" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="186" connectable="0" parent="185" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;recibe&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="-30" y="582" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="187" edge="1" parent="1" source="120" style="endArrow=open;endFill=0;dashed=1;dashPattern=1 2;strokeWidth=2;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#333333;edgeStyle=orthogonalEdgeStyle;" target="147" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="560.9200000000001" y="4506" />
+              <mxPoint x="560.9200000000001" y="4840" />
+              <mxPoint x="760.9200000000001" y="4840" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="188" connectable="0" parent="187" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#333333;" value="&lt;&lt;retorna&gt;&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.15" y="-1" as="geometry">
+            <mxPoint x="-10" y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="189" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#BDBDBD;strokeWidth=2;" value="" vertex="1">
+          <mxGeometry height="260" width="200" x="1650.92" y="5320" as="geometry" />
+        </mxCell>
+        <mxCell id="190" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#333333;" value="Notas y Trazabilidad" vertex="1">
+          <mxGeometry height="30" width="145.24" x="1678.3" y="5330" as="geometry" />
+        </mxCell>
+        <mxCell id="191" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=9;fontColor=#333333;spacingLeft=10;spacingRight=10;" value="&lt;b&gt;NOTA DISEÑO:&lt;/b&gt;&lt;br&gt;   Los 6 Controladores de Servicios del C3&lt;br&gt;   (Diagnostico, Pares, Docente,&lt;br&gt;   Empleador, Graduado, Historial)&lt;br&gt;   se consolidan aquí en 1 clase&lt;br&gt;   ControladorEvaluacion con métodos&lt;br&gt;   separados por tipo de evaluación.&lt;br&gt;   Decisión de diseño para simplificar&lt;br&gt;   Diagrama sin perder funcionalidad.&lt;br&gt;&lt;br&gt;&lt;b&gt;REQUISITOS IMPLEMENTADOS:&lt;/b&gt;&lt;br&gt;   • RF03: Diagnóstico inicial&lt;br&gt;   • RF09-RF12: Evaluaciones 360°&lt;br&gt;   • RF19: Historial auditable&lt;br&gt;   • RF20: Notificaciones (delegadas)&lt;br&gt;   • RNF01: Control acceso basado en roles&lt;br&gt;   • RNF02: Cifrado datos personales&lt;br&gt;   • RNF04: Respuesta menor a 1s&lt;br&gt;   • RNF11: Inmutabilidad historial" vertex="1">
+          <mxGeometry height="220" width="190" x="1660.92" y="5360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
