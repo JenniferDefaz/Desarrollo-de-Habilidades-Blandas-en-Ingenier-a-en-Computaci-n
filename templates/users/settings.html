@@ -1,0 +1,43 @@
+{% extends "core/dashboard_base.html" %}
+
+{% block title %}Configuración - Sistema Académico{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h3 mb-0 text-gray-800">
+                <i class="bi bi-gear-fill text-primary me-2"></i>Configuración de Cuenta
+            </h2>
+            <p class="text-muted mb-0">Modifica tus parámetros de seguridad y credenciales de acceso.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+                <h5 class="fw-bold mb-3 text-dark"><i class="bi bi-shield-lock text-primary me-2"></i>Cambiar Contraseña</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="vstack gap-3">
+                        {% for field in form %}
+                        <div>
+                            <label class="form-label fw-medium">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                            <div class="text-danger small mt-1">{{ field.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-primary rounded-pill px-4">
+                            <i class="bi bi-key me-1"></i>Actualizar Contraseña
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

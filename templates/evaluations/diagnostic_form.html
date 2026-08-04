@@ -1,0 +1,130 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block page_title %}Cuestionario de Diagnóstico Inicial de Habilidades Blandas (HU03){% endblock %}
+
+{% block content %}
+<div class="alert alert-info shadow-sm border-0 d-flex align-items-center" role="alert" style="border-radius: 12px;">
+    <i class="bi bi-info-circle-fill fs-3 me-3 text-info"></i>
+    <div>
+        <strong>Importante:</strong> Evalúa con sinceridad tu nivel de percepción actual en cada una de las subcompetencias. Este diagnóstico nos ayudará a recomendarte actividades.
+    </div>
+</div>
+
+<form action="{% url 'initial_diagnostic' %}" method="post">
+    {% csrf_token %}
+    
+    {% for comp in competencies %}
+    <div class="card shadow-sm border-0 mb-4" style="border-radius: 12px;">
+        <div class="card-header bg-primary text-white" style="border-radius: 12px 12px 0 0;">
+            <h5 class="mb-0 fw-bold">{{ comp.name }}</h5>
+            {% if comp.description %}
+            <p class="mb-0 small text-white-50">{{ comp.description }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="card-body p-4 bg-light">
+            {% for sub in comp.subcompetencies.all %}
+            <div class="card shadow-sm border-0 mb-3" style="border-radius: 10px;">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold text-dark">{{ sub.name }}</h6>
+                    <p class="text-muted small mb-4">{{ sub.description }}</p>
+                    
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <div class="form-check form-check-inline w-100 d-flex align-items-center p-3 border rounded h-100 position-relative">
+                                <input class="form-check-input mt-0 me-2" type="radio" name="subcompetency_{{ sub.id }}" id="sub_{{ sub.id }}_1" value="2.5" required>
+                                <label class="form-check-label w-100 text-center" for="sub_{{ sub.id }}_1">
+                                    <span class="d-block fw-bold text-danger mb-1">Inicial (2.5)</span>
+                                    {% if sub.rubrics.all %}
+                                        <small class="text-muted d-block" style="font-size: 0.75rem;">
+                                            {% for rubric in sub.rubrics.all %}
+                                                {% if rubric.level == 1 %}{{ rubric.description }}{% endif %}
+                                            {% endfor %}
+                                        </small>
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <div class="form-check form-check-inline w-100 d-flex align-items-center p-3 border rounded h-100 position-relative">
+                                <input class="form-check-input mt-0 me-2" type="radio" name="subcompetency_{{ sub.id }}" id="sub_{{ sub.id }}_2" value="5.0">
+                                <label class="form-check-label w-100 text-center" for="sub_{{ sub.id }}_2">
+                                    <span class="d-block fw-bold text-warning mb-1">En Desarrollo (5.0)</span>
+                                    {% if sub.rubrics.all %}
+                                        <small class="text-muted d-block" style="font-size: 0.75rem;">
+                                            {% for rubric in sub.rubrics.all %}
+                                                {% if rubric.level == 2 %}{{ rubric.description }}{% endif %}
+                                            {% endfor %}
+                                        </small>
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <div class="form-check form-check-inline w-100 d-flex align-items-center p-3 border rounded h-100 position-relative">
+                                <input class="form-check-input mt-0 me-2" type="radio" name="subcompetency_{{ sub.id }}" id="sub_{{ sub.id }}_3" value="7.5">
+                                <label class="form-check-label w-100 text-center" for="sub_{{ sub.id }}_3">
+                                    <span class="d-block fw-bold text-primary mb-1">Competente (7.5)</span>
+                                    {% if sub.rubrics.all %}
+                                        <small class="text-muted d-block" style="font-size: 0.75rem;">
+                                            {% for rubric in sub.rubrics.all %}
+                                                {% if rubric.level == 3 %}{{ rubric.description }}{% endif %}
+                                            {% endfor %}
+                                        </small>
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <div class="form-check form-check-inline w-100 d-flex align-items-center p-3 border rounded h-100 position-relative">
+                                <input class="form-check-input mt-0 me-2" type="radio" name="subcompetency_{{ sub.id }}" id="sub_{{ sub.id }}_4" value="10.0">
+                                <label class="form-check-label w-100 text-center" for="sub_{{ sub.id }}_4">
+                                    <span class="d-block fw-bold text-success mb-1">Excelente (10.0)</span>
+                                    {% if sub.rubrics.all %}
+                                        <small class="text-muted d-block" style="font-size: 0.75rem;">
+                                            {% for rubric in sub.rubrics.all %}
+                                                {% if rubric.level == 4 %}{{ rubric.description }}{% endif %}
+                                            {% endfor %}
+                                        </small>
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No hay subcompetencias registradas para esta competencia.</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    
+    <div class="d-flex justify-content-end mb-5">
+        <button type="submit" class="btn btn-success btn-lg fw-bold px-5 py-3 shadow">
+            <i class="bi bi-check-circle me-2"></i> Finalizar y Guardar Diagnóstico
+        </button>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-check-inline {
+        margin-right: 0;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .form-check-inline:hover {
+        background-color: #f8f9fa;
+        border-color: #dee2e6 !important;
+    }
+    .form-check-input:checked + .form-check-label {
+        opacity: 1;
+    }
+    .form-check-input {
+        cursor: pointer;
+    }
+</style>
+{% endblock %}

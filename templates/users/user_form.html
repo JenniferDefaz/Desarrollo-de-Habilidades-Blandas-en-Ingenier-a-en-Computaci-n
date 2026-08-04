@@ -1,0 +1,175 @@
+{% extends 'core/dashboard_base.html' %}
+
+{% block page_title %}{% if user_obj %}Editar Usuario{% else %}Nuevo Usuario{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{% url 'user_list' %}" class="btn btn-sm btn-light border" title="Volver">
+                        <i class="bi bi-arrow-left"></i>
+                    </a>
+                    <span>Datos del Usuario</span>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    
+                    <!-- Row 1: Nombre y Apellido -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control {% if form.first_name.errors %}is-invalid{% endif %}" 
+                                       id="id_first_name" name="first_name" 
+                                       value="{{ form.first_name.value|default:'' }}" 
+                                       placeholder="Nombres">
+                                <label for="id_first_name">Nombres</label>
+                                {% if form.first_name.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.first_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <div class="form-floating">
+                                <input type="text" class="form-control {% if form.last_name.errors %}is-invalid{% endif %}" 
+                                       id="id_last_name" name="last_name" 
+                                       value="{{ form.last_name.value|default:'' }}" 
+                                       placeholder="Apellidos">
+                                <label for="id_last_name">Apellidos</label>
+                                {% if form.last_name.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.last_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Cédula y Teléfono -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control {% if form.cedula.errors %}is-invalid{% endif %}" 
+                                       id="id_cedula" name="cedula" 
+                                       value="{{ form.cedula.value|default:'' }}" 
+                                       placeholder="Cédula">
+                                <label for="id_cedula">Cédula</label>
+                                {% if form.cedula.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.cedula.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <div class="form-floating">
+                                <input type="text" class="form-control {% if form.phone.errors %}is-invalid{% endif %}" 
+                                       id="id_phone" name="phone" 
+                                       value="{{ form.phone.value|default:'' }}" 
+                                       placeholder="Teléfono">
+                                <label for="id_phone">Teléfono</label>
+                                {% if form.phone.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.phone.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Username y Email -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                                       id="id_username" name="username" 
+                                       value="{{ form.username.value|default:'' }}" 
+                                       placeholder="Nombre de Usuario">
+                                <label for="id_username">Nombre de Usuario</label>
+                                {% if form.username.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.username.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <div class="form-floating">
+                                <input type="email" class="form-control {% if form.institutional_email.errors %}is-invalid{% endif %}" 
+                                       id="id_institutional_email" name="institutional_email" 
+                                       value="{{ form.institutional_email.value|default:'' }}" 
+                                       placeholder="Email Institucional">
+                                <label for="id_institutional_email">Email Institucional</label>
+                                {% if form.institutional_email.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.institutional_email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Rol y Estado -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select class="form-select {% if form.role.errors %}is-invalid{% endif %}" id="id_role" name="role">
+                                    <option value="" disabled {% if not form.role.value %}selected{% endif %}>Seleccione un rol</option>
+                                    {% for role in roles %}
+                                        <option value="{{ role.id }}" {% if form.role.value|stringformat:"s" == role.id|stringformat:"s" %}selected{% endif %}>
+                                            {{ role.get_name_display }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <label for="id_role">Rol</label>
+                                {% if form.role.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.role.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0 d-flex align-items-center">
+                            <div class="form-check form-switch ms-2 mt-2 fs-5">
+                                <input class="form-check-input" type="checkbox" role="switch" id="id_is_active" name="is_active" {% if form.is_active.value or not form.is_bound %}checked{% endif %}>
+                                <label class="form-check-label fs-6 mt-1 ms-2" for="id_is_active">Usuario Activo</label>
+                            </div>
+                            {% if form.is_active.errors %}
+                                <div class="invalid-feedback d-block">{{ form.is_active.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Row 5: Passwords (Only for Create) -->
+                    {% if not user_obj %}
+                    <div class="row mb-4 pb-2 border-bottom">
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" 
+                                       id="id_password1" name="password1" 
+                                       placeholder="Contraseña">
+                                <label for="id_password1">Contraseña</label>
+                                {% if form.password1.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.password1.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <div class="form-floating">
+                                <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" 
+                                       id="id_password2" name="password2" 
+                                       placeholder="Confirmar Contraseña">
+                                <label for="id_password2">Confirmar Contraseña</label>
+                                {% if form.password2.errors %}
+                                    <div class="invalid-feedback d-block">{{ form.password2.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="{% url 'user_list' %}" class="btn btn-secondary text-white px-4">
+                            Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4 btn-action">
+                            <i class="bi bi-check-lg"></i> Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

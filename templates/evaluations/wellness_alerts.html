@@ -1,0 +1,132 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h2 class="text-danger mb-0"><i class="bi bi-heart-pulse-fill me-2"></i>Alertas de Bienestar Universitario y Apoyo Psicoeducativo (RF22)</h2>
+            <p class="text-muted mb-0">Detección temprana de estudiantes con bajo desempeño o dificultades en desarrollo competencial.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{% url 'reports_dashboard' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Volver a Reportes
+            </a>
+        </div>
+    </div>
+
+    <!-- Tarjetas de Resumen de Alertas -->
+    <div class="row g-4 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="card border-0 bg-danger text-white shadow-sm h-100">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle text-white-50 mb-2">Alertas de Prioridad Alta (Roja)</h6>
+                        <h2 class="display-6 fw-bold mb-0">
+                            {% with high_count=0 %}
+                                {% for a in alerts %}{% if a.alert_level == 'ALTA' %}{{ forloop.counter0|add:1 }}{% endif %}{% empty %}0{% endfor %}
+                            {% endwith %}
+                        </h2>
+                    </div>
+                    <div class="fs-1 text-white-50"><i class="bi bi-exclamation-triangle-fill"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 bg-warning text-dark shadow-sm h-100">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle text-muted mb-2">Alertas de Prioridad Media (Amarilla)</h6>
+                        <h2 class="display-6 fw-bold mb-0">
+                            {% with med_count=0 %}
+                                {% for a in alerts %}{% if a.alert_level == 'MEDIA' %}{{ forloop.counter0|add:1 }}{% endif %}{% empty %}0{% endfor %}
+                            {% endwith %}
+                        </h2>
+                    </div>
+                    <div class="fs-1 text-black-50"><i class="bi bi-exclamation-circle-fill"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card border-0 bg-success text-white shadow-sm h-100">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle text-white-50 mb-2">Total Casos en Seguimiento</h6>
+                        <h2 class="display-6 fw-bold mb-0">{{ alerts|length }}</h2>
+                    </div>
+                    <div class="fs-1 text-white-50"><i class="bi bi-shield-check"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de Alertas de Estudiantes -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3 border-0">
+            <h5 class="card-title fw-bold text-secondary mb-0"><i class="bi bi-person-lines-fill me-2"></i>Estudiantes Identificados en Riesgo Competencial</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nivel Alerta</th>
+                            <th>Estudiante</th>
+                            <th>Correo / Contacto</th>
+                            <th>Promedio Competencial</th>
+                            <th>Competencias con Dificultad (< 2.5)</th>
+                            <th>Acciones de Apoyo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in alerts %}
+                        <tr>
+                            <td>
+                                {% if item.alert_level == 'ALTA' %}
+                                    <span class="badge bg-danger fs-6"><i class="bi bi-exclamation-triangle me-1"></i> ALTA</span>
+                                {% else %}
+                                    <span class="badge bg-warning text-dark fs-6"><i class="bi bi-exclamation-circle me-1"></i> MEDIA</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <strong>{{ item.student.get_full_name }}</strong><br>
+                                <small class="text-muted">Cód: {{ item.student.username }}</small>
+                            </td>
+                            <td>
+                                <a href="mailto:{{ item.student.email }}" class="text-decoration-none">
+                                    <i class="bi bi-envelope me-1"></i>{{ item.student.email }}
+                                </a>
+                            </td>
+                            <td>
+                                <span class="fw-bold fs-5 text-{{ item.badge_class }}">{{ item.overall_avg|floatformat:2 }}</span> / 5.00
+                            </td>
+                            <td>
+                                {% for lc in item.low_competencies %}
+                                    <span class="badge bg-light text-danger border border-danger me-1 mb-1">
+                                        {{ lc.competency }}: <strong>{{ lc.score }}</strong>
+                                    </span>
+                                {% empty %}
+                                    <span class="text-muted">Bajo desempeño general sostenido</span>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <a href="{% url 'tutor_student_detail' item.student.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye me-1"></i> Ver Perfil Completo
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-success">
+                                <i class="bi bi-check-circle-fill display-4 d-block mb-2"></i>
+                                <h5>¡Excelente! No se registran alertas activas de bajo desempeño competencial.</h5>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

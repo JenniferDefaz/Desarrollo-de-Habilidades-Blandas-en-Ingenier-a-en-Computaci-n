@@ -1,0 +1,136 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary mb-0"><i class="bi bi-person-lines-fill me-2"></i>Reporte de Seguimiento 360°: {{ student.get_full_name }}</h2>
+        <a href="{% url 'tutor_students' %}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver a la lista</a>
+    </div>
+
+    <!-- Student Profile Info Card -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body d-flex align-items-center gap-4">
+            <div class="display-4 text-primary"><i class="bi bi-person-circle"></i></div>
+            <div>
+                <h4 class="mb-1">{{ student.get_full_name }}</h4>
+                <p class="mb-0 text-muted">
+                    <strong>Carrera:</strong> {{ student.profile.carrera|default:"No especificada" }} |
+                    <strong>Semestre:</strong> {{ student.profile.semestre|default:"No especificado" }} |
+                    <strong>Cédula:</strong> {{ student.profile.cedula|default:"No especificada" }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Section 1: Evaluaciones 360° Recibidas -->
+        <div class="col-12 col-xl-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <h5 class="card-title text-secondary"><i class="bi bi-clipboard-data me-2"></i>Evaluaciones 360° Recibidas</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Evaluador</th>
+                                    <th>Fecha</th>
+                                    <th>Puntaje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for eval in evaluaciones %}
+                                <tr>
+                                    <td>{{ eval.get_tipo_display }}</td>
+                                    <td>{{ eval.evaluator.get_full_name|default:eval.evaluator.username }}</td>
+                                    <td>{{ eval.date|date:"d M Y" }}</td>
+                                    <td><strong>{{ eval.score|floatformat:1 }}</strong>/5.0</td>
+                                </tr>
+                                {% empty %}
+                                <tr><td colspan="4" class="text-center text-muted">No hay evaluaciones registradas.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Puntuaciones por Subcompetencia -->
+        <div class="col-12 col-xl-6">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <h5 class="card-title text-secondary"><i class="bi bi-bar-chart-steps me-2"></i>Puntuaciones por Subcompetencia</h5>
+                </div>
+                <div class="card-body">
+                    {% for comp in competencias %}
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>{{ comp.nombre }}</span>
+                            <strong>{{ comp.score|floatformat:1 }}/5.0</strong>
+                        </div>
+                        <div class="progress" style="height: 10px;">
+                            <div class="progress-bar {% if comp.score >= 4 %}bg-success{% elif comp.score >= 3 %}bg-warning{% else %}bg-danger{% endif %}" role="progressbar" style="width: {{ comp.porcentaje }}%;" aria-valuenow="{{ comp.score }}" aria-valuemin="0" aria-valuemax="5"></div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted text-center">No hay datos de competencias.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Evidencias de Aprendizaje Subidas -->
+        <div class="col-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <h5 class="card-title text-secondary"><i class="bi bi-folder2-open me-2"></i>Evidencias de Aprendizaje Subidas</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Título / Descripción</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha de Subida</th>
+                                    <th>Estado de Revisión</th>
+                                    <th>Enlace</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for evidencia in evidencias %}
+                                <tr>
+                                    <td>{{ evidencia.title }}</td>
+                                    <td><span class="badge bg-secondary">{{ evidencia.get_tipo_display }}</span></td>
+                                    <td>{{ evidencia.created_at|date:"d/m/Y H:i" }}</td>
+                                    <td>
+                                        {% if evidencia.is_reviewed %}
+                                        <span class="badge bg-success">Revisado</span>
+                                        {% else %}
+                                        <span class="badge bg-warning text-dark">Pendiente</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if evidencia.file %}
+                                        <a href="{{ evidencia.file.url }}" class="btn btn-sm btn-outline-primary" target="_blank"><i class="bi bi-download"></i> Descargar</a>
+                                        {% elif evidencia.url %}
+                                        <a href="{{ evidencia.url }}" class="btn btn-sm btn-outline-primary" target="_blank"><i class="bi bi-link-45deg"></i> Visitar</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr><td colspan="5" class="text-center text-muted">El estudiante no ha subido evidencias.</td></tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

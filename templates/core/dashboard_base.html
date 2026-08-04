@@ -1,0 +1,432 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistema Académico{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap FileInput -->
+    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/css/fileinput.min.css" rel="stylesheet">
+    
+    <!-- Custom Dashboard CSS -->
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+    <div class="dashboard-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <span class="badge">SA</span>
+                <span>Sistema Académico</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav flex-column mb-auto">
+                    {% if request.user.role and request.user.role.name in 'ADMINISTRADOR,ADMIN,Administrador' or request.user.is_superuser %}
+                    <li class="nav-item">
+                        <a href="{% url 'coordinator_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'coordinator_dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'user_list' %}" class="nav-link {% if request.resolver_match.url_name == 'user_list' or request.resolver_match.url_name == 'user_create' or request.resolver_match.url_name == 'user_update' %}active{% endif %}">
+                            <i class="bi bi-people-fill"></i> Usuarios (HU23)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'system_settings_view' %}" class="nav-link {% if request.resolver_match.url_name == 'system_settings_view' %}active{% endif %}">
+                            <i class="bi bi-gear-wide-connected"></i> Configuración General (RF23)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'support_ticket_list' %}" class="nav-link {% if 'support_ticket' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-headset"></i> Soporte Técnico (RF23)
+                        </a>
+                    </li>
+                    {% elif request.user.role and request.user.role.name in 'COORDINADOR_CARRERA,COORDINADOR,Coordinador,Coordinador de Carrera' %}
+                    <li class="nav-item">
+                        <a href="{% url 'coordinator_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'coordinator_dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'user_list' %}" class="nav-link {% if request.resolver_match.url_name == 'user_list' or request.resolver_match.url_name == 'user_create' or request.resolver_match.url_name == 'user_update' %}active{% endif %}">
+                            <i class="bi bi-people-fill"></i> Usuarios
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'competency_list' %}" class="nav-link {% if 'competency' in request.resolver_match.url_name or 'rubric' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-trophy-fill"></i> Competencias
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'review_inbox' %}" class="nav-link {% if 'review' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-inbox-fill"></i> Bandeja de Evidencias
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'activity_list' %}" class="nav-link {% if 'activity' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-calendar-event-fill"></i> Actividades
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'challenges_list' %}" class="nav-link {% if 'challenge' in request.resolver_match.url_name or 'team' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-people-fill"></i> Retos Colaborativos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'reports_dashboard' %}" class="nav-link {% if 'report' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-graph-up-arrow"></i> Analítica / Reportes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'wellness_alerts' %}" class="nav-link {% if request.resolver_match.url_name == 'wellness_alerts' %}active{% endif %}">
+                            <i class="bi bi-heart-pulse-fill"></i> Alertas Bienestar (RF22)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'graduate_feedback_list' %}" class="nav-link {% if request.resolver_match.url_name == 'graduate_feedback_list' %}active{% endif %}">
+                            <i class="bi bi-mortarboard-fill"></i> Encuestas Graduados (RF12)
+                        </a>
+                    </li>
+                    {% elif request.user.role and request.user.role.name in 'GRADUADO,Graduado' %}
+                    <li class="nav-item">
+                        <a href="{% url 'graduate_feedback_create' %}" class="nav-link {% if request.resolver_match.url_name == 'graduate_feedback_create' %}active{% endif %}">
+                            <i class="bi bi-journal-check"></i> Retroalimentación Laboral (RF12)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'support_ticket_list' %}" class="nav-link {% if 'support_ticket' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-headset"></i> Soporte Técnico
+                        </a>
+                    </li>
+                    {% elif request.user.role and request.user.role.name in 'TUTOR_ACADEMICO,Tutor Académico' %}
+
+                    <li class="nav-item">
+                        <a href="{% url 'tutor_students' %}" class="nav-link {% if 'tutor' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-person-video3"></i> Mis Tutorados
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'reports_dashboard' %}" class="nav-link {% if 'report' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-file-bar-graph"></i> Reportes
+                        </a>
+                    </li>
+                    {% elif request.user.role and request.user.role.name in 'BIENESTAR_UNIVERSITARIO,Bienestar Universitario' %}
+                    <li class="nav-item">
+                        <a href="{% url 'wellness_alerts' %}" class="nav-link {% if request.resolver_match.url_name == 'wellness_alerts' %}active{% endif %}">
+                            <i class="bi bi-exclamation-triangle-fill"></i> Alertas de Bajo Desempeño
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'tutor_students' %}" class="nav-link {% if 'tutor' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-heart-pulse"></i> Seguimiento Estudiantes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'reports_dashboard' %}" class="nav-link {% if 'report' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-pie-chart-fill"></i> Analítica
+                        </a>
+                    </li>
+
+                    {% elif request.user.role and request.user.role.name in 'ESTUDIANTE,Estudiante' %}
+                    <li class="nav-item">
+                        <a href="{% url 'student_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'initial_diagnostic' %}" class="nav-link {% if request.resolver_match.url_name == 'initial_diagnostic' %}active{% endif %}">
+                            <i class="bi bi-person-lines-fill"></i> Diagnóstico Inicial / Perfil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'my_evidences' %}" class="nav-link {% if 'evidence' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-folder-fill"></i> Mis Evidencias
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'my_evaluation_history' %}" class="nav-link {% if request.resolver_match.url_name == 'my_evaluation_history' %}active{% endif %}">
+                            <i class="bi bi-clipboard2-check-fill"></i> Mis Evaluaciones e Historial
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'student_activities' %}" class="nav-link {% if request.resolver_match.url_name == 'student_activities' %}active{% endif %}">
+                            <i class="bi bi-calendar-event-fill"></i> Mis Actividades / Catálogo
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'peer_evaluations' %}" class="nav-link {% if 'peer' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-people-fill"></i> Evaluación de Pares
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'notification_list' %}" class="nav-link {% if 'notification' in request.resolver_match.url_name %}active{% endif %} d-flex align-items-center justify-content-between">
+                            <span><i class="bi bi-bell-fill"></i> Notificaciones</span>
+                            {% if unread_notifications_count > 0 %}
+                                <span class="badge bg-danger rounded-pill px-2">{{ unread_notifications_count }}</span>
+                            {% endif %}
+                        </a>
+                    </li>
+
+                    {% elif request.user.role and request.user.role.name in 'DOCENTE,Docente' %}
+                    <li class="nav-item">
+                        <a href="{% url 'teacher_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'review_inbox' %}" class="nav-link {% if 'review' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-check2-square"></i> Bandeja de Evidencias
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'activity_list' %}" class="nav-link {% if 'activity' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-journal-text"></i> Actividades formativas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'teacher_evaluations' %}" class="nav-link {% if 'teacher_evaluation' in request.resolver_match.url_name or 'teacher_activity_evaluation' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-person-check-fill"></i> Evaluar Estudiantes
+                        </a>
+                    </li>
+                    {% elif request.user.role and request.user.role.name in 'EMPRESA_COLABORADORA,Empresa Colaboradora' %}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'employer_evaluations' %}" class="nav-link {% if 'employer_evaluation' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-briefcase-fill"></i> Evaluar Practicantes
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+            <div class="sidebar-divider"></div>
+            
+            <div class="sidebar-bottom">
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-1">
+                        <a href="{% url 'support_ticket_list' %}" class="nav-link text-info">
+                            <i class="bi bi-headset me-1"></i> Soporte Técnico
+                        </a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a href="{% url 'home' %}" class="nav-link">
+                            <i class="bi bi-box-arrow-left"></i> Volver al sitio
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="nav-link text-danger">
+                            <i class="bi bi-power"></i> Cerrar Sesión
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="user-info-area">
+                    <div class="avatar">
+                        {{ request.user.first_name|default:request.user.username|make_list|first|upper }}
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+                        <span class="user-role">{% if request.user.role %}{{ request.user.role.get_name_display }}{% elif request.user.is_superuser %}Administrador{% else %}Usuario{% endif %}</span>
+                    </div>
+                </div>
+            </div>
+
+
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <div class="breadcrumbs-area">
+                    {% block breadcrumbs %}{% endblock %}
+                </div>
+                
+                <div class="user-dropdown dropdown">
+                    <button class="btn btn-light dropdown-toggle d-flex align-items-center gap-2 border-0" type="button" data-bs-toggle="dropdown">
+                        <span class="fw-medium">{{ request.user.first_name|default:request.user.username }}</span>
+                        <i class="bi bi-person-circle fs-4"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
+                        <li><a class="dropdown-item" href="{% url 'user_profile' %}"><i class="bi bi-person me-2"></i> Mi Perfil</a></li>
+                        <li><a class="dropdown-item" href="{% url 'user_settings' %}"><i class="bi bi-gear me-2"></i> Configuración</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="bi bi-power me-2"></i> Cerrar Sesión</a></li>
+                    </ul>
+
+                </div>
+            </header>
+
+            <!-- Content Header -->
+            <div class="content-header">
+                <h2>{% block page_title %}Dashboard{% endblock %}</h2>
+            </div>
+
+            <!-- Page Content -->
+            <div class="content-body">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    
+    <!-- DataTables Buttons -->
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    
+    <!-- Bootstrap FileInput -->
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/js/fileinput.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/js/locales/es.js"></script>
+    
+    {% block extra_js %}{% endblock %}
+
+    <script>
+        // 1. Deshabilitar restauración desde caché (bfcache) al presionar el botón Atrás del navegador
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted || (window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType('navigation')[0] && window.performance.getEntriesByType('navigation')[0].type === 'back_forward')) {
+                window.location.reload();
+            }
+        });
+
+        // 2. Control de Pestaña Única en el mismo navegador para usuarios autenticados
+        (function() {
+            {% if request.user.is_authenticated %}
+            const USER_ID = "{{ request.user.pk }}";
+            const TAB_KEY_PREFIX = 'academic_system_tab_' + USER_ID;
+            const PING_KEY = TAB_KEY_PREFIX + '_ping';
+            const ACTIVE_TAB_KEY = TAB_KEY_PREFIX + '_active_id';
+
+            let tabId = sessionStorage.getItem('app_tab_unique_id');
+            if (!tabId) {
+                tabId = 'tab_' + Math.random().toString(36).substring(2, 9) + '_' + Date.now();
+                sessionStorage.setItem('app_tab_unique_id', tabId);
+            }
+
+            let heartbeatInterval = null;
+            const broadcastChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('tab_channel_' + USER_ID) : null;
+
+            function handleDuplicateTab() {
+                Swal.fire({
+                    title: '¡Sesión Duplicada!',
+                    html: '<p class="text-muted mb-2">Detectamos que ya tienes una pestaña abierta con este sistema en tu navegador.</p><p>Por razones de seguridad, <strong>no se permite mantener múltiples pestañas abiertas simultáneamente</strong>.</p>',
+                    icon: 'warning',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                    showCancelButton: false,
+                    confirmButtonText: '<i class="bi bi-power"></i> Cerrar Sesión',
+                    confirmButtonColor: '#d33'
+                }).then(() => {
+                    window.location.href = "{% url 'logout' %}";
+                });
+            }
+
+            function checkActiveTab() {
+                const activeTabId = localStorage.getItem(ACTIVE_TAB_KEY);
+                const lastPing = parseInt(localStorage.getItem(PING_KEY) || '0', 10);
+                const now = Date.now();
+
+                // Si existe otra pestaña activa diferente con latido reciente (< 3500ms)
+                if (activeTabId && activeTabId !== tabId && (now - lastPing) < 3500) {
+                    handleDuplicateTab();
+                    return false;
+                }
+
+                // Esta pestaña es la activa
+                localStorage.setItem(ACTIVE_TAB_KEY, tabId);
+                localStorage.setItem(PING_KEY, now.toString());
+                return true;
+            }
+
+            if (checkActiveTab()) {
+                heartbeatInterval = setInterval(function() {
+                    localStorage.setItem(ACTIVE_TAB_KEY, tabId);
+                    localStorage.setItem(PING_KEY, Date.now().toString());
+                }, 1500);
+
+                if (broadcastChannel) {
+                    broadcastChannel.postMessage({ type: 'TAB_CLAIM', tabId: tabId });
+                    broadcastChannel.onmessage = function(event) {
+                        if (event.data && event.data.tabId !== tabId && event.data.type === 'TAB_CLAIM') {
+                            if (heartbeatInterval) clearInterval(heartbeatInterval);
+                            handleDuplicateTab();
+                        }
+                    };
+                }
+            }
+
+            window.addEventListener('beforeunload', function() {
+                if (localStorage.getItem(ACTIVE_TAB_KEY) === tabId) {
+                    localStorage.removeItem(ACTIVE_TAB_KEY);
+                    localStorage.removeItem(PING_KEY);
+                    if (broadcastChannel) {
+                        broadcastChannel.postMessage({ type: 'TAB_CLOSED', tabId: tabId });
+                    }
+                }
+            });
+
+            // 3. Verificación periódica en servidor para detectar si se inició sesión desde otro navegador/dispositivo
+            setInterval(function() {
+                fetch("{% url 'check_session_status' %}", {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data && data.session_valid === false) {
+                        window.location.href = data.redirect_url || "{% url 'login' %}";
+                    }
+                })
+                .catch(() => {});
+            }, 4000);
+            {% endif %}
+        })();
+    </script>
+</body>
+</html>

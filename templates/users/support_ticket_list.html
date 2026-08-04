@@ -1,0 +1,125 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h2 class="text-primary mb-0"><i class="bi bi-headset me-2"></i>Mesa de Ayuda y Soporte Técnico (RF23)</h2>
+            <p class="text-muted mb-0">Gestión de tickets de atención técnica y consultas al Administrador del Sistema.</p>
+        </div>
+        <div>
+            <a href="{% url 'support_ticket_create' %}" class="btn btn-primary shadow-sm">
+                <i class="bi bi-plus-circle me-1"></i> Crear Nuevo Ticket de Soporte
+            </a>
+        </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-12 col-md-4">
+                    <label class="form-label fw-bold">Filtrar por Estado</label>
+                    <select name="status" class="form-select">
+                        <option value="">-- Todos los Estados --</option>
+                        <option value="ABIERTO" {% if status_filter == 'ABIERTO' %}selected{% endif %}>Abierto</option>
+                        <option value="EN_PROCESO" {% if status_filter == 'EN_PROCESO' %}selected{% endif %}>En Proceso</option>
+                        <option value="RESUELTO" {% if status_filter == 'RESUELTO' %}selected{% endif %}>Resuelto</option>
+                        <option value="CERRADO" {% if status_filter == 'CERRADO' %}selected{% endif %}>Cerrado</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label class="form-label fw-bold">Filtrar por Categoría</label>
+                    <select name="category" class="form-select">
+                        <option value="">-- Todas las Categorías --</option>
+                        <option value="TECNICO" {% if category_filter == 'TECNICO' %}selected{% endif %}>Problema Técnico</option>
+                        <option value="CUENTA" {% if category_filter == 'CUENTA' %}selected{% endif %}>Acceso / Cuenta</option>
+                        <option value="EVALUACIONES" {% if category_filter == 'EVALUACIONES' %}selected{% endif %}>Evaluaciones</option>
+                        <option value="OTRO" {% if category_filter == 'OTRO' %}selected{% endif %}>Otro</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100 me-2">
+                        <i class="bi bi-funnel me-1"></i> Filtrar
+                    </button>
+                    <a href="{% url 'support_ticket_list' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-x-circle"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de Tickets -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3 border-0">
+            <h5 class="fw-bold text-secondary mb-0"><i class="bi bi-ticket-perforated me-2"></i>Tickets de Soporte Registrados</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th># Ticket</th>
+                            <th>Fecha</th>
+                            <th>Solicitante</th>
+                            <th>Asunto</th>
+                            <th>Categoría</th>
+                            <th>Prioridad</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for t in tickets %}
+                        <tr>
+                            <td><strong>#{{ t.id }}</strong></td>
+                            <td><small class="text-muted">{{ t.created_at|date:"d/m/Y H:i" }}</small></td>
+                            <td>
+                                <strong>{{ t.user.get_full_name }}</strong><br>
+                                <small class="text-muted">{{ t.user.username }}</small>
+                            </td>
+                            <td><strong>{{ t.subject }}</strong></td>
+                            <td><span class="badge bg-light text-dark border">{{ t.get_category_display }}</span></td>
+                            <td>
+                                {% if t.priority == 'ALTA' %}
+                                    <span class="badge bg-danger">ALTA</span>
+                                {% elif t.priority == 'MEDIA' %}
+                                    <span class="badge bg-warning text-dark">MEDIA</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">BAJA</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if t.status == 'ABIERTO' %}
+                                    <span class="badge bg-info text-dark">Abierto</span>
+                                {% elif t.status == 'EN_PROCESO' %}
+                                    <span class="badge bg-warning text-dark">En Proceso</span>
+                                {% elif t.status == 'RESUELTO' %}
+                                    <span class="badge bg-success">Resuelto</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">Cerrado</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'support_ticket_detail' t.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye me-1"></i> Ver Detalle
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox display-4 d-block mb-2"></i>
+                                No hay tickets de soporte registrados en este momento.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

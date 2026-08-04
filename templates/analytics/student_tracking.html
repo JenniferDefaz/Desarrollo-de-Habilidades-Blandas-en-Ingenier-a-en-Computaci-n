@@ -1,0 +1,75 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block page_title %}Seguimiento Individual de Estudiante{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0 mb-4" style="border-radius: 12px;">
+    <div class="card-body">
+        <form method="GET" class="row align-items-end">
+            <div class="col-md-8">
+                <label for="student_id" class="form-label fw-bold">Seleccionar Estudiante</label>
+                <select name="student_id" id="student_id" class="form-select" required>
+                    <option value="">-- Elige un estudiante --</option>
+                    {% for student in students %}
+                        <option value="{{ student.id }}" {% if selected_student and selected_student.id == student.id %}selected{% endif %}>
+                            {{ student.get_full_name|default:student.username }} ({{ student.email }})
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-search me-2"></i>Buscar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if selected_student %}
+<div class="card shadow-sm border-0" style="border-radius: 12px;">
+    <div class="card-header bg-white pt-4 pb-3 border-0">
+        <h5 class="fw-bold mb-0">Progreso de: {{ selected_student.get_full_name }}</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Competencia</th>
+                        <th>Puntaje Promedio</th>
+                        <th>Evaluaciones</th>
+                        <th class="pe-4">Nivel Actual</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for metric in metrics %}
+                    <tr>
+                        <td class="ps-4 fw-bold">{{ metric.competency.name }}</td>
+                        <td>{{ metric.average_score }} / 100</td>
+                        <td>{{ metric.evaluations_count }}</td>
+                        <td class="pe-4">
+                            <span class="badge 
+                                {% if metric.current_level == 'EXCELENTE' %}bg-success
+                                {% elif metric.current_level == 'COMPETENTE' %}bg-primary
+                                {% elif metric.current_level == 'EN_DESARROLLO' %}bg-warning text-dark
+                                {% else %}bg-secondary{% endif %}">
+                                {{ metric.get_current_level_display }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-muted">
+                            El estudiante no tiene métricas registradas aún.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

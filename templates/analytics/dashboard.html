@@ -1,0 +1,69 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block page_title %}Panel Analítico del Coordinador{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card text-white bg-primary mb-3 shadow-sm" style="border-radius: 12px;">
+            <div class="card-header border-0"><h5 class="mb-0">Total Estudiantes Evaluados</h5></div>
+            <div class="card-body">
+                <h2 class="card-title display-4">{{ total_students }}</h2>
+                <p class="card-text">Estudiantes con métricas registradas en el sistema.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card text-white bg-success mb-3 shadow-sm" style="border-radius: 12px;">
+            <div class="card-header border-0"><h5 class="mb-0">Evaluaciones Totales</h5></div>
+            <div class="card-body">
+                <h2 class="card-title display-4">{{ total_evaluations }}</h2>
+                <p class="card-text">Total de evaluaciones 360° procesadas hasta la fecha.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0" style="border-radius: 12px;">
+            <div class="card-header bg-white pt-4 pb-3 border-0 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">Promedio General por Competencia</h5>
+                <a href="{% url 'export_report' %}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-file-earmark-spreadsheet"></i> Exportar Datos (CSV)
+                </a>
+            </div>
+            <div class="card-body p-4">
+                <canvas id="competencyChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('competencyChart').getContext('2d');
+    const competencyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ comp_labels|safe }},
+            datasets: [{
+                label: 'Puntaje Promedio General',
+                data: {{ comp_scores|safe }},
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

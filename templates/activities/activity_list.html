@@ -1,0 +1,98 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block page_title %}Gestión de Actividades Formativas{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-end">
+        <a href="{% url 'activity_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>Nueva Actividad
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0" style="border-radius: 12px;">
+    <div class="card-body">
+        <table id="tabla-actividades" class="table table-hover w-100">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Título</th>
+                    <th>Tipo</th>
+                    <th>Competencia</th>
+                    <th>Instructor</th>
+                    <th>Cupos (Inscritos / Máx)</th>
+                    <th>Fechas</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for act in object_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ act.title }}</td>
+                    <td><span class="badge bg-secondary">{{ act.get_activity_type_display }}</span></td>
+                    <td>{{ act.competency.name }}</td>
+                    <td>{{ act.instructor.get_full_name|default:act.instructor.username }}</td>
+                    <td>
+                        {{ act.enrolled_count }} / {{ act.max_participants }}
+                    </td>
+                    <td>
+                        {{ act.start_date|date:"d M Y" }} - {{ act.end_date|date:"d M Y" }}
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'activity_detail' act.pk %}" class="btn btn-sm btn-info text-white" title="Ver detalle">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="{% url 'activity_update' act.pk %}" class="btn btn-sm btn-warning text-white" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <form action="{% url 'activity_delete' act.pk %}" method="post" class="d-inline delete-form">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-sm btn-danger btn-delete" title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('#tabla-actividades').DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+            },
+            responsive: true
+        });
+
+        $('.btn-delete').on('click', function(e) {
+            e.preventDefault();
+            const form = $(this).closest('form');
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Esta acción no se puede deshacer.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends "core/dashboard_base.html" %}
+
+{% block page_title %}Detalle: {{ competency.name }}{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{% url 'competency_list' %}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Volver a Competencias
+    </a>
+</div>
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+        <h4 class="card-title text-primary">{{ competency.name }}</h4>
+        <p class="card-text">{{ competency.description }}</p>
+        <p class="mb-0">
+            <strong>Estado:</strong> 
+            {% if competency.is_active %}
+                <span class="badge bg-success">Activo</span>
+            {% else %}
+                <span class="badge bg-danger">Inactivo</span>
+            {% endif %}
+        </p>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h5 class="mb-0 text-secondary">Subcompetencias y Rúbricas</h5>
+    <a href="{% url 'subcompetency_create' competency.pk %}" class="btn btn-sm btn-primary">
+        <i class="bi bi-plus-circle"></i> Añadir Subcompetencia
+    </a>
+</div>
+
+{% for sub in competency.subcompetencies.all %}
+<div class="card shadow-sm border-primary mb-4">
+    <div class="card-header bg-white border-primary d-flex justify-content-between align-items-center">
+        <h6 class="mb-0 fw-bold text-primary">
+            {{ sub.name }}
+            {% if sub.is_active %}
+                <span class="badge bg-success ms-2">Activa</span>
+            {% else %}
+                <span class="badge bg-danger ms-2">Inactiva</span>
+            {% endif %}
+        </h6>
+        <div>
+            <a href="{% url 'subcompetency_update' sub.pk %}" class="btn btn-sm btn-outline-primary" title="Editar Subcompetencia">
+                <i class="bi bi-pencil"></i>
+            </a>
+            <form action="{% url 'subcompetency_delete' sub.pk %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="button" class="btn btn-sm btn-outline-danger btn-delete-sub" title="Eliminar Subcompetencia">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="card-body">
+        <p class="text-muted mb-4">{{ sub.description }}</p>
+        
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0 text-secondary">Niveles de Rúbrica</h6>
+            <a href="{% url 'rubric_create' sub.pk %}" class="btn btn-sm btn-outline-success">
+                <i class="bi bi-plus-circle"></i> Añadir Nivel de Rúbrica
+            </a>
+        </div>
+        
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 15%">Nivel</th>
+                        <th style="width: 55%">Descripción</th>
+                        <th style="width: 10%">Puntaje Mín</th>
+                        <th style="width: 10%">Puntaje Máx</th>
+                        <th style="width: 10%">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rubric in sub.rubrics.all %}
+                    <tr>
+                        <td>
+                            <span class="badge 
+                                {% if rubric.level == 'Inicial' %}bg-secondary
+                                {% elif rubric.level == 'En Desarrollo' %}bg-warning text-dark
+                                {% elif rubric.level == 'Competente' %}bg-info text-dark
+                                {% elif rubric.level == 'Excelente' %}bg-success
+                                {% else %}bg-primary{% endif %}">
+                                {{ rubric.get_level_display|default:rubric.level }}
+                            </span>
+                        </td>
+                        <td>{{ rubric.description }}</td>
+                        <td class="text-center">{{ rubric.min_score }}</td>
+                        <td class="text-center">{{ rubric.max_score }}</td>
+                        <td>
+                            <a href="{% url 'rubric_update' rubric.pk %}" class="btn btn-sm btn-outline-primary" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <form action="{% url 'rubric_delete' rubric.pk %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="button" class="btn btn-sm btn-outline-danger btn-delete-rubric" title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-3">No hay rúbricas definidas para esta subcompetencia.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="alert alert-info">
+    No hay subcompetencias asociadas a esta competencia aún.
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const deleteSubBtns = document.querySelectorAll('.btn-delete-sub');
+        deleteSubBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const form = this.closest('form');
+                Swal.fire({
+                    title: '¿Eliminar Subcompetencia?',
+                    text: "Se eliminará esta subcompetencia y todas sus rúbricas. Esta acción no se puede deshacer.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        const deleteRubricBtns = document.querySelectorAll('.btn-delete-rubric');
+        deleteRubricBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const form = this.closest('form');
+                Swal.fire({
+                    title: '¿Eliminar Rúbrica?',
+                    text: "Esta acción no se puede deshacer.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

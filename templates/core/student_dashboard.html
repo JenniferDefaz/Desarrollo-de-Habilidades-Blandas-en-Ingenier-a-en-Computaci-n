@@ -1,0 +1,179 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block page_title %}Panel de Estudiante{% endblock %}
+
+{% block content %}
+<!-- Banner de Diagnóstico -->
+{% if not diag_completed %}
+<div class="alert alert-warning border-0 shadow-sm d-flex justify-content-between align-items-center mb-4 p-4" style="border-radius: 12px;">
+    <div>
+        <h5 class="alert-heading fw-bold mb-1"><i class="bi bi-exclamation-triangle-fill me-2"></i>Atención</h5>
+        <p class="mb-0">Aún no has completado tu Diagnóstico Inicial de Habilidades Blandas.</p>
+    </div>
+    <a href="{% url 'initial_diagnostic' %}" class="btn btn-warning fw-bold">Realizar Diagnóstico Ahora</a>
+</div>
+{% else %}
+<div class="alert alert-success border-0 shadow-sm d-flex align-items-center mb-4 p-3" style="border-radius: 12px;">
+    <i class="bi bi-check-circle-fill fs-4 me-3"></i>
+    <div class="fw-bold">Diagnóstico Inicial Completado</div>
+</div>
+{% endif %}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card p-4 bg-white border-0 shadow-sm" style="border-radius: 12px;">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-light text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 24px;">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 fw-bold text-dark">Bienvenido, {{ request.user.first_name|default:request.user.username }}</h4>
+                        <p class="text-muted mb-0">Aquí podrás monitorear y gestionar el desarrollo de tus habilidades blandas.</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="{% url 'notification_list' %}" class="btn btn-outline-primary rounded-pill px-3">
+                        <i class="bi bi-bell me-1"></i> Notificaciones
+                        {% if unread_notifications_count > 0 %}
+                            <span class="badge bg-danger ms-1 rounded-pill">{{ unread_notifications_count }}</span>
+                        {% endif %}
+                    </a>
+                    <a href="{% url 'my_evaluation_history' %}" class="btn btn-primary rounded-pill px-3">
+                        <i class="bi bi-clock-history me-1"></i> Mi Historial e Informes
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <!-- Tu Perfil de Competencias -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 h-100" style="border-radius: 12px;">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                <h5 class="fw-bold mb-0">Tu Perfil de Competencias</h5>
+            </div>
+            <div class="card-body">
+                {% if scores %}
+                    <div class="mb-4">
+                        <canvas id="studentRadarChart" style="max-height: 250px;"></canvas>
+                    </div>
+                    <div class="mt-2">
+                        {% for score in scores %}
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="fw-medium text-dark">{{ score.subcompetency.name }}</span>
+                                <span class="fw-bold text-muted">{{ score.score|floatformat:1 }} / 5</span>
+                            </div>
+                            <div class="progress" style="height: 10px; border-radius: 5px;">
+                                <div class="progress-bar {% if score.score < 2.5 %}bg-danger{% elif score.score < 3.5 %}bg-warning{% else %}bg-success{% endif %}" 
+                                     role="progressbar" 
+                                     style="width: {% widthratio score.score 5 100 %}%" 
+                                     aria-valuenow="{{ score.score }}" aria-valuemin="0" aria-valuemax="5"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-bar-chart text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-3">Completa tu diagnóstico inicial para visualizar tu perfil.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mis Actividades Inscriptas -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 h-100" style="border-radius: 12px;">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0">Mis Actividades Inscriptas</h5>
+                <a href="{% url 'student_activities' %}" class="btn btn-sm btn-outline-primary">Ver Catálogo</a>
+            </div>
+            <div class="card-body mt-3">
+                {% if my_enrollments %}
+                    <div class="list-group list-group-flush">
+                        {% for enrollment in my_enrollments %}
+                        <div class="list-group-item px-0 py-3 border-bottom">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1 fw-bold">{{ enrollment.activity.title }}</h6>
+                                    <p class="mb-1 small text-muted">
+                                        <i class="bi bi-calendar me-1"></i> {{ enrollment.activity.start_date|date:"d M Y" }}
+                                    </p>
+                                    <span class="badge bg-secondary">{{ enrollment.activity.get_activity_type_display }}</span>
+                                </div>
+                                <span class="badge {% if enrollment.status == 'completed' %}bg-success{% elif enrollment.status == 'enrolled' %}bg-primary{% else %}bg-secondary{% endif %}">
+                                    {{ enrollment.get_status_display }}
+                                </span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-3">No estás inscrito en ninguna actividad formativa en este momento.</p>
+                        <a href="{% url 'student_activities' %}" class="btn btn-primary mt-2">Explorar Actividades</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% if scores %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('studentRadarChart').getContext('2d');
+        const labels = [
+            {% for score in scores %}
+                "{{ score.subcompetency.name }}"{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        ];
+        const data = [
+            {% for score in scores %}
+                {{ score.score|stringformat:"f" }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        ];
+
+        new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Mi Nivel Competencial (1-5)',
+                    data: data,
+                    backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                    borderColor: 'rgba(13, 110, 253, 1)',
+                    pointBackgroundColor: 'rgba(13, 110, 253, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(13, 110, 253, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { display: true },
+                        suggestedMin: 0,
+                        suggestedMax: 5
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endif %}
+{% endblock %}
+
