@@ -3,7 +3,7 @@ from .models import GraduateFeedback
 
 
 class GraduateFeedbackForm(forms.ModelForm):
-    """Formulario para que los graduados registren su retroalimentación laboral (RF12)."""
+    """Formulario para que los graduados registren su retroalimentación laboral."""
     class Meta:
         model = GraduateFeedback
         fields = [

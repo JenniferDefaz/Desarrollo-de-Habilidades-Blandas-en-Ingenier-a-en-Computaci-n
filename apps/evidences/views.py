@@ -6,7 +6,7 @@ from core.decorators import role_required
 from .models import Evidence, EvidenceStatus
 from .forms import EvidenceForm, ReviewForm
 
-# --- VISTAS DE ESTUDIANTE (HU07) ---
+# --- VISTAS DE ESTUDIANTE ---
 
 @role_required(['ESTUDIANTE'])
 def my_evidences(request):
@@ -50,7 +50,7 @@ def delete_evidence(request, pk):
     return redirect('my_evidences')
 
 
-# --- VISTAS DE DOCENTE / COORDINADOR (HU08) ---
+# --- VISTAS DE DOCENTE / COORDINADOR ---
 
 @role_required(['DOCENTE', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
 def review_inbox(request):
@@ -70,7 +70,7 @@ def review_inbox(request):
 
 @role_required(['DOCENTE', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
 def review_evidence(request, pk):
-    """Revisar, evaluar y dejar retroalimentación a una evidencia (HU08)."""
+    """Revisar, evaluar y dejar retroalimentación a una evidencia."""
     evidence = get_object_or_404(Evidence, pk=pk)
     
     if request.method == 'POST':

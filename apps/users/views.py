@@ -146,7 +146,7 @@ def settings_view(request):
 
 @role_required(['ADMINISTRADOR'])
 def system_settings_view(request):
-    """Vista para gestionar la configuración de parámetros generales de la plataforma (RF23)."""
+    """Vista para gestionar la configuración de parámetros generales de la plataforma."""
     from apps.evaluations.utils import log_action
     from .models import SystemSetting
     from .forms import SystemSettingForm
@@ -184,7 +184,7 @@ def system_settings_view(request):
 
 @login_required
 def support_ticket_list(request):
-    """Bandeja de tickets de soporte técnico e incidencias (RF23)."""
+    """Bandeja de tickets de soporte técnico e incidencias."""
     from .models import SupportTicket
 
     is_admin = request.user.role and request.user.role.name in ['ADMINISTRADOR', 'COORDINADOR_CARRERA']
@@ -212,7 +212,7 @@ def support_ticket_list(request):
 
 @login_required
 def support_ticket_create(request):
-    """Formulario para que cualquier usuario cree un ticket de soporte técnico (RF23)."""
+    """Formulario para que cualquier usuario cree un ticket de soporte técnico."""
     from apps.evaluations.utils import log_action
     from .forms import SupportTicketForm
 
@@ -244,7 +244,7 @@ def support_ticket_create(request):
 
 @login_required
 def support_ticket_detail(request, pk):
-    """Detalle del ticket y respuesta administrativa (RF23)."""
+    """Detalle del ticket y respuesta administrativa."""
     from apps.evaluations.utils import log_action
     from apps.notifications.models import Notification, NotificationType
     from .models import SupportTicket

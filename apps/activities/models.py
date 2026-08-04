@@ -211,7 +211,7 @@ class MentorApplicationStatus(models.TextChoices):
 
 class MentorApplication(models.Model):
     """
-    Modelo para la postulación de graduados como mentores en una actividad (HU12).
+    Modelo para la postulación de graduados como mentores en una actividad.
     """
     activity = models.ForeignKey(
         Activity,

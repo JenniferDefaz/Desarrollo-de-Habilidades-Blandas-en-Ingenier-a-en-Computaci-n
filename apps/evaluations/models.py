@@ -188,7 +188,7 @@ class AuditLog(models.Model):
 
 class GraduateFeedback(models.Model):
     """
-    Modelo para la retroalimentación de graduados sobre habilidades blandas en la vida laboral (RF12).
+    Modelo para la retroalimentación de graduados sobre habilidades blandas en la vida laboral.
     """
     graduate = models.ForeignKey(
         settings.AUTH_USER_MODEL,

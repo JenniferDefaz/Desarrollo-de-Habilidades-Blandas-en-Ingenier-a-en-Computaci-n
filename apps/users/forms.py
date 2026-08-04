@@ -85,7 +85,7 @@ class ProfileEditForm(forms.ModelForm):
 
 
 class SystemSettingForm(forms.ModelForm):
-    """Formulario de configuración general del sistema (RF23)."""
+    """Formulario de configuración general del sistema."""
     class Meta:
         model = SystemSetting
         fields = [
@@ -105,7 +105,7 @@ class SystemSettingForm(forms.ModelForm):
 
 
 class SupportTicketForm(forms.ModelForm):
-    """Formulario para crear tickets de soporte técnico (RF23)."""
+    """Formulario para crear tickets de soporte técnico."""
     class Meta:
         model = SupportTicket
         fields = ['subject', 'category', 'priority', 'description']

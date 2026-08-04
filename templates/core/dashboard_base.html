@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Sistema Académico{% endblock %}</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts – Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -28,48 +28,39 @@
     <!-- Bootstrap FileInput -->
     <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/css/fileinput.min.css" rel="stylesheet">
     
-    <!-- Custom Dashboard CSS -->
+    <!-- Custom CSS -->
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
     
     {% block extra_css %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
 
-    <div class="dashboard-wrapper">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <span class="badge">SA</span>
-                <span>Sistema Académico</span>
-            </div>
-            
-            <nav class="sidebar-nav">
-                <ul class="nav flex-column mb-auto">
+    <!-- ═══════════════════════════════════════════════════
+         NAVBAR HORIZONTAL
+         ═══════════════════════════════════════════════════ -->
+    <nav class="navbar navbar-expand-lg app-navbar sticky-top">
+        <div class="container-xl">
+            <!-- Logo -->
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <span class="brand-badge">SA</span>
+                Sistema Académico
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Menú">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Content -->
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <!-- ──── Navigation Links (role-based) ──── -->
+                <ul class="navbar-nav me-auto">
+
                     {% if request.user.role and request.user.role.name in 'ADMINISTRADOR,ADMIN,Administrador' or request.user.is_superuser %}
+                    <!-- ═══ ADMINISTRADOR ═══ -->
                     <li class="nav-item">
                         <a href="{% url 'coordinator_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'coordinator_dashboard' %}active{% endif %}">
-                            <i class="bi bi-grid-1x2-fill"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'user_list' %}" class="nav-link {% if request.resolver_match.url_name == 'user_list' or request.resolver_match.url_name == 'user_create' or request.resolver_match.url_name == 'user_update' %}active{% endif %}">
-                            <i class="bi bi-people-fill"></i> Usuarios (HU23)
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'system_settings_view' %}" class="nav-link {% if request.resolver_match.url_name == 'system_settings_view' %}active{% endif %}">
-                            <i class="bi bi-gear-wide-connected"></i> Configuración General (RF23)
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'support_ticket_list' %}" class="nav-link {% if 'support_ticket' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-headset"></i> Soporte Técnico (RF23)
-                        </a>
-                    </li>
-                    {% elif request.user.role and request.user.role.name in 'COORDINADOR_CARRERA,COORDINADOR,Coordinador,Coordinador de Carrera' %}
-                    <li class="nav-item">
-                        <a href="{% url 'coordinator_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'coordinator_dashboard' %}active{% endif %}">
-                            <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                            <i class="bi bi-grid-1x2-fill"></i> Panel
                         </a>
                     </li>
                     <li class="nav-item">
@@ -77,45 +68,56 @@
                             <i class="bi bi-people-fill"></i> Usuarios
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'system_settings_view' or 'support_ticket' in request.resolver_match.url_name or request.resolver_match.url_name == 'audit_log_list' %}active{% endif %}" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-gear-wide-connected"></i> Sistema
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'system_settings_view' %}"><i class="bi bi-sliders"></i> Configuración General</a></li>
+                            <li><a class="dropdown-item" href="{% url 'support_ticket_list' %}"><i class="bi bi-headset"></i> Soporte Técnico</a></li>
+                        </ul>
+                    </li>
+
+                    {% elif request.user.role and request.user.role.name in 'COORDINADOR_CARRERA,COORDINADOR,Coordinador,Coordinador de Carrera' %}
+                    <!-- ═══ COORDINADOR DE CARRERA ═══ -->
                     <li class="nav-item">
-                        <a href="{% url 'competency_list' %}" class="nav-link {% if 'competency' in request.resolver_match.url_name or 'rubric' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-trophy-fill"></i> Competencias
+                        <a href="{% url 'coordinator_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'coordinator_dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2-fill"></i> Panel
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'review_inbox' %}" class="nav-link {% if 'review' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-inbox-fill"></i> Bandeja de Evidencias
+                        <a href="{% url 'user_list' %}" class="nav-link {% if request.resolver_match.url_name == 'user_list' or request.resolver_match.url_name == 'user_create' or request.resolver_match.url_name == 'user_update' %}active{% endif %}">
+                            <i class="bi bi-people-fill"></i> Usuarios
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{% url 'activity_list' %}" class="nav-link {% if 'activity' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-calendar-event-fill"></i> Actividades
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% if 'competency' in request.resolver_match.url_name or 'rubric' in request.resolver_match.url_name or 'review' in request.resolver_match.url_name or 'activity' in request.resolver_match.url_name or 'challenge' in request.resolver_match.url_name or 'team' in request.resolver_match.url_name %}active{% endif %}" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-book"></i> Académico
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'competency_list' %}"><i class="bi bi-trophy-fill"></i> Competencias</a></li>
+                            <li><a class="dropdown-item" href="{% url 'review_inbox' %}"><i class="bi bi-inbox-fill"></i> Bandeja de Evidencias</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'activity_list' %}"><i class="bi bi-calendar-event-fill"></i> Actividades</a></li>
+                            <li><a class="dropdown-item" href="{% url 'challenges_list' %}"><i class="bi bi-people-fill"></i> Retos Colaborativos</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="{% url 'challenges_list' %}" class="nav-link {% if 'challenge' in request.resolver_match.url_name or 'team' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-people-fill"></i> Retos Colaborativos
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% if 'report' in request.resolver_match.url_name or request.resolver_match.url_name == 'wellness_alerts' or request.resolver_match.url_name == 'graduate_feedback_list' %}active{% endif %}" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-graph-up-arrow"></i> Reportes
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'reports_dashboard' %}"><i class="bi bi-bar-chart-line"></i> Analítica / Reportes</a></li>
+                            <li><a class="dropdown-item" href="{% url 'wellness_alerts' %}"><i class="bi bi-heart-pulse-fill"></i> Alertas Bienestar</a></li>
+                            <li><a class="dropdown-item" href="{% url 'graduate_feedback_list' %}"><i class="bi bi-mortarboard-fill"></i> Encuestas Graduados</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a href="{% url 'reports_dashboard' %}" class="nav-link {% if 'report' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-graph-up-arrow"></i> Analítica / Reportes
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'wellness_alerts' %}" class="nav-link {% if request.resolver_match.url_name == 'wellness_alerts' %}active{% endif %}">
-                            <i class="bi bi-heart-pulse-fill"></i> Alertas Bienestar (RF22)
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'graduate_feedback_list' %}" class="nav-link {% if request.resolver_match.url_name == 'graduate_feedback_list' %}active{% endif %}">
-                            <i class="bi bi-mortarboard-fill"></i> Encuestas Graduados (RF12)
-                        </a>
-                    </li>
+
                     {% elif request.user.role and request.user.role.name in 'GRADUADO,Graduado' %}
+                    <!-- ═══ GRADUADO ═══ -->
                     <li class="nav-item">
                         <a href="{% url 'graduate_feedback_create' %}" class="nav-link {% if request.resolver_match.url_name == 'graduate_feedback_create' %}active{% endif %}">
-                            <i class="bi bi-journal-check"></i> Retroalimentación Laboral (RF12)
+                            <i class="bi bi-journal-check"></i> Retroalimentación Laboral
                         </a>
                     </li>
                     <li class="nav-item">
@@ -123,8 +125,9 @@
                             <i class="bi bi-headset"></i> Soporte Técnico
                         </a>
                     </li>
-                    {% elif request.user.role and request.user.role.name in 'TUTOR_ACADEMICO,Tutor Académico' %}
 
+                    {% elif request.user.role and request.user.role.name in 'TUTOR_ACADEMICO,Tutor Académico' %}
+                    <!-- ═══ TUTOR ACADÉMICO ═══ -->
                     <li class="nav-item">
                         <a href="{% url 'tutor_students' %}" class="nav-link {% if 'tutor' in request.resolver_match.url_name %}active{% endif %}">
                             <i class="bi bi-person-video3"></i> Mis Tutorados
@@ -135,15 +138,17 @@
                             <i class="bi bi-file-bar-graph"></i> Reportes
                         </a>
                     </li>
+
                     {% elif request.user.role and request.user.role.name in 'BIENESTAR_UNIVERSITARIO,Bienestar Universitario' %}
+                    <!-- ═══ BIENESTAR UNIVERSITARIO ═══ -->
                     <li class="nav-item">
                         <a href="{% url 'wellness_alerts' %}" class="nav-link {% if request.resolver_match.url_name == 'wellness_alerts' %}active{% endif %}">
-                            <i class="bi bi-exclamation-triangle-fill"></i> Alertas de Bajo Desempeño
+                            <i class="bi bi-exclamation-triangle-fill"></i> Alertas
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'tutor_students' %}" class="nav-link {% if 'tutor' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-heart-pulse"></i> Seguimiento Estudiantes
+                            <i class="bi bi-heart-pulse"></i> Seguimiento
                         </a>
                     </li>
                     <li class="nav-item">
@@ -153,70 +158,62 @@
                     </li>
 
                     {% elif request.user.role and request.user.role.name in 'ESTUDIANTE,Estudiante' %}
+                    <!-- ═══ ESTUDIANTE ═══ -->
                     <li class="nav-item">
                         <a href="{% url 'student_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}">
-                            <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                            <i class="bi bi-grid-1x2-fill"></i> Panel
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{% url 'initial_diagnostic' %}" class="nav-link {% if request.resolver_match.url_name == 'initial_diagnostic' %}active{% endif %}">
-                            <i class="bi bi-person-lines-fill"></i> Diagnóstico Inicial / Perfil
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle {% if request.resolver_match.url_name == 'initial_diagnostic' or 'evidence' in request.resolver_match.url_name or request.resolver_match.url_name == 'my_evaluation_history' or request.resolver_match.url_name == 'student_activities' or 'peer' in request.resolver_match.url_name %}active{% endif %}" href="#" data-bs-toggle="dropdown">
+                            <i class="bi bi-mortarboard-fill"></i> Académico
                         </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'initial_diagnostic' %}"><i class="bi bi-person-lines-fill"></i> Diagnóstico Inicial / Perfil</a></li>
+                            <li><a class="dropdown-item" href="{% url 'my_evidences' %}"><i class="bi bi-folder-fill"></i> Mis Evidencias</a></li>
+                            <li><a class="dropdown-item" href="{% url 'my_evaluation_history' %}"><i class="bi bi-clipboard2-check-fill"></i> Mis Evaluaciones e Historial</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'student_activities' %}"><i class="bi bi-calendar-event-fill"></i> Mis Actividades / Catálogo</a></li>
+                            <li><a class="dropdown-item" href="{% url 'peer_evaluations' %}"><i class="bi bi-people-fill"></i> Evaluación de Pares</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'my_evidences' %}" class="nav-link {% if 'evidence' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-folder-fill"></i> Mis Evidencias
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'my_evaluation_history' %}" class="nav-link {% if request.resolver_match.url_name == 'my_evaluation_history' %}active{% endif %}">
-                            <i class="bi bi-clipboard2-check-fill"></i> Mis Evaluaciones e Historial
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'student_activities' %}" class="nav-link {% if request.resolver_match.url_name == 'student_activities' %}active{% endif %}">
-                            <i class="bi bi-calendar-event-fill"></i> Mis Actividades / Catálogo
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'peer_evaluations' %}" class="nav-link {% if 'peer' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-people-fill"></i> Evaluación de Pares
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'notification_list' %}" class="nav-link {% if 'notification' in request.resolver_match.url_name %}active{% endif %} d-flex align-items-center justify-content-between">
-                            <span><i class="bi bi-bell-fill"></i> Notificaciones</span>
+                        <a href="{% url 'notification_list' %}" class="nav-link {% if 'notification' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-bell-fill"></i> Notificaciones
                             {% if unread_notifications_count > 0 %}
-                                <span class="badge bg-danger rounded-pill px-2">{{ unread_notifications_count }}</span>
+                                <span class="nav-notification-badge">{{ unread_notifications_count }}</span>
                             {% endif %}
                         </a>
                     </li>
 
                     {% elif request.user.role and request.user.role.name in 'DOCENTE,Docente' %}
+                    <!-- ═══ DOCENTE ═══ -->
                     <li class="nav-item">
                         <a href="{% url 'teacher_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}">
-                            <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                            <i class="bi bi-grid-1x2-fill"></i> Panel
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'review_inbox' %}" class="nav-link {% if 'review' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-check2-square"></i> Bandeja de Evidencias
+                            <i class="bi bi-check2-square"></i> Evidencias
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'activity_list' %}" class="nav-link {% if 'activity' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-journal-text"></i> Actividades formativas
+                            <i class="bi bi-journal-text"></i> Actividades
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'teacher_evaluations' %}" class="nav-link {% if 'teacher_evaluation' in request.resolver_match.url_name or 'teacher_activity_evaluation' in request.resolver_match.url_name %}active{% endif %}">
-                            <i class="bi bi-person-check-fill"></i> Evaluar Estudiantes
+                            <i class="bi bi-person-check-fill"></i> Evaluar
                         </a>
                     </li>
+
                     {% elif request.user.role and request.user.role.name in 'EMPRESA_COLABORADORA,Empresa Colaboradora' %}
+                    <!-- ═══ EMPRESA COLABORADORA ═══ -->
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="bi bi-grid-1x2-fill"></i> Dashboard
+                            <i class="bi bi-grid-1x2-fill"></i> Panel
                         </a>
                     </li>
                     <li class="nav-item">
@@ -225,81 +222,70 @@
                         </a>
                     </li>
                     {% endif %}
+
                 </ul>
-            </nav>
 
-            <div class="sidebar-divider"></div>
-            
-            <div class="sidebar-bottom">
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-1">
-                        <a href="{% url 'support_ticket_list' %}" class="nav-link text-info">
-                            <i class="bi bi-headset me-1"></i> Soporte Técnico
-                        </a>
-                    </li>
-                    <li class="nav-item mb-2">
-                        <a href="{% url 'home' %}" class="nav-link">
-                            <i class="bi bi-box-arrow-left"></i> Volver al sitio
-                        </a>
-                    </li>
-
+                <!-- ──── Right Side: User Dropdown ──── -->
+                <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a href="{% url 'logout' %}" class="nav-link text-danger">
-                            <i class="bi bi-power"></i> Cerrar Sesión
+                        <a href="{% url 'home' %}" class="nav-link" title="Volver al sitio público">
+                            <i class="bi bi-box-arrow-up-right"></i>
+                            <span class="d-lg-none ms-1">Volver al sitio</span>
                         </a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle p-0 d-flex align-items-center" href="#" data-bs-toggle="dropdown" style="padding: 0.5rem 0 !important;">
+                            <div class="user-nav-area">
+                                <div class="user-nav-avatar">
+                                    {{ request.user.first_name|default:request.user.username|make_list|first|upper }}
+                                </div>
+                                <div class="d-none d-md-block">
+                                    <span class="user-nav-name">{{ request.user.first_name|default:request.user.username }}</span>
+                                    <span class="user-nav-role">{% if request.user.role %}{{ request.user.role.get_name_display }}{% elif request.user.is_superuser %}Administrador{% else %}Usuario{% endif %}</span>
+                                </div>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'user_profile' %}"><i class="bi bi-person"></i> Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="{% url 'user_settings' %}"><i class="bi bi-gear"></i> Configuración</a></li>
+                            <li><a class="dropdown-item" href="{% url 'support_ticket_list' %}"><i class="bi bi-headset"></i> Soporte Técnico</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="bi bi-power"></i> Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
                 </ul>
-                
-                <div class="user-info-area">
-                    <div class="avatar">
-                        {{ request.user.first_name|default:request.user.username|make_list|first|upper }}
-                    </div>
-                    <div class="user-details">
-                        <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
-                        <span class="user-role">{% if request.user.role %}{{ request.user.role.get_name_display }}{% elif request.user.is_superuser %}Administrador{% else %}Usuario{% endif %}</span>
-                    </div>
-                </div>
             </div>
+        </div>
+    </nav>
 
-
-        </aside>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Top Navbar -->
-            <header class="top-navbar">
-                <div class="breadcrumbs-area">
-                    {% block breadcrumbs %}{% endblock %}
-                </div>
-                
-                <div class="user-dropdown dropdown">
-                    <button class="btn btn-light dropdown-toggle d-flex align-items-center gap-2 border-0" type="button" data-bs-toggle="dropdown">
-                        <span class="fw-medium">{{ request.user.first_name|default:request.user.username }}</span>
-                        <i class="bi bi-person-circle fs-4"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
-                        <li><a class="dropdown-item" href="{% url 'user_profile' %}"><i class="bi bi-person me-2"></i> Mi Perfil</a></li>
-                        <li><a class="dropdown-item" href="{% url 'user_settings' %}"><i class="bi bi-gear me-2"></i> Configuración</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="bi bi-power me-2"></i> Cerrar Sesión</a></li>
-                    </ul>
-
-                </div>
-            </header>
-
-            <!-- Content Header -->
-            <div class="content-header">
-                <h2>{% block page_title %}Dashboard{% endblock %}</h2>
+    <!-- ═══════════════════════════════════════════════════
+         MAIN CONTENT
+         ═══════════════════════════════════════════════════ -->
+    <main class="app-main">
+        <div class="app-container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>{% block page_title %}Panel{% endblock %}</h1>
+                {% block breadcrumbs %}{% endblock %}
             </div>
 
             <!-- Page Content -->
             <div class="content-body">
                 {% block content %}{% endblock %}
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
 
-    <!-- Scripts -->
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="app-container">
+            &copy; {% now "Y" %} Sistema Académico &middot; Habilidades Blandas en Ingeniería en Computación
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════
+         SCRIPTS
+         ═══════════════════════════════════════════════════ -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
@@ -309,7 +295,6 @@
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
     <script>
-        // Desactiva las alertas globales de DataTables (evita popups molestos de "Incorrect column count" en tablas vacías)
         $.fn.dataTable.ext.errMode = 'none';
     </script>
     
@@ -332,14 +317,12 @@
     {% block extra_js %}{% endblock %}
 
     <script>
-        // 1. Deshabilitar restauración desde caché (bfcache) al presionar el botón Atrás del navegador
         window.addEventListener('pageshow', function (event) {
             if (event.persisted || (window.performance && window.performance.getEntriesByType && window.performance.getEntriesByType('navigation')[0] && window.performance.getEntriesByType('navigation')[0].type === 'back_forward')) {
                 window.location.reload();
             }
         });
 
-        // 2. Control de Pestaña Única en el mismo navegador para usuarios autenticados
         (function() {
             {% if request.user.is_authenticated %}
             const USER_ID = "{{ request.user.pk }}";
@@ -377,13 +360,11 @@
                 const lastPing = parseInt(localStorage.getItem(PING_KEY) || '0', 10);
                 const now = Date.now();
 
-                // Si existe otra pestaña activa diferente con latido reciente (< 3500ms)
                 if (activeTabId && activeTabId !== tabId && (now - lastPing) < 3500) {
                     handleDuplicateTab();
                     return false;
                 }
 
-                // Esta pestaña es la activa
                 localStorage.setItem(ACTIVE_TAB_KEY, tabId);
                 localStorage.setItem(PING_KEY, now.toString());
                 return true;
@@ -416,7 +397,6 @@
                 }
             });
 
-            // 3. Verificación periódica en servidor para detectar si se inició sesión desde otro navegador/dispositivo
             setInterval(function() {
                 fetch("{% url 'check_session_status' %}", {
                     headers: { 'X-Requested-With': 'XMLHttpRequest' }

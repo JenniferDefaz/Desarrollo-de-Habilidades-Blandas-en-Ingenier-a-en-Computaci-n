@@ -157,7 +157,7 @@ class UserProfile(models.Model):
 
 class SystemSetting(models.Model):
     """
-    Modelo para la configuración de parámetros generales de la plataforma (RF23).
+    Modelo para la configuración de parámetros generales de la plataforma.
     """
     max_file_size_mb = models.PositiveIntegerField(
         default=10,
@@ -220,7 +220,7 @@ class SystemSetting(models.Model):
 
 class SupportTicket(models.Model):
     """
-    Modelo para tickets de soporte técnico e incidencias para el Administrador (RF23).
+    Modelo para tickets de soporte técnico e incidencias para el Administrador.
     """
     class Category(models.TextChoices):
         TECNICO = 'TECNICO', 'Problema Técnico / Error'

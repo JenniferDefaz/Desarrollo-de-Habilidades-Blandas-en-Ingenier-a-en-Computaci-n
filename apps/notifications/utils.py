@@ -5,7 +5,7 @@ from apps.users.models import SystemSetting
 
 def send_notification_email(recipient_email, subject, message):
     """
-    Envía una notificación por correo electrónico institucional respaldada por SystemSetting (SMTP / Configuración Global) (RF23).
+    Envía una notificación por correo electrónico institucional respaldada por SystemSetting (SMTP / Configuración Global).
     """
     if not recipient_email:
         return False

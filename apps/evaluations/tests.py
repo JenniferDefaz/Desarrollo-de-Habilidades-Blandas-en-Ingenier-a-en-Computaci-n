@@ -92,7 +92,7 @@ class NewFeaturesTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_graduate_feedback_model_and_views(self):
-        """Verifica el módulo de retroalimentación de graduados (RF12)."""
+        """Verifica el módulo de retroalimentación de graduados."""
         feedback = GraduateFeedback.objects.create(
             graduate=self.graduado_user,
             company_name='Empresa Test',

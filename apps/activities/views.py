@@ -98,7 +98,7 @@ def student_activities(request):
 
 @role_required(['ESTUDIANTE'])
 def enroll_activity(request, pk):
-    """Inscribirse a una actividad formativa (HU06)."""
+    """Inscribirse a una actividad formativa."""
     activity = get_object_or_404(Activity, pk=pk, is_active=True)
     current_count = activity.enrollments.filter(status=EnrollmentStatus.INSCRITO).count()
     
@@ -140,18 +140,18 @@ def cancel_enrollment(request, pk):
     return redirect('student_activities')
 
 
-# --- RETOS COLABORATIVOS Y EQUIPOS (HU14) ---
+# --- RETOS COLABORATIVOS Y EQUIPOS ---
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'DOCENTE'])
 def challenges_list(request):
-    """Gestión de retos colaborativos por el Coordinador/Docente (HU14)."""
+    """Gestión de retos colaborativos por el Coordinador/Docente."""
     from .models import ActivityType, Team
     challenges = Activity.objects.filter(activity_type=ActivityType.RETO_COLABORATIVO).prefetch_related('teams')
     return render(request, 'activities/challenges_list.html', {'challenges': challenges})
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'DOCENTE'])
 def manage_teams(request, activity_id):
-    """Gestionar equipos y participantes para un reto colaborativo (HU14)."""
+    """Gestionar equipos y participantes para un reto colaborativo."""
     from apps.users.models import CustomUser
     from .models import Team
     activity = get_object_or_404(Activity, pk=activity_id)
@@ -181,7 +181,7 @@ def manage_teams(request, activity_id):
         'students': students
     })
 
-# --- GESTIÓN DE MENTORES (HU12) ---
+# --- GESTIÓN DE MENTORES ---
 
 @role_required(['GRADUADO'])
 def apply_as_mentor(request, pk):
@@ -203,7 +203,7 @@ def apply_as_mentor(request, pk):
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR'])
 def manage_mentors(request, activity_id):
-    """Permitir al Coordinador de Carrera aprobar o rechazar mentores (HU12)."""
+    """Permitir al Coordinador de Carrera aprobar o rechazar mentores."""
     from .models import MentorApplication, MentorApplicationStatus
     activity = get_object_or_404(Activity, pk=activity_id)
     applications = activity.mentor_applications.select_related('graduate').all()

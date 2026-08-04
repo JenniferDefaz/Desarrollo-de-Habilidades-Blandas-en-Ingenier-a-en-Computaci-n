@@ -10,7 +10,7 @@ from .models import StudentMetric, CohortReport
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'TUTOR_ACADEMICO', 'BIENESTAR_UNIVERSITARIO'])
 def analytics_dashboard(request):
-    """Panel de control principal de analíticas (HU18)."""
+    """Panel de control principal de analíticas."""
     # KPI 1: Promedio general por competencia
     competencies = Competency.objects.filter(is_active=True)
     comp_labels = []
@@ -36,7 +36,7 @@ def analytics_dashboard(request):
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'TUTOR_ACADEMICO'])
 def student_tracking_report(request):
-    """Reporte de seguimiento individual (HU16)."""
+    """Reporte de seguimiento individual."""
     students = CustomUser.objects.filter(role__name='ESTUDIANTE', is_active=True)
     selected_student_id = request.GET.get('student_id')
     metrics = []
@@ -57,14 +57,14 @@ def student_tracking_report(request):
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'TUTOR_ACADEMICO'])
 def cohort_report_view(request):
-    """Reportes grupales por cohorte/semestre (HU17)."""
+    """Reportes grupales por cohorte/semestre."""
     reports = CohortReport.objects.all().order_by('-created_at')
     return render(request, 'analytics/cohort_report.html', {'reports': reports})
 
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'TUTOR_ACADEMICO'])
 def export_report(request):
-    """Exportación básica de reporte grupal a CSV/Excel (RF21)."""
+    """Exportación básica de reporte grupal a CSV/Excel."""
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="reporte_competencias.csv"'
     

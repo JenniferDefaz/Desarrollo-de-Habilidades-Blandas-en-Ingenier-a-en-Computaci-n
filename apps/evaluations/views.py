@@ -8,11 +8,11 @@ from apps.competencies.models import Competency, Subcompetency, Rubric
 from apps.activities.models import Team, Activity, Enrollment, EnrollmentStatus
 from .models import Evaluation360, EvaluationScore
 
-# --- DIAGNÓSTICO INICIAL (HU03) ---
+# --- DIAGNÓSTICO INICIAL ---
 
 @role_required(['ESTUDIANTE'])
 def initial_diagnostic(request):
-    """Formulario interactivo para que el estudiante complete su diagnóstico inicial (HU03)."""
+    """Formulario interactivo para que el estudiante complete su diagnóstico inicial."""
     existing_diag = Evaluation360.objects.filter(
         evaluated=request.user,
         evaluation_type=Evaluation360.EvaluationType.AUTOEVALUACION,
@@ -64,7 +64,7 @@ def initial_diagnostic(request):
 
 @role_required(['ESTUDIANTE'])
 def self_evaluation(request):
-    """Formulario interactivo para autoevaluación periódica (HU04)."""
+    """Formulario interactivo para autoevaluación periódica."""
     competencies = Competency.objects.filter(is_active=True).prefetch_related('subcompetencies__rubrics')
 
     if request.method == 'POST':
@@ -107,11 +107,11 @@ def self_evaluation(request):
 
 
 
-# --- EVALUACIÓN ENTRE PARES (HU09) ---
+# --- EVALUACIÓN ENTRE PARES ---
 
 @role_required(['ESTUDIANTE'])
 def peer_evaluations(request):
-    """Lista de compañeros del mismo equipo para evaluar entre pares (HU09)."""
+    """Lista de compañeros del mismo equipo para evaluar entre pares."""
     user_teams = Team.objects.filter(members=request.user).select_related('activity')
     
     peers_by_team = []
@@ -136,7 +136,7 @@ def peer_evaluations(request):
 
 @role_required(['ESTUDIANTE'])
 def fill_peer_evaluation(request, peer_id):
-    """Formulario para evaluar a un compañero de equipo (HU09)."""
+    """Formulario para evaluar a un compañero de equipo."""
     peer = get_object_or_404(CustomUser, pk=peer_id)
     
     # Verificar que compartan un equipo
@@ -186,11 +186,11 @@ def fill_peer_evaluation(request, peer_id):
     })
 
 
-# --- EVALUACIÓN DOCENTE (HU10) ---
+# --- EVALUACIÓN DOCENTE ---
 
 @role_required(['DOCENTE', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
 def teacher_evaluations(request):
-    """Lista de estudiantes inscritos en actividades del docente para ser evaluados (HU10)."""
+    """Lista de estudiantes inscritos en actividades del docente para ser evaluados."""
     if request.user.role and request.user.role.name == 'DOCENTE':
         my_activities = Activity.objects.filter(instructor=request.user)
     else:
@@ -218,7 +218,7 @@ def teacher_evaluations(request):
 
 @role_required(['DOCENTE', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
 def fill_teacher_evaluation(request, student_id, activity_id=None):
-    """Formulario para que el docente evalúe las competencias de un estudiante (HU10)."""
+    """Formulario para que el docente evalúe las competencias de un estudiante."""
     student = get_object_or_404(CustomUser, pk=student_id)
     activity = get_object_or_404(Activity, pk=activity_id) if activity_id else None
     competencies = Competency.objects.filter(is_active=True).prefetch_related('subcompetencies__rubrics')
@@ -262,11 +262,11 @@ def fill_teacher_evaluation(request, student_id, activity_id=None):
     })
 
 
-# --- EVALUACIÓN DE EMPRESA COLABORADORA / EMPLEADOR (HU11) ---
+# --- EVALUACIÓN DE EMPRESA COLABORADORA / EMPLEADOR ---
 
 @role_required(['EMPRESA_COLABORADORA', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
 def employer_evaluations(request):
-    """Lista de estudiantes en prácticas asignados a la empresa (HU11)."""
+    """Lista de estudiantes en prácticas asignados a la empresa."""
     # En un esquema completo se consulta la relación Empresa-Estudiante (UserProfile.company_name o similar)
     # Por ahora traemos a los estudiantes activos para evaluación de prácticas
     students = CustomUser.objects.filter(role__name='ESTUDIANTE', is_active=True)
@@ -290,7 +290,7 @@ def employer_evaluations(request):
 
 @role_required(['EMPRESA_COLABORADORA', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
 def fill_employer_evaluation(request, student_id):
-    """Formulario de evaluación en entorno laboral por parte del empleador (HU11)."""
+    """Formulario de evaluación en entorno laboral por parte del empleador."""
     student = get_object_or_404(CustomUser, pk=student_id)
     competencies = Competency.objects.filter(is_active=True).prefetch_related('subcompetencies__rubrics')
 
@@ -333,11 +333,11 @@ def fill_employer_evaluation(request, student_id):
     })
 
 
-# --- SEGUIMIENTO DE TUTORES ACADÉMICOS (HU13) ---
+# --- SEGUIMIENTO DE TUTORES ACADÉMICOS ---
 
 @role_required(['TUTOR_ACADEMICO', 'COORDINADOR_CARRERA', 'ADMINISTRADOR', 'BIENESTAR_UNIVERSITARIO'])
 def tutor_students(request):
-    """Listado de estudiantes tutorados con indicadores de avance y alertas (HU13)."""
+    """Listado de estudiantes tutorados con indicadores de avance y alertas."""
     from django.db.models import Avg
     students = CustomUser.objects.filter(role__name='ESTUDIANTE', is_active=True)
     
@@ -361,7 +361,7 @@ def tutor_students(request):
 
 @role_required(['TUTOR_ACADEMICO', 'COORDINADOR_CARRERA', 'ADMINISTRADOR', 'BIENESTAR_UNIVERSITARIO'])
 def tutor_student_detail(request, student_id):
-    """Detalle de seguimiento 360° para un tutorado (HU13)."""
+    """Detalle de seguimiento 360° para un tutorado."""
     from apps.evidences.models import Evidence
     student = get_object_or_404(CustomUser, pk=student_id)
     
@@ -381,7 +381,7 @@ def tutor_student_detail(request, student_id):
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'TUTOR_ACADEMICO', 'DOCENTE', 'BIENESTAR_UNIVERSITARIO'])
 def reports_dashboard(request):
-    """Panel analítico centralizado con visualización de tendencias y promedios grupales (HU18)."""
+    """Panel analítico centralizado con visualización de tendencias y promedios grupales."""
     from django.db.models import Avg
     from apps.users.models import CustomUser
     
@@ -416,7 +416,7 @@ def reports_dashboard(request):
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'TUTOR_ACADEMICO', 'DOCENTE', 'BIENESTAR_UNIVERSITARIO'])
 def export_csv_excel(request):
-    """Exportar reporte de calificaciones en CSV/Excel (HU21)."""
+    """Exportar reporte de calificaciones en CSV/Excel."""
     import csv
     from django.http import HttpResponse
 
@@ -451,7 +451,7 @@ def export_csv_excel(request):
 
 @role_required(['ESTUDIANTE'])
 def my_evaluation_history(request):
-    """Consultar historial completo y auditable de evaluaciones del estudiante (HU19)."""
+    """Consultar historial completo y auditable de evaluaciones del estudiante."""
     from apps.evidences.models import Evidence
     from django.db.models import Avg
 
@@ -502,7 +502,7 @@ def my_evaluation_history(request):
 
 @role_required(['ESTUDIANTE'])
 def export_my_report(request):
-    """Exportar el reporte de seguimiento individual del estudiante en CSV/Excel (HU21)."""
+    """Exportar el reporte de seguimiento individual del estudiante en CSV/Excel."""
     import csv
     from django.http import HttpResponse
 
@@ -534,7 +534,7 @@ def export_my_report(request):
 
 @role_required(['ESTUDIANTE'])
 def print_my_report(request):
-    """Vista de informe de seguimiento individual en formato listo para imprimir/PDF (HU21)."""
+    """Vista de informe de seguimiento individual en formato listo para imprimir/PDF."""
     from django.db.models import Avg
     student = request.user
     evaluations = Evaluation360.objects.filter(evaluated=student).select_related('evaluator').order_by('-created_at')
@@ -563,7 +563,7 @@ def print_my_report(request):
 
 @role_required(['ESTUDIANTE'])
 def export_my_report_pdf(request):
-    """Exportar informe individual del estudiante en archivo PDF descargable (HU21 / RF21)."""
+    """Exportar informe individual del estudiante en archivo PDF descargable."""
     from django.db.models import Avg
     from .utils import render_to_pdf
 
@@ -600,7 +600,7 @@ def export_my_report_pdf(request):
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'DOCENTE'])
 def export_group_report_pdf(request):
-    """Exportar reporte grupal consolidado de competencias a PDF (HU21 / RF21)."""
+    """Exportar reporte grupal consolidado de competencias a PDF."""
     from django.db.models import Avg
     from apps.users.models import CustomUser
     from .utils import render_to_pdf
@@ -644,7 +644,7 @@ def export_group_report_pdf(request):
 
 @role_required(['BIENESTAR_UNIVERSITARIO', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
 def wellness_alerts(request):
-    """Dashboard de Alertas de Bajo Desempeño Competencial para Bienestar Universitario (HU22 / RF22)."""
+    """Dashboard de Alertas de Bajo Desempeño Competencial para Bienestar Universitario."""
     from django.db.models import Avg
     from apps.users.models import CustomUser
 
@@ -698,7 +698,7 @@ def wellness_alerts(request):
 
 @role_required(['ADMINISTRADOR', 'COORDINADOR_CARRERA'])
 def audit_log_list(request):
-    """Vista para consultar y filtrar la Bitácora de Auditoría inmutable para el Administrador (HU23 / RF19)."""
+    """Vista para consultar y filtrar la Bitácora de Auditoría inmutable para el Administrador."""
     from .models import AuditLog
 
     logs = AuditLog.objects.select_related('user').order_by('-timestamp')
@@ -726,7 +726,7 @@ def audit_log_list(request):
 
 @role_required(['GRADUADO', 'ESTUDIANTE', 'ADMINISTRADOR'])
 def graduate_feedback_create(request):
-    """Formulario para que los graduados envíen su retroalimentación laboral sobre habilidades blandas (RF12)."""
+    """Formulario para que los graduados envíen su retroalimentación laboral sobre habilidades blandas."""
     from .forms import GraduateFeedbackForm
     from .utils import log_action
 
@@ -761,7 +761,7 @@ def graduate_feedback_create(request):
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'DOCENTE'])
 def graduate_feedback_list(request):
-    """Panel de consulta de la retroalimentación de graduados sobre la aplicación de competencias en el mercado laboral (RF12)."""
+    """Panel de consulta de la retroalimentación de graduados sobre la aplicación de competencias en el mercado laboral."""
     from .models import GraduateFeedback
 
     feedbacks = GraduateFeedback.objects.select_related('graduate', 'competency').all()
