@@ -62,6 +62,50 @@ def initial_diagnostic(request):
         'competencies': competencies
     })
 
+@role_required(['ESTUDIANTE'])
+def self_evaluation(request):
+    """Formulario interactivo para autoevaluación periódica (HU04)."""
+    competencies = Competency.objects.filter(is_active=True).prefetch_related('subcompetencies__rubrics')
+
+    if request.method == 'POST':
+        evaluation = Evaluation360.objects.create(
+            title='Autoevaluación de Habilidades Blandas',
+            description='Autoevaluación periódica de desarrollo de competencias transversales.',
+            competency=competencies.first(),
+            evaluator=request.user,
+            evaluated=request.user,
+            evaluation_type=Evaluation360.EvaluationType.AUTOEVALUACION,
+            period='PERIODO_REGULAR',
+            status=Evaluation360.Status.EN_PROGRESO
+        )
+
+        for comp in competencies:
+            for sub in comp.subcompetencies.filter(is_active=True):
+                score_val = request.POST.get(f'subcompetency_{sub.id}')
+                if score_val:
+                    try:
+                        score_num = float(score_val)
+                        EvaluationScore.objects.create(
+                            evaluation=evaluation,
+                            subcompetency=sub,
+                            score=score_num
+                        )
+                    except ValueError:
+                        pass
+
+        evaluation.status = Evaluation360.Status.COMPLETADA
+        evaluation.completed_at = timezone.now()
+        evaluation.save()
+
+        messages.success(request, 'Has registrado tu autoevaluación exitosamente.')
+        return redirect('my_evaluation_history')
+
+    return render(request, 'evaluations/diagnostic_form.html', {
+        'competencies': competencies,
+        'is_regular_self_eval': True
+    })
+
+
 
 # --- EVALUACIÓN ENTRE PARES (HU09) ---
 
@@ -339,6 +383,8 @@ def tutor_student_detail(request, student_id):
 def reports_dashboard(request):
     """Panel analítico centralizado con visualización de tendencias y promedios grupales (HU18)."""
     from django.db.models import Avg
+    from apps.users.models import CustomUser
+    
     competencies = Competency.objects.filter(is_active=True)
     
     comp_metrics = []
@@ -346,13 +392,26 @@ def reports_dashboard(request):
         avg_score = EvaluationScore.objects.filter(
             subcompetency__competency=comp
         ).aggregate(avg=Avg('score'))['avg'] or 0.0
+        
+        students_count = EvaluationScore.objects.filter(
+            subcompetency__competency=comp
+        ).values('evaluation__evaluated').distinct().count()
+        
         comp_metrics.append({
             'name': comp.name,
-            'avg_score': round(float(avg_score), 2)
+            'average': round(float(avg_score), 2),
+            'students_count': students_count
         })
         
+    global_average = EvaluationScore.objects.aggregate(avg=Avg('score'))['avg'] or 0.0
+    total_evaluations = Evaluation360.objects.count()
+    active_students = CustomUser.objects.filter(role__name='ESTUDIANTE', is_active=True).count()
+        
     return render(request, 'evaluations/reports_dashboard.html', {
-        'comp_metrics': comp_metrics
+        'comp_metrics': comp_metrics,
+        'global_average': global_average,
+        'total_evaluations': total_evaluations,
+        'active_students': active_students
     })
 
 @role_required(['COORDINADOR_CARRERA', 'ADMINISTRADOR', 'TUTOR_ACADEMICO', 'DOCENTE', 'BIENESTAR_UNIVERSITARIO'])

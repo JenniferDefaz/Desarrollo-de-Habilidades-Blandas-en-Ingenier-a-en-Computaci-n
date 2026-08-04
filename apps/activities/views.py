@@ -86,7 +86,7 @@ def student_activities(request):
     
     activities = Activity.objects.filter(is_active=True).annotate(
         enrolled_count=Count('enrollments', filter=Q(enrollments__status=EnrollmentStatus.INSCRITO))
-    ).order_by('-start_date')
+    ).prefetch_related('teams__members').order_by('-start_date')
     
     my_enrollments = Enrollment.objects.filter(student=request.user).select_related('activity')
     
@@ -165,6 +165,13 @@ def manage_teams(request, activity_id):
             team = Team.objects.create(name=team_name, activity=activity)
             if selected_members:
                 team.members.set(selected_members)
+                # Auto-inscribir a los estudiantes en la actividad si no lo estaban
+                for student_id in selected_members:
+                    Enrollment.objects.get_or_create(
+                        activity=activity,
+                        student_id=student_id,
+                        defaults={'status': EnrollmentStatus.INSCRITO}
+                    )
             messages.success(request, f'Equipo "{team_name}" creado exitosamente.')
             return redirect('manage_teams', activity_id=activity.id)
 

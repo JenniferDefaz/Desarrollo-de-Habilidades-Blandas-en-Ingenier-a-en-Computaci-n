@@ -5,6 +5,9 @@ urlpatterns = [
     # Diagnóstico inicial (HU03)
     path('diagnostico-inicial/', views.initial_diagnostic, name='initial_diagnostic'),
     
+    # Autoevaluación regular (HU04)
+    path('autoevaluacion/', views.self_evaluation, name='self_evaluation'),
+    
     # Evaluación entre pares (HU09)
     path('pares/', views.peer_evaluations, name='peer_evaluations'),
     path('pares/<int:peer_id>/evaluar/', views.fill_peer_evaluation, name='fill_peer_evaluation'),

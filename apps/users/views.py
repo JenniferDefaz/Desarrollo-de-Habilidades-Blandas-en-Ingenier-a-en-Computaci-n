@@ -282,6 +282,29 @@ def support_ticket_detail(request, pk):
             request=request
         )
 
+        # Enviar correo al usuario
+        from django.core.mail import send_mail
+        from django.conf import settings
+        
+        if ticket.user.email:
+            try:
+                subject = f'[Sistema Académico] Actualización de Ticket #{ticket.id}: {ticket.subject}'
+                message = f'Hola {ticket.user.get_full_name()},\n\n' \
+                          f'Tu ticket de soporte ha sido respondido por {request.user.get_full_name()}.\n\n' \
+                          f'Estado actual: {ticket.get_status_display()}\n\n' \
+                          f'Respuesta:\n{response_text}\n\n' \
+                          f'Para ver más detalles, inicia sesión en la plataforma.'
+                send_mail(
+                    subject=subject,
+                    message=message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[ticket.user.email],
+                    fail_silently=True,
+                )
+            except Exception as e:
+                pass # Si el correo falla, no interrumpimos el flujo
+
+
         messages.success(request, 'Respuesta registrada y usuario notificado exitosamente.')
         return redirect('support_ticket_detail', pk=ticket.id)
 

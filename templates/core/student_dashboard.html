@@ -54,8 +54,13 @@
     <!-- Tu Perfil de Competencias -->
     <div class="col-md-6 mb-4">
         <div class="card shadow-sm border-0 h-100" style="border-radius: 12px;">
-            <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
                 <h5 class="fw-bold mb-0">Tu Perfil de Competencias</h5>
+                {% if diag_completed %}
+                <a href="{% url 'self_evaluation' %}" class="btn btn-sm btn-outline-success" title="Realizar una nueva autoevaluación para actualizar tu perfil">
+                    <i class="bi bi-pencil-square me-1"></i> Autoevaluarme
+                </a>
+                {% endif %}
             </div>
             <div class="card-body">
                 {% if scores %}

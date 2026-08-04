@@ -180,3 +180,11 @@ if USE_MINIO_STORAGE:
         },
     }
 
+# Configuración de Correo Electrónico (SMTP Gmail)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'robinsonmoya2017@gmail.com'
+EMAIL_HOST_PASSWORD = 'cziufyzlciknuxat'
+DEFAULT_FROM_EMAIL = 'robinsonmoya2017@gmail.com'

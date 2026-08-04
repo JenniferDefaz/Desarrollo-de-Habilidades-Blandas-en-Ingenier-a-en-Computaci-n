@@ -18,18 +18,25 @@ def my_evidences(request):
 def upload_evidence(request, pk=None):
     """Subir o editar una evidencia de aprendizaje."""
     evidence = get_object_or_404(Evidence, pk=pk, student=request.user) if pk else None
+    activity_id = request.GET.get('activity')
     
     if request.method == 'POST':
-        form = EvidenceForm(request.POST, request.FILES, instance=evidence)
+        form = EvidenceForm(request.POST, request.FILES, instance=evidence, user=request.user, activity_id=activity_id)
         if form.is_valid():
             ev = form.save(commit=False)
             ev.student = request.user
+            if ev.activity:
+                ev.competency = ev.activity.competency
             ev.status = EvidenceStatus.PENDIENTE
             ev.save()
             messages.success(request, 'Evidencia subida exitosamente. Está pendiente de revisión.')
             return redirect('my_evidences')
     else:
-        form = EvidenceForm(instance=evidence)
+        initial_data = {}
+        if activity_id:
+            initial_data['activity'] = activity_id
+            
+        form = EvidenceForm(instance=evidence, user=request.user, activity_id=activity_id, initial=initial_data)
         
     return render(request, 'evidences/evidence_form.html', {'form': form, 'obj': evidence})
 
