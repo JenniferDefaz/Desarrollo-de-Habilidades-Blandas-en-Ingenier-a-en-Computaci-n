@@ -59,3 +59,30 @@ class SingleSessionMiddleware:
 
         response = self.get_response(request)
         return response
+
+class SecurityHeadersMiddleware:
+    """
+    Middleware que añade cabeceras de seguridad adicionales a cada respuesta HTTP.
+    """
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        
+        # Restringir acceso a funcionalidades del dispositivo
+        response['Permissions-Policy'] = "camera=(), microphone=(), geolocation=()"
+        
+        # Política de seguridad de contenido (básica)
+        # Permite scripts de dominios de confianza usados en el sistema
+        csp = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://cdn.datatables.net https://cdnjs.cloudflare.com; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdn.datatables.net; "
+            "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; "
+            "img-src 'self' data: https:; "
+            "connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;"
+        )
+        response['Content-Security-Policy'] = csp
+        
+        return response

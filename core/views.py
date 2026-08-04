@@ -37,17 +37,31 @@ def check_session_status(request):
 
 @never_cache
 def login_view(request):
-    """Vista de inicio de sesión personalizada."""
+    """Vista de inicio de sesión personalizada con protección contra fuerza bruta."""
     get_token(request)
     if request.user.is_authenticated:
         return redirect('dashboard')
     
+    # Check rate limiting
+    failed_attempts = request.session.get('failed_login_attempts', 0)
+    lockout_time = request.session.get('login_lockout_time', 0)
+    import time
+    
+    if lockout_time and time.time() < lockout_time:
+        remaining_time = int((lockout_time - time.time()) / 60)
+        messages.error(request, f'Demasiados intentos fallidos. Intente de nuevo en {remaining_time} minutos.')
+        return render(request, 'core/login.html')
+        
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         remember_me = request.POST.get('remember_me')
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            # Reset rate limit on success
+            request.session['failed_login_attempts'] = 0
+            request.session['login_lockout_time'] = 0
+            
             login(request, user)
             if remember_me:
                 request.session.set_expiry(1209600)  # 2 semanas (14 días)
@@ -70,7 +84,17 @@ def login_view(request):
                     return redirect('coordinator_dashboard')
             return redirect('dashboard')
         else:
-            messages.error(request, 'Usuario o contraseña incorrectos.')
+            failed_attempts += 1
+            request.session['failed_login_attempts'] = failed_attempts
+            
+            if failed_attempts >= 5:
+                # Lock out for 5 minutes
+                request.session['login_lockout_time'] = time.time() + 300
+                messages.error(request, 'Demasiados intentos fallidos. Su cuenta ha sido bloqueada temporalmente por seguridad. Intente en 5 minutos.')
+            else:
+                remaining = 5 - failed_attempts
+                messages.error(request, f'Usuario o contraseña incorrectos. Intentos restantes: {remaining}.')
+                
     return render(request, 'core/login.html')
 
 

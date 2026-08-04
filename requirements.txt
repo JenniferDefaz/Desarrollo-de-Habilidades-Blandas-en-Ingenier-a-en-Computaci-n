@@ -5,8 +5,9 @@ lxml==6.1.1
 pillow==12.3.0
 psycopg2-binary==2.9.12
 python-docx==1.2.0
-reportlab==4.4.1
+reportlab>=4.0.4,<4.1
 sqlparse==0.5.5
 typing_extensions==4.16.0
 tzdata==2026.3
 xhtml2pdf==0.2.15
+python-dotenv
