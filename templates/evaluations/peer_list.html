@@ -1,0 +1,73 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Evaluación entre Pares | Sistema Académico{% endblock %}
+
+{% block page_title %}Evaluación entre Pares{% endblock %}
+
+{% block content %}
+<div class="alert alert-info d-flex align-items-center" role="alert">
+    <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+    <div>
+        <strong>Nota de Confidencialidad:</strong> La evaluación de pares es un proceso completamente anónimo. Tus compañeros de equipo no podrán ver las calificaciones o comentarios específicos que realices sobre ellos. Se promediarán los resultados para brindar retroalimentación constructiva.
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table id="tabla-pares" class="table table-hover table-striped w-100">
+            <thead>
+                <tr>
+                    <th>Equipo</th>
+                    <th>Compañero</th>
+                    <th>Estado de Evaluación</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.team_name }}</td>
+                    <td>{{ item.peer.get_full_name|default:item.peer.username }}</td>
+                    <td>
+                        {% if item.completed %}
+                            <span class="badge bg-success"><i class="bi bi-check-circle me-1"></i> Evaluación Completada 🟢</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split me-1"></i> Pendiente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.completed %}
+                            <button class="btn btn-secondary btn-sm" disabled>
+                                <i class="bi bi-check2-all"></i> Evaluado
+                            </button>
+                        {% else %}
+                            <a href="{% url 'fill_peer_evaluation' item.peer.id %}" class="btn btn-primary btn-sm">
+                                <i class="bi bi-pencil-square"></i> Evaluar Compañero
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No tienes compañeros asignados para evaluar en este momento.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('#tabla-pares').DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+            },
+            responsive: true
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Evaluación de Practicantes | Sistema Académico{% endblock %}
+
+{% block page_title %}Evaluación de Practicantes por Empresa Colaboradora{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body">
+        <table id="tabla-empleador-eval" class="table table-hover table-striped w-100">
+            <thead>
+                <tr>
+                    <th>Estudiante Practicante</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.student.get_full_name|default:item.student.username }}</td>
+                    <td>
+                        {% if item.completed %}
+                            <span class="badge bg-success">Completada</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Pendiente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not item.completed %}
+                        <a href="{% url 'fill_employer_evaluation' item.student.id %}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-briefcase"></i> Evaluar Desempeño Laboral
+                        </a>
+                        {% else %}
+                        <button class="btn btn-secondary btn-sm" disabled>
+                            <i class="bi bi-check2-all"></i> Evaluado
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">No hay practicantes asignados para evaluar.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('#tabla-empleador-eval').DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+            },
+            responsive: true
+        });
+    });
+</script>
+{% endblock %}

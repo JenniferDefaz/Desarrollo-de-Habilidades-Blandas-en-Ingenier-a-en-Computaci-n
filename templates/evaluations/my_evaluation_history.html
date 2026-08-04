@@ -1,0 +1,118 @@
+{% extends "core/dashboard_base.html" %}
+
+{% block title %}Mi Historial de Evaluaciones y Perfil - Sistema Académico{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h3 mb-0 text-gray-800">
+                <i class="bi bi-clock-history text-primary me-2"></i>Mi Historial de Evaluaciones y Perfil 360°
+            </h2>
+            <p class="text-muted mb-0">Consulta la evolución histórica e inmutable de tus competencias transversales.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{% url 'export_my_report_pdf' %}" class="btn btn-primary btn-sm rounded-pill shadow-sm">
+                <i class="bi bi-file-earmark-pdf me-1"></i>Descargar PDF
+            </a>
+            <a href="{% url 'export_my_report' %}" class="btn btn-outline-success btn-sm rounded-pill shadow-sm">
+                <i class="bi bi-file-earmark-excel me-1"></i>Exportar Excel/CSV
+            </a>
+            <a href="{% url 'print_my_report' %}" target="_blank" class="btn btn-outline-secondary btn-sm rounded-pill shadow-sm">
+                <i class="bi bi-printer me-1"></i>Vista Imprimir
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Perfil de Competencias y Niveles -->
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-header bg-white border-0 pt-4 px-4">
+            <h5 class="fw-bold mb-0 text-primary">
+                <i class="bi bi-diagram-3 me-2"></i>Perfil Actual de Competencias
+            </h5>
+        </div>
+        <div class="card-body px-4">
+            <div class="row g-3">
+                {% for m in metrics %}
+                <div class="col-md-6 col-lg-3">
+                    <div class="p-3 border rounded-3 bg-light h-100">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h6 class="fw-semibold mb-0 text-dark">{{ m.competency.name }}</h6>
+                            <span class="badge {{ m.badge_class }} rounded-pill">{{ m.level }}</span>
+                        </div>
+                        <h3 class="fw-bold text-primary mb-1">{{ m.avg_score }}/10</h3>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar {% if m.avg_score >= 8.5 %}bg-success{% elif m.avg_score >= 7.0 %}bg-primary{% elif m.avg_score >= 5.0 %}bg-warning{% else %}bg-danger{% endif %}" role="progressbar" style="width: {% widthratio m.avg_score 10 100 %}%;"></div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center text-muted py-3">No hay competencias activas registradas.</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Tablas de Historial Auditable -->
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0 text-dark">
+                <i class="bi bi-journal-check text-primary me-2"></i>Historial Registrado de Evaluaciones
+            </h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Título / Proceso</th>
+                            <th>Tipo de Evaluación</th>
+                            <th>Evaluador</th>
+                            <th>Competencia</th>
+                            <th>Fecha</th>
+                            <th class="text-center">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for eval in evaluations %}
+                        <tr>
+                            <td class="ps-4">
+                                <span class="fw-semibold text-dark">{{ eval.title }}</span>
+                                {% if eval.description %}
+                                <br><small class="text-muted">{{ eval.description }}</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge bg-info text-dark rounded-pill">{{ eval.get_evaluation_type_display }}</span>
+                            </td>
+                            <td>
+                                {% if eval.evaluator == request.user %}
+                                    <span class="text-secondary"><i class="bi bi-person me-1"></i>Autoevaluación</span>
+                                {% elif eval.evaluation_type == 'PARES' %}
+                                    <span class="text-muted"><i class="bi bi-incognito me-1"></i>Par (Anónimo)</span>
+                                {% else %}
+                                    <span><i class="bi bi-person-badge me-1"></i>{{ eval.evaluator.get_full_name|default:eval.evaluator.username }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ eval.competency.name|default:"General" }}</td>
+                            <td><small class="text-muted">{{ eval.created_at|date:"d/m/Y H:i" }}</small></td>
+                            <td class="text-center">
+                                <span class="badge bg-success rounded-pill"><i class="bi bi-check-circle me-1"></i>Completada</span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox display-5 d-block mb-2"></i>
+                                Aún no registras evaluaciones en tu historial.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

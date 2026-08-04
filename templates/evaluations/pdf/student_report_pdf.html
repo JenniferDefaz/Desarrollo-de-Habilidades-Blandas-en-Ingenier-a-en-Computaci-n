@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte Individual de Habilidades Blandas</title>
+    <style>
+        @page {
+            size: letter portrait;
+            margin: 1.5cm;
+        }
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 10pt;
+            color: #212529;
+            line-height: 1.4;
+        }
+        .header {
+            border-bottom: 2px solid #0d6efd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: #0d6efd;
+            font-size: 16pt;
+            margin: 0;
+        }
+        .header p {
+            color: #6c757d;
+            font-size: 9pt;
+            margin: 3px 0 0 0;
+        }
+        .info-box {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+        }
+        .info-box table {
+            width: 100%;
+        }
+        .info-box td {
+            padding: 4px 0;
+        }
+        .section-title {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #0d6efd;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 4px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table.data-table th, table.data-table td {
+            border: 1px solid #dee2e6;
+            padding: 6px 8px;
+            text-align: left;
+        }
+        table.data-table th {
+            background-color: #0d6efd;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        table.data-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .badge {
+            font-size: 8pt;
+            font-weight: bold;
+            color: #ffffff;
+            padding: 2px 6px;
+        }
+        .badge-excelente { background-color: #198754; }
+        .badge-competente { background-color: #0d6efd; }
+        .badge-desarrollo { background-color: #ffc107; color: #000; }
+        .badge-inicial { background-color: #dc3545; }
+        .footer {
+            margin-top: 30px;
+            font-size: 8pt;
+            text-align: center;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Sistema de Desarrollo de Habilidades Blandas</h1>
+        <p>Informe Individual de Seguimiento Competencial - Documento Oficial</p>
+    </div>
+
+    <div class="info-box">
+        <table>
+            <tr>
+                <td><strong>Estudiante:</strong> {{ student.get_full_name }}</td>
+                <td><strong>Correo:</strong> {{ student.email }}</td>
+            </tr>
+            <tr>
+                <td><strong>Usuario:</strong> {{ student.username }}</td>
+                <td><strong>Fecha de Emisión:</strong> {{ now|date:"d/m/Y H:i" }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section-title">1. Resumen de Promedios Competenciales</div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Competencia Transversal</th>
+                <th>Puntuación Promedio (1.00 - 5.00)</th>
+                <th>Nivel de Dominio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in metrics %}
+            <tr>
+                <td><strong>{{ item.competency.name }}</strong></td>
+                <td>{{ item.avg_score|floatformat:2 }} / 5.00</td>
+                <td>
+                    {% if item.avg_score >= 4.5 %}
+                        <span class="badge badge-excelente">Excelente</span>
+                    {% elif item.avg_score >= 3.5 %}
+                        <span class="badge badge-competente">Competente</span>
+                    {% elif item.avg_score >= 2.5 %}
+                        <span class="badge badge-desarrollo">En Desarrollo</span>
+                    {% elif item.avg_score > 0 %}
+                        <span class="badge badge-inicial">Inicial</span>
+                    {% else %}
+                        <span class="badge" style="background-color:#6c757d;">Sin Evaluar</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="section-title">2. Historial de Evaluaciones Recibidas</div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo de Evaluación</th>
+                <th>Evaluador</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for eval in evaluations %}
+            <tr>
+                <td>{{ eval.created_at|date:"d/m/Y" }}</td>
+                <td>{{ eval.get_evaluation_type_display }}</td>
+                <td>{% if eval.evaluator %}{{ eval.evaluator.get_full_name }}{% else %}Sistema / Anónimo{% endif %}</td>
+                <td>{{ eval.get_status_display }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align: center;">No registra evaluaciones en el sistema.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="footer">
+        Este documento es un reporte institucional emitido por la Plataforma Académica de Habilidades Blandas.
+    </div>
+</body>
+</html>

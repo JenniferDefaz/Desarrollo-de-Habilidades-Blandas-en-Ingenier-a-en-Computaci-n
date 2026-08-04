@@ -1,0 +1,62 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary mb-0"><i class="bi bi-trophy-fill me-2"></i>Gestión de Retos Colaborativos</h2>
+        <a href="{% url 'activity_create' %}" class="btn btn-primary"><i class="bi bi-plus-circle me-1"></i>Nuevo Reto Colaborativo</a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="tabla-retos" class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Título del Reto</th>
+                            <th>Competencia</th>
+                            <th>Instructor</th>
+                            <th>Inicio / Fin</th>
+                            <th>Equipos Formados</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for challenge in challenges %}
+                        <tr>
+                            <td><strong>{{ challenge.title }}</strong></td>
+                            <td>{{ challenge.competency.name }}</td>
+                            <td>{{ challenge.instructor.get_full_name|default:challenge.instructor.username }}</td>
+                            <td><small class="text-muted">{{ challenge.start_date|date:"d/m/Y" }} - {{ challenge.end_date|date:"d/m/Y" }}</small></td>
+                            <td><span class="badge bg-info text-dark">{{ challenge.teams.count }} Equipos</span></td>
+                            <td>
+                                <a href="{% url 'manage_teams' challenge.id %}" class="btn btn-sm btn-primary">
+                                    <i class="bi bi-people-fill"></i> Gestionar Equipos
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No hay retos colaborativos registrados.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('#tabla-retos').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+            }
+        });
+    });
+</script>
+{% endblock %}

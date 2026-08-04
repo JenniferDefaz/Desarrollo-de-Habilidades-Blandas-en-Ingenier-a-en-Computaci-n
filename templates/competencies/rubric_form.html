@@ -1,0 +1,102 @@
+{% extends "core/dashboard_base.html" %}
+
+{% block page_title %}
+    {% if obj %}Editar Rúbrica{% else %}Nueva Rúbrica{% endif %} para {{ subcompetency.name }}
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 text-primary">
+                    {% if obj %}
+                        <i class="bi bi-pencil-square"></i> Editar Rúbrica
+                    {% else %}
+                        <i class="bi bi-plus-circle"></i> Nueva Rúbrica
+                    {% endif %}
+                </h5>
+                <p class="text-muted mb-0 small">Subcompetencia: {{ subcompetency.name }}</p>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-3 form-floating">
+                        {{ form.level }}
+                        <label for="{{ form.level.id_for_label }}">Nivel de Desempeño</label>
+                        {% if form.level.errors %}
+                        <div class="text-danger small mt-1">{{ form.level.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3 form-floating">
+                        {{ form.description }}
+                        <label for="{{ form.description.id_for_label }}">Descripción</label>
+                        {% if form.description.errors %}
+                        <div class="text-danger small mt-1">{{ form.description.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-floating">
+                                {{ form.min_score }}
+                                <label for="{{ form.min_score.id_for_label }}">Puntaje Mínimo</label>
+                                {% if form.min_score.errors %}
+                                <div class="text-danger small mt-1">{{ form.min_score.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="form-floating">
+                                {{ form.max_score }}
+                                <label for="{{ form.max_score.id_for_label }}">Puntaje Máximo</label>
+                                {% if form.max_score.errors %}
+                                <div class="text-danger small mt-1">{{ form.max_score.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Guardar
+                        </button>
+                        <a href="{% url 'competency_detail' subcompetency.competency.pk %}" class="btn btn-secondary">
+                            Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const levelInput = document.getElementById('id_level');
+        if (levelInput) levelInput.classList.add('form-select');
+        
+        const descInput = document.getElementById('id_description');
+        if (descInput) {
+            descInput.classList.add('form-control');
+            descInput.style.height = '100px';
+        }
+        
+        const minInput = document.getElementById('id_min_score');
+        if (minInput) minInput.classList.add('form-control');
+        
+        const maxInput = document.getElementById('id_max_score');
+        if (maxInput) maxInput.classList.add('form-control');
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "core/dashboard_base.html" %}
+
+{% block title %}Mi Perfil - Sistema Académico{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="h3 mb-0 text-gray-800">
+                <i class="bi bi-person-circle text-primary me-2"></i>Mi Perfil Institucional
+            </h2>
+            <p class="text-muted mb-0">Gestiona y actualiza tu información personal en el sistema.</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 rounded-4 text-center p-4">
+                <div class="avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 80px; height: 80px; font-size: 32px;">
+                    {{ user_obj.first_name|default:user_obj.username|make_list|first|upper }}
+                </div>
+                <h5 class="fw-bold text-dark mb-1">{{ user_obj.get_full_name|default:user_obj.username }}</h5>
+                <span class="badge bg-primary rounded-pill mb-3 px-3 py-2">
+                    {% if user_obj.role %}{{ user_obj.role.get_name_display }}{% elif user_obj.is_superuser %}Administrador{% else %}Usuario{% endif %}
+                </span>
+
+                <p class="text-muted small mb-1"><i class="bi bi-envelope me-1"></i>{{ user_obj.email }}</p>
+                <p class="text-muted small mb-0"><i class="bi bi-card-text me-1"></i>Cédula: {{ user_obj.cedula|default:"No registrada" }}</p>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+                <h5 class="fw-bold mb-3 text-dark">Editar Información Personal</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Nombres</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Apellidos</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Correo Electrónico</label>
+                            {{ form.email }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Teléfono / Celular</label>
+                            {{ form.phone }}
+                        </div>
+                    </div>
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-primary rounded-pill px-4">
+                            <i class="bi bi-save me-1"></i>Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

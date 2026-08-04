@@ -1,0 +1,89 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block page_title %}Catálogo de Actividades Formativas{% endblock %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for activity in activities %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0" style="border-radius: 12px;">
+            <div class="card-header bg-white border-0 pt-4 pb-0 d-flex justify-content-between align-items-start">
+                <span class="badge bg-primary">{{ activity.get_activity_type_display }}</span>
+                <span class="badge {% if activity.enrolled_count >= activity.max_participants %}bg-danger{% else %}bg-success{% endif %}">
+                    Cupos: {{ activity.enrolled_count }} / {{ activity.max_participants }}
+                </span>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title fw-bold">{{ activity.title }}</h5>
+                <p class="card-text text-muted small mb-3">
+                    {{ activity.description }}
+                </p>
+                
+                <ul class="list-unstyled small mb-0">
+                    <li class="mb-2">
+                        <i class="bi bi-trophy text-warning me-2"></i> {{ activity.competency.name }}
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-calendar me-2 text-primary"></i> {{ activity.start_date|date:"d M Y, H:i" }}
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-geo-alt text-danger me-2"></i> {{ activity.location }}
+                    </li>
+                </ul>
+                
+                {% if activity.activity_type == 'RETO_COLABORATIVO' %}
+                    {% for team in activity.teams.all %}
+                        {% if request.user in team.members.all %}
+                            <div class="mt-3 p-2 bg-light border rounded">
+                                <strong><i class="bi bi-people-fill text-info me-1"></i> Mi Equipo: {{ team.name }}</strong>
+                                <ul class="mb-0 mt-1 ps-3 text-muted" style="font-size: 0.8rem;">
+                                    {% for member in team.members.all %}
+                                        <li>{{ member.get_full_name|default:member.username }} {% if member == request.user %}(Tú){% endif %}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="card-footer bg-white border-0 pb-4 pt-0">
+                {% if activity.pk in user_enrolled_ids %}
+                    <div class="d-grid gap-2">
+                        <span class="badge bg-info text-white p-2 mb-1">Inscrito</span>
+                        <a href="{% url 'upload_evidence' %}?activity={{ activity.pk }}" class="btn btn-success btn-sm fw-bold">
+                            <i class="bi bi-cloud-upload-fill me-1"></i> Subir Evidencia
+                        </a>
+                        <a href="{% url 'cancel_enrollment' activity.pk %}" class="btn btn-outline-danger btn-sm">Cancelar Inscripción</a>
+                    </div>
+                {% elif activity.enrolled_count >= activity.max_participants %}
+                    <div class="d-grid">
+                        <button class="btn btn-secondary" disabled>Cupos Agotados</button>
+                    </div>
+                {% else %}
+                    <div class="d-grid">
+                        <a href="{% url 'enroll_activity' activity.pk %}" class="btn btn-primary">Inscribirme</a>
+                    </div>
+                {% endif %}
+                
+                {% if request.user.role.name == 'GRADUADO' %}
+                    <div class="d-grid mt-2">
+                        <a href="{% url 'apply_as_mentor' activity.pk %}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-person-up me-1"></i> Postular como Mentor
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <div class="text-muted">
+            <i class="bi bi-calendar-x fs-1 d-block mb-3"></i>
+            <h4>No hay actividades disponibles</h4>
+            <p>Por favor vuelve a revisar más tarde el catálogo.</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

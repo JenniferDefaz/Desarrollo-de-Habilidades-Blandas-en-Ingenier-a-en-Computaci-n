@@ -1,0 +1,114 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Mi Portafolio de Evidencias - Sistema Académico{% endblock %}
+
+{% block page_title %}Mi Portafolio de Evidencias{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+        <h5 class="mb-0 text-primary fw-bold"><i class="bi bi-folder-fill me-2"></i>Mis Evidencias</h5>
+        <a href="{% url 'upload_evidence' %}" class="btn btn-primary btn-sm">
+            <i class="bi bi-cloud-arrow-up-fill me-1"></i> Subir Nueva Evidencia
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="tabla-evidencias" class="table table-hover table-striped align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Título</th>
+                        <th>Competencia</th>
+                        <th>Actividad</th>
+                        <th>Tipo</th>
+                        <th>Fecha de Carga</th>
+                        <th>Estado</th>
+                        <th>Retroalimentación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ev in evidences %}
+                    <tr>
+                        <td>{{ ev.title }}</td>
+                        <td>{{ ev.competency.name }}</td>
+                        <td>{{ ev.activity.title|default:"-" }}</td>
+                        <td>{{ ev.get_evidence_type_display }}</td>
+                        <td>{{ ev.uploaded_at|date:"d/m/Y H:i" }}</td>
+                        <td>
+                            {% if ev.status == 'PENDIENTE' %}
+                            <span class="badge bg-warning text-dark">Pendiente 🟡</span>
+                            {% elif ev.status == 'APROBADA' %}
+                            <span class="badge bg-success">Aprobada 🟢</span>
+                            {% elif ev.status == 'RECHAZADA' %}
+                            <span class="badge bg-danger">Rechazada 🔴</span>
+                            {% elif ev.status == 'CORREGIR' %}
+                            <span class="badge bg-info text-dark">Solicitar Corrección 🟠</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if ev.feedback %}
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="popover" title="Retroalimentación" data-bs-content="{{ ev.feedback }}">
+                                <i class="bi bi-chat-text"></i> Ver
+                            </button>
+                            {% else %}
+                            -
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                {% if ev.file %}
+                                <a href="{{ ev.file.url }}" target="_blank" class="btn btn-sm btn-outline-primary" title="Ver Archivo">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                {% elif ev.external_url %}
+                                <a href="{{ ev.external_url }}" target="_blank" class="btn btn-sm btn-outline-primary" title="Ver Enlace Externo">
+                                    <i class="bi bi-link-45deg"></i>
+                                </a>
+                                {% endif %}
+                                
+                                {% if ev.status == 'PENDIENTE' or ev.status == 'CORREGIR' %}
+                                <a href="{% url 'edit_evidence' ev.pk %}" class="btn btn-sm btn-outline-warning" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form action="{% url 'delete_evidence' ev.pk %}" method="post" class="d-inline" onsubmit="return confirm('¿Está seguro de que desea eliminar esta evidencia?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">No has subido ninguna evidencia aún.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        $('#tabla-evidencias').DataTable({
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+            },
+            responsive: true
+        });
+        
+        // Initialize popovers
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        });
+    });
+</script>
+{% endblock %}

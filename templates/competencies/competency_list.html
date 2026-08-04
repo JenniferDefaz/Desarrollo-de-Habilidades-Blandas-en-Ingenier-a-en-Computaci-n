@@ -1,0 +1,103 @@
+{% extends "core/dashboard_base.html" %}
+{% load static %}
+
+{% block page_title %}Gestión de Competencias{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                <h5 class="mb-0 text-primary"><i class="bi bi-trophy"></i> Competencias Transversales</h5>
+                <a href="{% url 'competency_create' %}" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Nueva Competencia
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle" id="tabla-competencias">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for comp in object_list %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ comp.name }}</td>
+                                <td>{{ comp.description|truncatechars:50 }}</td>
+                                <td>
+                                    {% if comp.is_active %}
+                                        <span class="badge bg-success">Activo</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Inactivo</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'competency_detail' comp.pk %}" class="btn btn-sm btn-info text-white" title="Ver Detalles">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="{% url 'competency_update' comp.pk %}" class="btn btn-sm btn-outline-primary" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form action="{% url 'competency_delete' comp.pk %}" method="post" class="d-inline form-delete">
+                                        {% csrf_token %}
+                                        <button type="button" class="btn btn-sm btn-outline-danger btn-delete-comp" title="Eliminar">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">No hay competencias registradas.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof $.fn.DataTable !== 'undefined') {
+            $('#tabla-competencias').DataTable({
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+                }
+            });
+        }
+        
+        const deleteButtons = document.querySelectorAll('.btn-delete-comp');
+        deleteButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const form = this.closest('form');
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "Esta acción eliminará la competencia y no se puede deshacer.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

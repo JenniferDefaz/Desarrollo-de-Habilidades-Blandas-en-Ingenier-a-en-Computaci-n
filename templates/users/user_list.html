@@ -1,0 +1,128 @@
+{% extends 'core/dashboard_base.html' %}
+
+{% block page_title %}Gestión de Usuarios{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <span>Listado de Usuarios</span>
+        <a href="{% url 'user_create' %}" class="btn btn-sm btn-success btn-action text-white">
+            <i class="bi bi-plus-lg"></i> Nuevo Usuario
+        </a>
+    </div>
+    <div class="card-body">
+        <table id="tabla-usuarios" class="table table-striped table-hover dt-responsive nowrap w-100">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Cédula</th>
+                    <th>Nombre Completo</th>
+                    <th>Email Institucional</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ user.cedula|default:"-" }}</td>
+                    <td>{{ user.get_full_name|default:user.username }}</td>
+                    <td>{{ user.institutional_email|default:user.email|default:"-" }}</td>
+                    <td>
+                        {% if user.role %}
+                            <span class="badge bg-primary">{{ user.role.get_name_display }}</span>
+                        {% else %}
+                            <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.is_active %}
+                            <span class="badge bg-success rounded-pill px-3">Activo</span>
+                        {% else %}
+                            <span class="badge bg-danger rounded-pill px-3">Inactivo</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'user_update' user.pk %}" class="btn btn-sm btn-outline-primary" title="Editar">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-danger btn-delete" 
+                                    data-id="{{ user.pk }}" 
+                                    data-name="{{ user.get_full_name|default:user.username }}" 
+                                    title="Eliminar">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    // Initialize DataTables
+    $('#tabla-usuarios').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+        },
+        responsive: true,
+        dom: '<"row"<"col-sm-12 col-md-4"l><"col-sm-12 col-md-4 text-center"B><"col-sm-12 col-md-4"f>>rtip',
+        buttons: [
+            { extend: 'excelHtml5', className: 'btn btn-sm btn-outline-secondary', text: '<i class="bi bi-file-earmark-excel"></i> Excel' },
+            { extend: 'pdfHtml5', className: 'btn btn-sm btn-outline-secondary', text: '<i class="bi bi-file-earmark-pdf"></i> PDF' },
+            { extend: 'print', className: 'btn btn-sm btn-outline-secondary', text: '<i class="bi bi-printer"></i> Imprimir' }
+        ]
+    });
+
+    // Delete Confirmation with SweetAlert2
+    $(document).on('click', '.btn-delete', function() {
+        const userId = $(this).data('id');
+        const userName = $(this).data('name');
+        
+        Swal.fire({
+            title: '¿Eliminar usuario?',
+            html: `¿Está seguro de eliminar a <strong>${userName}</strong>?<br>Esta acción no se puede deshacer.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit delete form
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/usuarios/eliminar/${userId}/`;
+                form.innerHTML = '{% csrf_token %}';
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    });
+
+    // SweetAlert for Django messages
+    {% if messages %}
+        {% for message in messages %}
+            Swal.fire({ 
+                toast: true, 
+                position: 'top-end', 
+                icon: '{{ message.tags|default:"info" }}' === 'error' ? 'error' : ('{{ message.tags|default:"info" }}' === 'success' ? 'success' : 'info'), 
+                title: '{{ message }}', 
+                showConfirmButton: false, 
+                timer: 3000,
+                timerProgressBar: true
+            });
+        {% endfor %}
+    {% endif %}
+});
+</script>
+{% endblock %}

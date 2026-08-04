@@ -1,0 +1,132 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block title %}Evaluación de Evidencia - Sistema Académico{% endblock %}
+
+{% block page_title %}Evaluación de Evidencia: {{ evidence.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Evidence Details -->
+    <div class="col-lg-7 mb-4">
+        <!-- Student Info Card -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-white py-3">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-person-badge-fill me-2"></i>Información del Estudiante y Contexto</h6>
+            </div>
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-sm-4 text-muted fw-medium">Estudiante:</div>
+                    <div class="col-sm-8 fw-bold">{{ evidence.student.get_full_name|default:evidence.student.username }}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-4 text-muted fw-medium">Competencia:</div>
+                    <div class="col-sm-8">{{ evidence.competency.name }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 text-muted fw-medium">Actividad:</div>
+                    <div class="col-sm-8">{{ evidence.activity.title|default:"N/A" }}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evidence Content Box -->
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white py-3">
+                <h6 class="mb-0 fw-bold"><i class="bi bi-file-earmark-text-fill me-2"></i>Contenido de la Evidencia</h6>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-primary">{{ evidence.title }}</h5>
+                <p class="text-muted small mb-3">Subido el: {{ evidence.uploaded_at|date:"d/m/Y H:i" }} | Tipo: {{ evidence.get_evidence_type_display }}</p>
+                
+                <div class="mb-4 bg-light p-3 rounded">
+                    <h6 class="fw-bold mb-2">Descripción:</h6>
+                    <p class="mb-0">{{ evidence.description|linebreaksbr }}</p>
+                </div>
+
+                <div class="d-flex gap-3 align-items-center">
+                    {% if evidence.file %}
+                    <a href="{{ evidence.file.url }}" target="_blank" class="btn btn-outline-primary">
+                        <i class="bi bi-download me-1"></i> Ver / Descargar Archivo
+                    </a>
+                    {% endif %}
+                    
+                    {% if evidence.external_url %}
+                    <a href="{{ evidence.external_url }}" target="_blank" class="btn btn-outline-info">
+                        <i class="bi bi-box-arrow-up-right me-1"></i> Abrir Enlace Externo
+                    </a>
+                    {% endif %}
+                    
+                    {% if not evidence.file and not evidence.external_url %}
+                    <span class="text-muted fst-italic">No se adjuntó archivo ni enlace externo.</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Form -->
+    <div class="col-lg-5">
+        <div class="card shadow-sm border-0 border-top border-primary border-4">
+            <div class="card-header bg-white py-3">
+                <h5 class="mb-0 fw-bold"><i class="bi bi-pencil-square me-2"></i>Formulario de Revisión</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label fw-medium">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                        <div class="form-text">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% if field.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ field.errors|join:", " }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="bi bi-send-check me-1"></i> Guardar Evaluación y Notificar Estudiante
+                        </button>
+                        <a href="{% url 'review_inbox' %}" class="btn btn-light">
+                            Cancelar y volver a la bandeja
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Form styling
+        $('select, textarea').addClass('form-control');
+        $('select').addClass('form-select');
+        
+        // Highlight status colors
+        $('select').change(function() {
+            var val = $(this).val();
+            $(this).removeClass('border-success border-danger border-info text-success text-danger text-info');
+            if(val === 'APROBADA') {
+                $(this).addClass('border-success text-success fw-bold');
+            } else if(val === 'RECHAZADA') {
+                $(this).addClass('border-danger text-danger fw-bold');
+            } else if(val === 'CORREGIR') {
+                $(this).addClass('border-info text-info fw-bold');
+            }
+        });
+        
+        // Trigger initial color
+        $('select').trigger('change');
+    });
+</script>
+{% endblock %}

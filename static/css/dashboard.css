@@ -1,0 +1,698 @@
+/* ============================================================
+   SISTEMA ACADÉMICO – Diseño Moderno con Navbar Horizontal
+   ============================================================ */
+
+/* ─── CSS Variables ─── */
+:root {
+    --primary: #5454D4;
+    --primary-light: #7C7CE0;
+    --primary-dark: #3D3DA6;
+    --primary-gradient: linear-gradient(135deg, #5454D4, #3D3DA6);
+    --accent: #00C9A7;
+    --accent-gradient: linear-gradient(135deg, #00C9A7, #00A388);
+
+    --bg-body: #f5f7fb;
+    --bg-card: #ffffff;
+    --bg-navbar: #ffffff;
+
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+
+    --border-color: #e2e8f0;
+    --border-radius: 14px;
+    --border-radius-sm: 8px;
+    --border-radius-lg: 20px;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+    --shadow-navbar: 0 1px 20px rgba(0, 0, 0, 0.06);
+
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s ease;
+}
+
+/* ─── Base Styles ─── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.app-navbar {
+    background-color: var(--bg-navbar);
+    box-shadow: var(--shadow-navbar);
+    padding: 0;
+    z-index: 1030;
+    border-bottom: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.app-navbar .container-xl {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/* Logo */
+.app-navbar .navbar-brand {
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.85rem 0;
+    letter-spacing: -0.01em;
+    transition: var(--transition-fast);
+}
+
+.app-navbar .navbar-brand:hover {
+    color: var(--primary);
+}
+
+.app-navbar .brand-badge {
+    background: var(--primary-gradient);
+    color: #fff;
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--border-radius-sm);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+/* Nav Links */
+.app-navbar .navbar-nav .nav-link {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 1rem 0.85rem;
+    position: relative;
+    transition: var(--transition-fast);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+}
+
+.app-navbar .navbar-nav .nav-link:hover {
+    color: var(--primary);
+}
+
+.app-navbar .navbar-nav .nav-link.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.app-navbar .navbar-nav .nav-link i {
+    font-size: 1rem;
+    margin-right: 0.3rem;
+    vertical-align: -1px;
+}
+
+/* Dropdowns */
+.app-navbar .dropdown-menu {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    padding: 0.5rem;
+    margin-top: 0;
+    min-width: 220px;
+    animation: fadeInDown 0.2s ease;
+}
+
+.app-navbar .dropdown-item {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    padding: 0.55rem 1rem;
+    border-radius: var(--border-radius-sm);
+    transition: var(--transition-fast);
+}
+
+.app-navbar .dropdown-item:hover,
+.app-navbar .dropdown-item:focus {
+    background-color: #f1f5f9;
+    color: var(--primary);
+}
+
+.app-navbar .dropdown-item.active,
+.app-navbar .dropdown-item:active {
+    background-color: rgba(84, 84, 212, 0.08);
+    color: var(--primary);
+}
+
+.app-navbar .dropdown-item i {
+    width: 20px;
+    text-align: center;
+    margin-right: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.app-navbar .dropdown-divider {
+    border-color: var(--border-color);
+    margin: 0.35rem 0;
+}
+
+/* User Area */
+.user-nav-area {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    padding: 0.5rem 0;
+}
+
+.user-nav-avatar {
+    width: 34px;
+    height: 34px;
+    background: var(--primary-gradient);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.user-nav-name {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+}
+
+.user-nav-role {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    display: block;
+    line-height: 1.2;
+}
+
+/* Toggler */
+.app-navbar .navbar-toggler {
+    border: 1px solid var(--border-color);
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--border-radius-sm);
+    transition: var(--transition-fast);
+}
+
+.app-navbar .navbar-toggler:focus {
+    box-shadow: 0 0 0 0.2rem rgba(84, 84, 212, 0.15);
+}
+
+.app-navbar .navbar-toggler-icon {
+    width: 1.2em;
+    height: 1.2em;
+}
+
+/* Notification Badge */
+.nav-notification-badge {
+    background-color: #ef4444;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 50px;
+    position: relative;
+    top: -1px;
+    margin-left: 0.25rem;
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.app-main {
+    min-height: calc(100vh - 62px);
+    padding: 2rem 1rem;
+}
+
+.app-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+}
+
+/* Page Header */
+.page-header {
+    margin-bottom: 1.75rem;
+}
+
+.page-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.page-header p {
+    color: var(--text-secondary);
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1.5rem;
+    background: var(--bg-card);
+    transition: var(--transition);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card-header {
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-body {
+    padding: 1.25rem 1.5rem;
+}
+
+/* ─── Stat Cards ─── */
+.card-stat {
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.card-stat::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
+}
+
+.card-stat:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-stat .stat-content h3 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.card-stat .stat-content p {
+    margin: 0;
+    opacity: 0.9;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.card-stat i {
+    font-size: 2.5rem;
+    opacity: 0.6;
+}
+
+.bg-gradient-blue   { background: linear-gradient(135deg, #5454D4, #3D3DA6); }
+.bg-gradient-green  { background: linear-gradient(135deg, #00C9A7, #00A388); }
+.bg-gradient-purple { background: linear-gradient(135deg, #8B5CF6, #6D28D9); }
+.bg-gradient-orange { background: linear-gradient(135deg, #F97316, #EA580C); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-radius: var(--border-radius-sm);
+    transition: var(--transition-fast);
+    padding: 0.5rem 1rem;
+}
+
+.btn-primary {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(84, 84, 212, 0.3);
+}
+
+.btn-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    border-radius: var(--border-radius-sm);
+    padding: 0.5rem 1rem;
+    transition: var(--transition);
+}
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+.form-control,
+.form-select {
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 1rem;
+    font-size: 0.875rem;
+    transition: var(--transition-fast);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(84, 84, 212, 0.15);
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+}
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+.table {
+    font-size: 0.875rem;
+}
+
+.table thead th {
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    border-bottom-width: 1px;
+    padding: 0.85rem 1rem;
+}
+
+.table tbody td {
+    padding: 0.85rem 1rem;
+    vertical-align: middle;
+}
+
+/* DataTables Overrides */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: var(--primary) !important;
+    color: white !important;
+    border: 1px solid var(--primary) !important;
+    border-radius: var(--border-radius-sm);
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before {
+    background-color: var(--primary);
+}
+
+div.dt-buttons .btn {
+    border-radius: var(--border-radius-sm);
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    padding: 0.4rem 0.75rem;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge {
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+    border-radius: 6px;
+}
+
+/* ============================================================
+   ALERTS (Bootstrap overrides)
+   ============================================================ */
+.alert {
+    border-radius: var(--border-radius);
+    border: none;
+    font-size: 0.9rem;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.app-footer {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 2rem;
+}
+
+.app-footer a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+.login-page {
+    background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #5454D4 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+.login-card {
+    background: #ffffff;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 420px;
+    padding: 3rem 2.5rem;
+    text-align: center;
+}
+
+.login-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.login-title {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.login-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+.login-form .input-group-text {
+    background-color: #f8fafc;
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+}
+
+.login-form .form-control {
+    border-color: var(--border-color);
+}
+
+.login-form .form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(84, 84, 212, 0.15);
+}
+
+.btn-login {
+    background: var(--primary-gradient);
+    border: none;
+    color: white;
+    padding: 0.75rem;
+    border-radius: var(--border-radius-sm);
+    font-weight: 600;
+    font-size: 1rem;
+    width: 100%;
+    transition: var(--transition);
+}
+
+.btn-login:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(84, 84, 212, 0.35);
+    color: white;
+}
+
+.login-footer {
+    margin-top: 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 991.98px) {
+    .app-navbar .navbar-collapse {
+        background: var(--bg-navbar);
+        padding: 0.75rem 0;
+        border-top: 1px solid var(--border-color);
+        max-height: 75vh;
+        overflow-y: auto;
+    }
+
+    .app-navbar .navbar-nav .nav-link {
+        padding: 0.65rem 0.85rem;
+        border-bottom: none;
+        border-radius: var(--border-radius-sm);
+    }
+
+    .app-navbar .navbar-nav .nav-link:hover,
+    .app-navbar .navbar-nav .nav-link.active {
+        background-color: #f1f5f9;
+    }
+
+    .app-navbar .dropdown-menu {
+        box-shadow: none;
+        border: none;
+        padding-left: 1rem;
+        background: transparent;
+    }
+
+    .user-nav-area {
+        padding: 0.75rem 0.85rem;
+        border-top: 1px solid var(--border-color);
+        margin-top: 0.5rem;
+    }
+
+    .page-header h1 {
+        font-size: 1.35rem;
+    }
+
+    .app-main {
+        padding: 1.25rem 0.5rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .app-main {
+        padding: 1rem 0.25rem;
+    }
+
+    .card-stat {
+        padding: 1.15rem;
+    }
+
+    .card-stat .stat-content h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* ============================================================
+   UTILITY OVERRIDES
+   ============================================================ */
+.text-primary { color: var(--primary) !important; }
+a { color: var(--primary); }
+a:hover { color: var(--primary-dark); }
+
+.progress {
+    border-radius: 50px;
+    height: 8px;
+    background-color: #e2e8f0;
+}
+
+.progress-bar {
+    border-radius: 50px;
+}
+
+/* Content area backward compat – old pages using container-fluid */
+.content-body .container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}

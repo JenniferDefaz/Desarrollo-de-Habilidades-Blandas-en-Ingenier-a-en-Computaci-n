@@ -1,0 +1,196 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <h2 class="text-primary mb-0"><i class="bi bi-graph-up-arrow me-2"></i>Panel Analítico de Desarrollo Competencial (HU18, HU21)</h2>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="{% url 'wellness_alerts' %}" class="btn btn-warning text-dark shadow-sm">
+                <i class="bi bi-heart-pulse-fill me-1"></i> Alertas Bienestar
+            </a>
+            <a href="{% url 'export_group_report_pdf' %}" class="btn btn-danger shadow-sm">
+                <i class="bi bi-file-earmark-pdf me-1"></i> Descargar PDF Consolidado
+            </a>
+            <a href="{% url 'export_csv_excel' %}" class="btn btn-success shadow-sm">
+                <i class="bi bi-file-earmark-excel me-1"></i> Exportar Excel / CSV
+            </a>
+            <button onclick="window.print()" class="btn btn-outline-secondary shadow-sm">
+                <i class="bi bi-printer me-1"></i> Imprimir
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Row 1: Summary metrics cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-12 col-md-4">
+            <div class="card bg-primary text-white shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="card-subtitle mb-2 text-white-50">Promedio General de Carrera</h6>
+                            <h2 class="display-5 fw-bold mb-0">{{ global_average|default:"0.0"|floatformat:1 }}</h2>
+                        </div>
+                        <div class="fs-1 text-white-50"><i class="bi bi-award"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card bg-info text-white shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="card-subtitle mb-2 text-white-50">Total Evaluaciones Registradas</h6>
+                            <h2 class="display-5 fw-bold mb-0">{{ total_evaluations|default:"0" }}</h2>
+                        </div>
+                        <div class="fs-1 text-white-50"><i class="bi bi-clipboard-check"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card bg-success text-white shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="card-subtitle mb-2 text-white-50">Estudiantes Activos</h6>
+                            <h2 class="display-5 fw-bold mb-0">{{ active_students|default:"0" }}</h2>
+                        </div>
+                        <div class="fs-1 text-white-50"><i class="bi bi-people"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row 2: Visual Indicators and Table -->
+    <div class="row g-4">
+        <div class="col-12 col-lg-5">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <h5 class="card-title text-secondary"><i class="bi bi-bar-chart-fill me-2"></i>Promedio por Competencia</h5>
+                </div>
+                <div class="card-body">
+                    <div style="position: relative; height: 350px; width: 100%;">
+                        <canvas id="competencyChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-lg-7">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-header bg-white border-0 pt-4 pb-0">
+                    <h5 class="card-title text-secondary"><i class="bi bi-table me-2"></i>Detalle Analítico</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tabla-reportes" class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Competencia</th>
+                                    <th>Estudiantes Evaluados</th>
+                                    <th>Promedio</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for metric in comp_metrics %}
+                                <tr>
+                                    <td><strong>{{ metric.name }}</strong></td>
+                                    <td>{{ metric.students_count }}</td>
+                                    <td>{{ metric.average|floatformat:1 }}</td>
+                                    <td>
+                                        {% if metric.average >= 4 %}
+                                        <span class="badge bg-success">Excelente</span>
+                                        {% elif metric.average >= 3 %}
+                                        <span class="badge bg-warning text-dark">Aceptable</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Bajo</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">No hay datos suficientes para generar el reporte.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#tabla-reportes').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'excel', 'pdf', 'print'
+            ]
+        });
+
+        // Gráfico de Competencias
+        const ctx = document.getElementById('competencyChart').getContext('2d');
+        const data = {
+            labels: [
+                {% for metric in comp_metrics %}
+                "{{ metric.name|truncatechars:20 }}"{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            ],
+            datasets: [{
+                label: 'Promedio de Competencia',
+                data: [
+                    {% for metric in comp_metrics %}
+                    {{ metric.average|stringformat:"f" }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                ],
+                backgroundColor: 'rgba(13, 110, 253, 0.5)',
+                borderColor: 'rgba(13, 110, 253, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 5
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    });
+</script>
+<style>
+    @media print {
+        .btn, .dataTables_filter, .dataTables_info, .dataTables_paginate {
+            display: none !important;
+        }
+        body {
+            background-color: white !important;
+        }
+        .card {
+            border: 1px solid #ddd !important;
+            box-shadow: none !important;
+        }
+    }
+</style>
+{% endblock %}
