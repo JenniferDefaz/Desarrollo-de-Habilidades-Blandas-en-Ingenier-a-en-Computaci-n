@@ -1,0 +1,17 @@
+Credenciales
+	
+	Estudiante		
+		Robinson
+		@Vinicio2004
+
+	Administrador 
+		Vinicio
+		0504652140
+	
+	docente
+		Juan
+		1234567890
+
+	coordinador
+		coordinador
+		coordinador
