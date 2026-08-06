@@ -473,7 +473,7 @@
     </svg>
 
     <!-- Botón flotante -->
-    <button id="accessibility-btn" aria-label="Abrir panel de accesibilidad" title="Accesibilidad (Ctrl+A)">
+    <button id="accessibility-btn" aria-label="Abrir panel de accesibilidad" title="Opciones de Accesibilidad">
         ♿
     </button>
 
@@ -497,7 +497,7 @@
                         <span>■</span> Detener
                     </button>
                 </div>
-                <p style="font-size:0.72rem;color:#888;margin:5px 0 0;">Atajo: <kbd>Ctrl+L</kbd></p>
+                <p style="font-size:0.72rem;color:#888;margin:5px 0 0;">Usa el botón ▶ para iniciar la lectura en voz alta</p>
             </div>
 
             <!-- Contraste -->
@@ -507,7 +507,7 @@
                     <button class="a11y-btn" id="btn-contrast" aria-pressed="false">Alto Contraste</button>
                     <button class="a11y-btn" id="btn-grayscale" aria-pressed="false">Escala de grises</button>
                 </div>
-                <p style="font-size:0.72rem;color:#888;margin:5px 0 0;">Atajo: <kbd>Ctrl+G</kbd></p>
+                <p style="font-size:0.72rem;color:#888;margin:5px 0 0;">Mejora la visibilidad para baja visión</p>
             </div>
 
             <!-- Daltonismo -->
@@ -529,7 +529,7 @@
                     <button class="a11y-btn" data-font="lg">A+</button>
                     <button class="a11y-btn" data-font="xl">A++</button>
                 </div>
-                <p style="font-size:0.72rem;color:#888;margin:5px 0 0;">Atajo: <kbd>Ctrl+M</kbd> aumentar</p>
+                <p style="font-size:0.72rem;color:#888;margin:5px 0 0;">Selecciona el tamaño que mejor se adapte</p>
             </div>
 
             <!-- Otras opciones -->
@@ -546,7 +546,7 @@
             <!-- Restablecer -->
             <button id="btn-a11y-reset" class="a11y-btn"
                 style="width:100%;justify-content:center;background:#fee2e2;border-color:#fca5a5;color:#dc2626;margin-top:4px;">
-                ↺ Restablecer todo <span style="font-size:0.7rem;">(Ctrl+R)</span>
+                ↺ Restablecer todo
             </button>
 
         </div>
@@ -775,34 +775,7 @@
             }
         });
 
-        // ── Atajos de teclado ────────────────────────────────────────
-        document.addEventListener('keydown', e => {
-            if (!e.ctrlKey) return;
-
-            if (e.key === 'l' || e.key === 'L') {
-                e.preventDefault();
-                reading ? stopReading() : startReading();
-            }
-            if (e.key === 'g' || e.key === 'G') {
-                e.preventDefault();
-                if (prefs.contrast) { delete prefs.contrast; }
-                else { prefs.contrast = true; delete prefs.grayscale; delete prefs.filter; }
-                savePrefs(); applyAll();
-            }
-            if (e.key === 'm' || e.key === 'M') {
-                e.preventDefault();
-                const cur   = prefs.font || 'md';
-                const idx   = fontSizes.indexOf(cur);
-                prefs.font  = fontSizes[Math.min(idx + 1, fontSizes.length - 1)];
-                savePrefs(); applyAll();
-            }
-            if (e.key === 'r' || e.key === 'R') {
-                e.preventDefault();
-                prefs = {}; savePrefs(); applyAll(); stopReading();
-            }
-        });
-
-        // Escape detiene la lectura
+        // ── Escape detiene la lectura ─────────────────────────────────
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape' && reading) stopReading();
         });

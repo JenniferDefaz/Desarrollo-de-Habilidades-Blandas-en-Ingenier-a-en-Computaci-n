@@ -1,7 +1,7 @@
-
 services:
   db:
     image: postgres:15
+    user: "999:999"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -9,21 +9,68 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - "5433:5432"
+      - "127.0.0.1:5433:5432"
+    
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: "1.0"
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/run/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-academico_db}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    restart: on-failure:5
 
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
+      - web_media:/app/media
+      - web_staticfiles:/app/staticfiles
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     env_file:
       - .env
     environment:
       - DB_HOST=db
+      - DOCKER_CONTENT_TRUST=1
+    mem_limit: 512m
+    mem_reservation: 256m
+    cpus: "1.0"
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 200
+    # 5.13 — filesystem read-only, directorios con escritura via tmpfs o volumes
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/tmp
+      - /run
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    restart: on-failure:5
 
 volumes:
   postgres_data:
+  web_media:
+  web_staticfiles:
