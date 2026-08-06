@@ -39,6 +39,33 @@ USUARIOS = [
         'is_staff': False,
         'is_superuser': False,
     },
+    {
+        'username': 'tutor',
+        'password': 'tutor12345',
+        'first_name': 'Tutor',
+        'last_name': 'Academico',
+        'role': Role.RoleChoices.TUTOR_ACADEMICO,
+        'is_staff': False,
+        'is_superuser': False,
+    },
+    {
+        'username': 'empresa',
+        'password': 'empresa123',
+        'first_name': 'Empresa',
+        'last_name': 'Colaboradora',
+        'role': Role.RoleChoices.EMPRESA_COLABORADORA,
+        'is_staff': False,
+        'is_superuser': False,
+    },
+    {
+        'username': 'bienestar',
+        'password': 'bienestar1',
+        'first_name': 'Bienestar',
+        'last_name': 'Universitario',
+        'role': Role.RoleChoices.BIENESTAR_UNIVERSITARIO,
+        'is_staff': False,
+        'is_superuser': False,
+    },
 ]
 
 

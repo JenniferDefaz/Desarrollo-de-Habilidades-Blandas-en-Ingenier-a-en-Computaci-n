@@ -1,0 +1,148 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block page_title %}Panel del Tutor Académico{% endblock %}
+
+{% block content %}
+<!-- Bienvenida -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card p-4 bg-white border-0 shadow-sm" style="border-radius:12px;">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width:60px;height:60px;font-size:24px;">
+                        <i class="bi bi-person-video3"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 fw-bold">Bienvenido, {{ request.user.first_name|default:request.user.username }}</h4>
+                        <p class="text-muted mb-0">Panel del Tutor Académico — Seguimiento personalizado de tutorados</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="{% url 'tutor_students' %}" class="btn btn-primary rounded-pill px-3">
+                        <i class="bi bi-people me-1"></i> Ver Todos mis Tutorados
+                    </a>
+                    <a href="{% url 'reports_dashboard' %}" class="btn btn-outline-secondary rounded-pill px-3">
+                        <i class="bi bi-bar-chart me-1"></i> Reportes
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPIs -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card border-0 shadow-sm text-center p-4" style="border-radius:12px; border-left:4px solid #0d6efd !important;">
+            <div class="text-primary mb-2" style="font-size:2rem;"><i class="bi bi-people-fill"></i></div>
+            <h2 class="fw-bold mb-0">{{ total_students }}</h2>
+            <p class="text-muted mb-0 small">Estudiantes Tutorados</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card border-0 shadow-sm text-center p-4" style="border-radius:12px; border-left:4px solid #dc3545 !important;">
+            <div class="text-danger mb-2" style="font-size:2rem;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <h2 class="fw-bold mb-0">{{ alert_count }}</h2>
+            <p class="text-muted mb-0 small">Con Alerta de Bajo Desempeño</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card border-0 shadow-sm text-center p-4" style="border-radius:12px; border-left:4px solid #198754 !important;">
+            <div class="text-success mb-2" style="font-size:2rem;"><i class="bi bi-journal-text"></i></div>
+            <h2 class="fw-bold mb-0">{{ recent_notes|length }}</h2>
+            <p class="text-muted mb-0 small">Notas Recientes Registradas</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Lista de tutorados con alertas -->
+    <div class="col-lg-7 mb-4">
+        <div class="card shadow-sm border-0 h-100" style="border-radius:12px;">
+            <div class="card-header bg-white border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0"><i class="bi bi-people me-2 text-primary"></i>Mis Tutorados</h5>
+                <a href="{% url 'tutor_students' %}" class="btn btn-sm btn-outline-primary">Ver Todos</a>
+            </div>
+            <div class="card-body p-0">
+                {% if tutorados %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Estudiante</th>
+                                <th>Promedio</th>
+                                <th>Estado</th>
+                                <th class="pe-4">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in tutorados|slice:":8" %}
+                            <tr>
+                                <td class="ps-4">
+                                    <p class="fw-bold mb-0">{{ item.student.get_full_name|default:item.student.username }}</p>
+                                    <p class="small text-muted mb-0">{{ item.student.username }}</p>
+                                </td>
+                                <td>
+                                    <span class="fw-bold {% if item.avg_score == 0 %}text-muted{% elif item.avg_score < 5 %}text-danger{% elif item.avg_score < 7 %}text-warning{% else %}text-success{% endif %}">
+                                        {{ item.avg_score }}
+                                    </span>
+                                    <span class="text-muted small">/10</span>
+                                </td>
+                                <td>
+                                    {% if item.avg_score == 0 %}
+                                        <span class="badge bg-secondary">Sin evaluar</span>
+                                    {% elif item.has_alert %}
+                                        <span class="badge bg-danger">Alerta</span>
+                                    {% else %}
+                                        <span class="badge bg-success">Regular</span>
+                                    {% endif %}
+                                </td>
+                                <td class="pe-4">
+                                    <a href="{% url 'tutor_student_detail' item.student.pk %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> Ver
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-people text-muted" style="font-size:3rem;"></i>
+                    <p class="text-muted mt-3">No hay estudiantes registrados aún.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Notas recientes -->
+    <div class="col-lg-5 mb-4">
+        <div class="card shadow-sm border-0 h-100" style="border-radius:12px;">
+            <div class="card-header bg-white border-0 pt-4 pb-0">
+                <h5 class="fw-bold mb-0"><i class="bi bi-journal-text me-2 text-success"></i>Mis Últimas Notas</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_notes %}
+                    {% for note in recent_notes %}
+                    <div class="p-3 mb-2 bg-light rounded">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="fw-bold small">{{ note.student.get_full_name|default:note.student.username }}</span>
+                            <span class="text-muted small">{{ note.created_at|date:"d M Y" }}</span>
+                        </div>
+                        <p class="mb-0 small text-secondary">{{ note.note|truncatewords:20 }}</p>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="bi bi-journal text-muted" style="font-size:2.5rem;"></i>
+                    <p class="text-muted mt-2 small">Aún no has escrito notas de seguimiento.<br>Entra al perfil de un tutorado para agregar una.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

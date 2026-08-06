@@ -300,3 +300,32 @@ class SupportTicket(models.Model):
     def __str__(self):
         return f"Ticket #{self.id} - {self.subject} ({self.get_status_display()})"
 
+
+
+class TutorNote(models.Model):
+    """
+    Notas de seguimiento que el Tutor Académico deja en el perfil de un estudiante tutorado.
+    """
+    tutor = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name='notes_written',
+        verbose_name='Tutor'
+    )
+    student = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name='tutor_notes',
+        verbose_name='Estudiante'
+    )
+    note = models.TextField(verbose_name='Nota de seguimiento')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha')
+
+    class Meta:
+        db_table = 'users_tutornote'
+        ordering = ['-created_at']
+        verbose_name = 'Nota de Tutor'
+        verbose_name_plural = 'Notas de Tutor'
+
+    def __str__(self):
+        return f'Nota de {self.tutor.username} sobre {self.student.username}'

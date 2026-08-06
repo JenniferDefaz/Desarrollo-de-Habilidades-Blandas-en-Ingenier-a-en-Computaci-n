@@ -144,7 +144,12 @@
                     {% elif request.user.role and request.user.role.name in 'TUTOR_ACADEMICO,Tutor Académico' %}
                     <!-- ═══ TUTOR ACADÉMICO ═══ -->
                     <li class="nav-item">
-                        <a href="{% url 'tutor_students' %}" class="nav-link {% if 'tutor' in request.resolver_match.url_name %}active{% endif %}">
+                        <a href="{% url 'tutor_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'tutor_dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2-fill"></i> Mi Panel
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'tutor_students' %}" class="nav-link {% if 'tutor_student' in request.resolver_match.url_name %}active{% endif %}">
                             <i class="bi bi-person-video3"></i> Mis Tutorados
                         </a>
                     </li>
@@ -153,17 +158,32 @@
                             <i class="bi bi-file-bar-graph"></i> Reportes
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{% url 'review_inbox' %}" class="nav-link {% if 'review' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-check2-square"></i> Evidencias
+                        </a>
+                    </li>
 
                     {% elif request.user.role and request.user.role.name in 'BIENESTAR_UNIVERSITARIO,Bienestar Universitario' %}
                     <!-- ═══ BIENESTAR UNIVERSITARIO ═══ -->
+                    <li class="nav-item">
+                        <a href="{% url 'bienestar_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'bienestar_dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2-fill"></i> Mi Panel
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="{% url 'wellness_alerts' %}" class="nav-link {% if request.resolver_match.url_name == 'wellness_alerts' %}active{% endif %}">
                             <i class="bi bi-exclamation-triangle-fill"></i> Alertas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{% url 'tutor_students' %}" class="nav-link {% if 'tutor' in request.resolver_match.url_name %}active{% endif %}">
+                        <a href="{% url 'tutor_students' %}" class="nav-link {% if 'tutor_student' in request.resolver_match.url_name %}active{% endif %}">
                             <i class="bi bi-heart-pulse"></i> Seguimiento
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'activity_list' %}" class="nav-link {% if 'activity' in request.resolver_match.url_name %}active{% endif %}">
+                            <i class="bi bi-calendar-event-fill"></i> Actividades
                         </a>
                     </li>
                     <li class="nav-item">
@@ -227,8 +247,8 @@
                     {% elif request.user.role and request.user.role.name in 'EMPRESA_COLABORADORA,Empresa Colaboradora' %}
                     <!-- ═══ EMPRESA COLABORADORA ═══ -->
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="bi bi-grid-1x2-fill"></i> Panel
+                        <a href="{% url 'employer_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'employer_dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2-fill"></i> Mi Panel
                         </a>
                     </li>
                     <li class="nav-item">
@@ -426,6 +446,371 @@
             }, 4000);
             {% endif %}
         })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════
+         ACCESIBILIDAD COMPLETA
+         Atajos:
+           Ctrl+L  → Modo lectura (lector de pantalla)
+           Ctrl+G  → Alto contraste
+           Ctrl+M  → Aumentar fuente
+           Ctrl+R  → Restablecer todo
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- Filtros SVG para simulación de daltonismo -->
+    <svg style="position:absolute;width:0;height:0;" aria-hidden="true">
+        <defs>
+            <filter id="protanopia-filter">
+                <feColorMatrix type="matrix" values="0.567,0.433,0,0,0 0.558,0.442,0,0,0 0,0.242,0.758,0,0 0,0,0,1,0"/>
+            </filter>
+            <filter id="deuteranopia-filter">
+                <feColorMatrix type="matrix" values="0.625,0.375,0,0,0 0.7,0.3,0,0,0 0,0.3,0.7,0,0 0,0,0,1,0"/>
+            </filter>
+            <filter id="tritanopia-filter">
+                <feColorMatrix type="matrix" values="0.95,0.05,0,0,0 0,0.433,0.567,0,0 0,0.475,0.525,0,0 0,0,0,1,0"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Botón flotante -->
+    <button id="accessibility-btn" aria-label="Abrir panel de accesibilidad" title="Accesibilidad (Ctrl+A)">
+        ♿
+    </button>
+
+    <!-- Panel de accesibilidad -->
+    <div id="accessibility-panel" role="dialog" aria-label="Panel de accesibilidad" aria-modal="true">
+        <div class="panel-header">
+            <span>♿ Accesibilidad</span>
+            <button id="a11y-close-btn" aria-label="Cerrar panel"
+                style="background:transparent;border:none;color:white;font-size:1.2rem;cursor:pointer;line-height:1;">✕</button>
+        </div>
+        <div class="panel-body">
+
+            <!-- Lector de pantalla -->
+            <div class="a11y-section">
+                <div class="a11y-label">🔊 Lector de Pantalla</div>
+                <div class="a11y-btn-group">
+                    <button class="a11y-btn" id="btn-reader" aria-pressed="false">
+                        <span>▶</span> Activar Lectura
+                    </button>
+                    <button class="a11y-btn" id="btn-reader-stop">
+                        <span>■</span> Detener
+                    </button>
+                </div>
+                <p style="font-size:0.72rem;color:#888;margin:5px 0 0;">Atajo: <kbd>Ctrl+L</kbd></p>
+            </div>
+
+            <!-- Contraste -->
+            <div class="a11y-section">
+                <div class="a11y-label">🎨 Contraste y Color</div>
+                <div class="a11y-btn-group">
+                    <button class="a11y-btn" id="btn-contrast" aria-pressed="false">Alto Contraste</button>
+                    <button class="a11y-btn" id="btn-grayscale" aria-pressed="false">Escala de grises</button>
+                </div>
+                <p style="font-size:0.72rem;color:#888;margin:5px 0 0;">Atajo: <kbd>Ctrl+G</kbd></p>
+            </div>
+
+            <!-- Daltonismo -->
+            <div class="a11y-section">
+                <div class="a11y-label">👁 Daltonismo</div>
+                <div class="a11y-btn-group">
+                    <button class="a11y-btn" data-filter="protanopia">Protanopía</button>
+                    <button class="a11y-btn" data-filter="deuteranopia">Deuteranopía</button>
+                    <button class="a11y-btn" data-filter="tritanopia">Tritanopía</button>
+                </div>
+            </div>
+
+            <!-- Tamaño de texto -->
+            <div class="a11y-section">
+                <div class="a11y-label">🔤 Tamaño de Texto</div>
+                <div class="a11y-btn-group">
+                    <button class="a11y-btn" data-font="sm">A-</button>
+                    <button class="a11y-btn" data-font="md">A</button>
+                    <button class="a11y-btn" data-font="lg">A+</button>
+                    <button class="a11y-btn" data-font="xl">A++</button>
+                </div>
+                <p style="font-size:0.72rem;color:#888;margin:5px 0 0;">Atajo: <kbd>Ctrl+M</kbd> aumentar</p>
+            </div>
+
+            <!-- Otras opciones -->
+            <div class="a11y-section">
+                <div class="a11y-label">⚙ Otras Opciones</div>
+                <div class="a11y-btn-group">
+                    <button class="a11y-btn" id="btn-spacing" aria-pressed="false">Mayor espaciado</button>
+                    <button class="a11y-btn" id="btn-cursor" aria-pressed="false">Cursor grande</button>
+                    <button class="a11y-btn" id="btn-focus" aria-pressed="false">Resaltar foco</button>
+                    <button class="a11y-btn" id="btn-links" aria-pressed="false">Subrayar enlaces</button>
+                </div>
+            </div>
+
+            <!-- Restablecer -->
+            <button id="btn-a11y-reset" class="a11y-btn"
+                style="width:100%;justify-content:center;background:#fee2e2;border-color:#fca5a5;color:#dc2626;margin-top:4px;">
+                ↺ Restablecer todo <span style="font-size:0.7rem;">(Ctrl+R)</span>
+            </button>
+
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        'use strict';
+
+        // ── Síntesis de voz ───────────────────────────────────────────
+        const synth  = window.speechSynthesis;
+        let reading  = false;
+        let readerEl = document.getElementById('screen-reader-indicator');
+
+        // Crear indicador si no existe
+        if (!readerEl) {
+            readerEl = document.createElement('div');
+            readerEl.id = 'screen-reader-indicator';
+            readerEl.setAttribute('role', 'status');
+            readerEl.setAttribute('aria-live', 'polite');
+            readerEl.style.display = 'none';
+            readerEl.innerHTML = `<span>🔊</span><span id="reader-label">Modo Lectura ACTIVO</span>`;
+            document.body.appendChild(readerEl);
+        }
+
+        function getSpanishVoice() {
+            const voices = synth.getVoices();
+            return voices.find(v => v.lang === 'es-EC') ||
+                   voices.find(v => v.lang === 'es-MX') ||
+                   voices.find(v => v.lang === 'es-ES') ||
+                   voices.find(v => v.lang.startsWith('es')) || null;
+        }
+
+        function extractTexts() {
+            const out = [];
+            const h1 = document.querySelector('h1');
+            if (h1) out.push('Página: ' + h1.innerText.trim());
+            const sels = [
+                '.content-body h2,.content-body h3,.content-body h4,.content-body h5',
+                '.content-body p,.content-body .card-title',
+                '.content-body th,.content-body td',
+                '.content-body label,.content-body .badge',
+                '.content-body li',
+                '.alert',
+            ];
+            sels.forEach(s => {
+                document.querySelectorAll(s).forEach(el => {
+                    const t = el.innerText.trim();
+                    if (t.length > 1) out.push(t);
+                });
+            });
+            if (out.length <= 1) {
+                document.querySelectorAll('main p,main h2,main h3,main li,main td,main label').forEach(el => {
+                    const t = el.innerText.trim();
+                    if (t.length > 1) out.push(t);
+                });
+            }
+            return [...new Set(out)];
+        }
+
+        function startReading() {
+            if (!('speechSynthesis' in window)) {
+                Swal.fire('No soportado', 'Tu navegador no soporta síntesis de voz. Usa Chrome o Edge.', 'warning');
+                return;
+            }
+            reading = true;
+            readerEl.style.display = 'flex';
+            synth.cancel();
+
+            const doSpeak = () => {
+                const texts = extractTexts();
+                if (!texts.length) { stopReading(); return; }
+
+                // Leer primer bloque con anuncio
+                const first = new SpeechSynthesisUtterance('Modo lectura activado. ' + texts[0]);
+                first.lang = 'es-EC'; first.rate = 0.9;
+                const v = getSpanishVoice(); if (v) first.voice = v;
+
+                let idx = 1;
+                first.onend = function readNext() {
+                    if (!reading || idx >= texts.length) { stopReading(); return; }
+                    const utt = new SpeechSynthesisUtterance(texts[idx++]);
+                    utt.lang = 'es-EC'; utt.rate = 0.9;
+                    if (v) utt.voice = v;
+                    utt.onend = readNext;
+                    synth.speak(utt);
+                };
+                synth.speak(first);
+            };
+
+            synth.getVoices().length === 0
+                ? (synth.onvoiceschanged = doSpeak)
+                : doSpeak();
+
+            document.getElementById('btn-reader').classList.add('active');
+            document.getElementById('btn-reader').setAttribute('aria-pressed', 'true');
+        }
+
+        function stopReading() {
+            reading = false;
+            synth.cancel();
+            readerEl.style.display = 'none';
+            const btn = document.getElementById('btn-reader');
+            if (btn) { btn.classList.remove('active'); btn.setAttribute('aria-pressed','false'); }
+        }
+
+        document.getElementById('btn-reader').addEventListener('click', () => reading ? stopReading() : startReading());
+        document.getElementById('btn-reader-stop').addEventListener('click', stopReading);
+
+        // ── Estado guardado en localStorage ──────────────────────────
+        const A11Y_KEY = 'a11y_prefs';
+        let prefs = JSON.parse(localStorage.getItem(A11Y_KEY) || '{}');
+
+        const fontSizes  = ['sm','md','lg','xl'];
+        const filterModes = ['protanopia','deuteranopia','tritanopia'];
+
+        function savePrefs() { localStorage.setItem(A11Y_KEY, JSON.stringify(prefs)); }
+
+        function applyAll() {
+            const b = document.body;
+
+            // Contraste
+            b.classList.toggle('a11y-high-contrast', !!prefs.contrast);
+            b.classList.toggle('a11y-grayscale', !!prefs.grayscale);
+
+            // Filtros daltonismo
+            filterModes.forEach(f => b.classList.remove('a11y-' + f));
+            if (prefs.filter) b.classList.add('a11y-' + prefs.filter);
+
+            // Fuente
+            fontSizes.forEach(f => b.classList.remove('a11y-font-' + f));
+            if (prefs.font) b.classList.add('a11y-font-' + prefs.font);
+
+            // Toggles
+            b.classList.toggle('a11y-spacing',         !!prefs.spacing);
+            b.classList.toggle('a11y-big-cursor',      !!prefs.cursor);
+            b.classList.toggle('a11y-focus-visible',   !!prefs.focus);
+            b.classList.toggle('a11y-underline-links', !!prefs.links);
+
+            // Actualizar estados de botones
+            setActive('btn-contrast',  !!prefs.contrast);
+            setActive('btn-grayscale', !!prefs.grayscale);
+            setActive('btn-spacing',   !!prefs.spacing);
+            setActive('btn-cursor',    !!prefs.cursor);
+            setActive('btn-focus',     !!prefs.focus);
+            setActive('btn-links',     !!prefs.links);
+
+            document.querySelectorAll('[data-filter]').forEach(btn =>
+                btn.classList.toggle('active', prefs.filter === btn.dataset.filter));
+            document.querySelectorAll('[data-font]').forEach(btn =>
+                btn.classList.toggle('active', prefs.font === btn.dataset.font));
+        }
+
+        function setActive(id, state) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.toggle('active', state);
+            el.setAttribute('aria-pressed', state ? 'true' : 'false');
+        }
+
+        function toggle(key) {
+            prefs[key] = !prefs[key];
+            savePrefs(); applyAll();
+        }
+
+        // Contraste
+        document.getElementById('btn-contrast').addEventListener('click', () => {
+            if (prefs.contrast) { delete prefs.contrast; }
+            else { prefs.contrast = true; delete prefs.grayscale; delete prefs.filter; }
+            savePrefs(); applyAll();
+        });
+
+        // Escala de grises
+        document.getElementById('btn-grayscale').addEventListener('click', () => {
+            if (prefs.grayscale) { delete prefs.grayscale; }
+            else { prefs.grayscale = true; delete prefs.contrast; delete prefs.filter; }
+            savePrefs(); applyAll();
+        });
+
+        // Filtros daltonismo
+        document.querySelectorAll('[data-filter]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (prefs.filter === btn.dataset.filter) { delete prefs.filter; }
+                else { prefs.filter = btn.dataset.filter; delete prefs.contrast; delete prefs.grayscale; }
+                savePrefs(); applyAll();
+            });
+        });
+
+        // Fuente
+        const fontLevels = {sm:0,md:1,lg:2,xl:3};
+        document.querySelectorAll('[data-font]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                prefs.font = prefs.font === btn.dataset.font ? null : btn.dataset.font;
+                savePrefs(); applyAll();
+            });
+        });
+
+        // Toggles simples
+        ['spacing','cursor','focus','links'].forEach(k => {
+            const el = document.getElementById('btn-' + k);
+            if (el) el.addEventListener('click', () => toggle(k));
+        });
+
+        // Restablecer
+        document.getElementById('btn-a11y-reset').addEventListener('click', () => {
+            prefs = {};
+            savePrefs(); applyAll();
+            stopReading();
+            Swal.fire({ title: 'Accesibilidad restablecida', icon: 'success', timer: 1500, showConfirmButton: false });
+        });
+
+        // ── Panel abrir/cerrar ────────────────────────────────────────
+        const panel = document.getElementById('accessibility-panel');
+        document.getElementById('accessibility-btn').addEventListener('click', () => {
+            panel.classList.toggle('open');
+            document.getElementById('accessibility-btn').setAttribute(
+                'aria-expanded', panel.classList.contains('open') ? 'true' : 'false');
+        });
+        document.getElementById('a11y-close-btn').addEventListener('click', () => {
+            panel.classList.remove('open');
+        });
+        // Cerrar al hacer clic fuera
+        document.addEventListener('click', e => {
+            if (!panel.contains(e.target) && e.target.id !== 'accessibility-btn') {
+                panel.classList.remove('open');
+            }
+        });
+
+        // ── Atajos de teclado ────────────────────────────────────────
+        document.addEventListener('keydown', e => {
+            if (!e.ctrlKey) return;
+
+            if (e.key === 'l' || e.key === 'L') {
+                e.preventDefault();
+                reading ? stopReading() : startReading();
+            }
+            if (e.key === 'g' || e.key === 'G') {
+                e.preventDefault();
+                if (prefs.contrast) { delete prefs.contrast; }
+                else { prefs.contrast = true; delete prefs.grayscale; delete prefs.filter; }
+                savePrefs(); applyAll();
+            }
+            if (e.key === 'm' || e.key === 'M') {
+                e.preventDefault();
+                const cur   = prefs.font || 'md';
+                const idx   = fontSizes.indexOf(cur);
+                prefs.font  = fontSizes[Math.min(idx + 1, fontSizes.length - 1)];
+                savePrefs(); applyAll();
+            }
+            if (e.key === 'r' || e.key === 'R') {
+                e.preventDefault();
+                prefs = {}; savePrefs(); applyAll(); stopReading();
+            }
+        });
+
+        // Escape detiene la lectura
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && reading) stopReading();
+        });
+
+        // ── Aplicar preferencias guardadas al cargar ──────────────────
+        applyAll();
+
+    })();
     </script>
 </body>
 </html>

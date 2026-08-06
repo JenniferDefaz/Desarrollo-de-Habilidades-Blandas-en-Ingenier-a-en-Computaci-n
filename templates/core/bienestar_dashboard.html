@@ -1,0 +1,144 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block page_title %}Panel de Bienestar Universitario{% endblock %}
+
+{% block content %}
+<!-- Bienvenida -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card p-4 bg-white border-0 shadow-sm" style="border-radius:12px;">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width:60px;height:60px;font-size:24px;">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 fw-bold">Bienvenido, {{ request.user.first_name|default:request.user.username }}</h4>
+                        <p class="text-muted mb-0">Panel de Bienestar Universitario — Seguimiento y apoyo estudiantil</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="{% url 'wellness_alerts' %}" class="btn btn-danger rounded-pill px-3">
+                        <i class="bi bi-exclamation-triangle me-1"></i> Ver Alertas
+                    </a>
+                    <a href="{% url 'activity_create' %}" class="btn btn-success rounded-pill px-3">
+                        <i class="bi bi-plus-circle me-1"></i> Nueva Actividad
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- KPIs -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm text-center p-4" style="border-radius:12px; border-left:4px solid #0d6efd !important;">
+            <div class="text-primary mb-2" style="font-size:2rem;"><i class="bi bi-people-fill"></i></div>
+            <h2 class="fw-bold mb-0">{{ total_students }}</h2>
+            <p class="text-muted mb-0 small">Estudiantes Activos</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm text-center p-4" style="border-radius:12px; border-left:4px solid #dc3545 !important;">
+            <div class="text-danger mb-2" style="font-size:2rem;"><i class="bi bi-exclamation-triangle-fill"></i></div>
+            <h2 class="fw-bold mb-0">{{ alert_count }}</h2>
+            <p class="text-muted mb-0 small">Estudiantes en Alerta</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm text-center p-4" style="border-radius:12px; border-left:4px solid #198754 !important;">
+            <div class="text-success mb-2" style="font-size:2rem;"><i class="bi bi-trophy-fill"></i></div>
+            <h2 class="fw-bold mb-0">{{ total_competencies }}</h2>
+            <p class="text-muted mb-0 small">Competencias Activas</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm text-center p-4" style="border-radius:12px; border-left:4px solid #fd7e14 !important;">
+            <div class="text-warning mb-2" style="font-size:2rem;"><i class="bi bi-calendar-event-fill"></i></div>
+            <h2 class="fw-bold mb-0">{{ recent_activities|length }}</h2>
+            <p class="text-muted mb-0 small">Actividades Creadas</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Acciones rápidas -->
+    <div class="col-md-5 mb-4">
+        <div class="card shadow-sm border-0 h-100" style="border-radius:12px;">
+            <div class="card-header bg-white border-0 pt-4 pb-0">
+                <h5 class="fw-bold mb-0"><i class="bi bi-lightning-fill me-2 text-warning"></i>Acciones Rápidas</h5>
+            </div>
+            <div class="card-body d-flex flex-column gap-3 pt-4">
+                <a href="{% url 'wellness_alerts' %}" class="btn btn-outline-danger d-flex align-items-center gap-2 p-3" style="border-radius:10px;">
+                    <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+                    <div class="text-start">
+                        <p class="fw-bold mb-0">Ver Alertas de Bajo Desempeño</p>
+                        <p class="small text-muted mb-0">{{ alert_count }} estudiante(s) requieren atención</p>
+                    </div>
+                </a>
+                <a href="{% url 'tutor_students' %}" class="btn btn-outline-primary d-flex align-items-center gap-2 p-3" style="border-radius:10px;">
+                    <i class="bi bi-person-lines-fill fs-5"></i>
+                    <div class="text-start">
+                        <p class="fw-bold mb-0">Seguimiento de Estudiantes</p>
+                        <p class="small text-muted mb-0">Ver perfil completo de cada estudiante</p>
+                    </div>
+                </a>
+                <a href="{% url 'activity_create' %}" class="btn btn-outline-success d-flex align-items-center gap-2 p-3" style="border-radius:10px;">
+                    <i class="bi bi-calendar-plus-fill fs-5"></i>
+                    <div class="text-start">
+                        <p class="fw-bold mb-0">Crear Actividad Formativa</p>
+                        <p class="small text-muted mb-0">Talleres, charlas y actividades de bienestar</p>
+                    </div>
+                </a>
+                <a href="{% url 'reports_dashboard' %}" class="btn btn-outline-secondary d-flex align-items-center gap-2 p-3" style="border-radius:10px;">
+                    <i class="bi bi-pie-chart-fill fs-5"></i>
+                    <div class="text-start">
+                        <p class="fw-bold mb-0">Panel Analítico</p>
+                        <p class="small text-muted mb-0">Tendencias y promedios grupales</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actividades recientes creadas por bienestar -->
+    <div class="col-md-7 mb-4">
+        <div class="card shadow-sm border-0 h-100" style="border-radius:12px;">
+            <div class="card-header bg-white border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0"><i class="bi bi-calendar-event me-2 text-success"></i>Mis Actividades Recientes</h5>
+                <a href="{% url 'activity_list' %}" class="btn btn-sm btn-outline-success">Ver Todas</a>
+            </div>
+            <div class="card-body">
+                {% if recent_activities %}
+                    <div class="list-group list-group-flush">
+                        {% for act in recent_activities %}
+                        <div class="list-group-item px-0 py-3 border-bottom">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="fw-bold mb-1">{{ act.title }}</h6>
+                                    <p class="small text-muted mb-0">
+                                        <i class="bi bi-calendar me-1"></i>{{ act.start_date|date:"d M Y" }}
+                                        <span class="ms-2"><i class="bi bi-geo-alt me-1"></i>{{ act.location }}</span>
+                                    </p>
+                                </div>
+                                <span class="badge bg-primary">{{ act.get_activity_type_display }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="bi bi-calendar-x text-muted" style="font-size:3rem;"></i>
+                    <p class="text-muted mt-3">Aún no has creado actividades.</p>
+                    <a href="{% url 'activity_create' %}" class="btn btn-sm btn-success mt-1">
+                        <i class="bi bi-plus-circle me-1"></i> Crear Primera Actividad
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

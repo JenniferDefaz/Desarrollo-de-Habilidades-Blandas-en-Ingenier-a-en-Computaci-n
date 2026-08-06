@@ -84,6 +84,12 @@ def login_view(request):
                     return redirect('coordinator_dashboard')
                 elif user.role.name == 'GRADUADO':
                     return redirect('graduate_dashboard')
+                elif user.role.name == 'TUTOR_ACADEMICO':
+                    return redirect('tutor_dashboard')
+                elif user.role.name == 'EMPRESA_COLABORADORA':
+                    return redirect('employer_dashboard')
+                elif user.role.name == 'BIENESTAR_UNIVERSITARIO':
+                    return redirect('bienestar_dashboard')
             return redirect('dashboard')
         else:
             failed_attempts += 1
@@ -128,6 +134,12 @@ def dashboard(request):
             return redirect('coordinator_dashboard')
         elif user.role.name == 'GRADUADO':
             return redirect('graduate_dashboard')
+        elif user.role.name == 'TUTOR_ACADEMICO':
+            return redirect('tutor_dashboard')
+        elif user.role.name == 'EMPRESA_COLABORADORA':
+            return redirect('employer_dashboard')
+        elif user.role.name == 'BIENESTAR_UNIVERSITARIO':
+            return redirect('bienestar_dashboard')
     
     return render(request, 'core/dashboard_home.html')
 
@@ -194,6 +206,130 @@ def graduate_dashboard(request):
         'approved_count': approved_count,
         'total_feedbacks': my_feedbacks.count(),
     })
+
+
+@login_required
+@role_required(['TUTOR_ACADEMICO'])
+def tutor_dashboard(request):
+    """Panel principal para el Tutor Académico."""
+    from apps.evaluations.models import EvaluationScore
+    from apps.users.models import TutorNote
+    from django.db.models import Avg
+
+    students = CustomUser.objects.filter(role__name='ESTUDIANTE', is_active=True)
+    tutorados = []
+    for st in students:
+        avg = EvaluationScore.objects.filter(
+            evaluation__evaluated=st
+        ).aggregate(avg=Avg('score'))['avg'] or 0.0
+        avg = round(float(avg), 2)
+        tutorados.append({
+            'student': st,
+            'avg_score': avg,
+            'has_alert': avg > 0 and avg < 5.0,
+        })
+
+    recent_notes = TutorNote.objects.filter(tutor=request.user).select_related('student').order_by('-created_at')[:5]
+
+    return render(request, 'core/tutor_dashboard.html', {
+        'tutorados': tutorados,
+        'total_students': len(tutorados),
+        'alert_count': sum(1 for t in tutorados if t['has_alert']),
+        'recent_notes': recent_notes,
+    })
+
+
+@login_required
+@role_required(['EMPRESA_COLABORADORA'])
+def employer_dashboard(request):
+    """Panel principal para la Empresa Colaboradora."""
+    from apps.evaluations.models import Evaluation360, EvaluationScore
+    from django.db.models import Avg
+
+    # Estudiantes en prácticas asignados a esta empresa (por company_name en perfil)
+    company_name = ''
+    if hasattr(request.user, 'profile') and request.user.profile.company_name:
+        company_name = request.user.profile.company_name
+        students = CustomUser.objects.filter(
+            role__name='ESTUDIANTE',
+            is_active=True,
+            profile__company_name__iexact=company_name
+        )
+    else:
+        students = CustomUser.objects.filter(role__name='ESTUDIANTE', is_active=True)
+
+    students_data = []
+    for st in students:
+        completed = Evaluation360.objects.filter(
+            evaluator=request.user,
+            evaluated=st,
+            evaluation_type=Evaluation360.EvaluationType.EMPLEADOR,
+        ).exists()
+        avg = EvaluationScore.objects.filter(
+            evaluation__evaluated=st,
+            evaluation__evaluator=request.user,
+        ).aggregate(avg=Avg('score'))['avg'] or 0.0
+        students_data.append({
+            'student': st,
+            'completed': completed,
+            'avg_score': round(float(avg), 2),
+        })
+
+    total_evaluated = sum(1 for s in students_data if s['completed'])
+
+    return render(request, 'core/employer_dashboard.html', {
+        'students_data': students_data,
+        'total_students': len(students_data),
+        'total_evaluated': total_evaluated,
+        'company_name': company_name or request.user.get_full_name(),
+    })
+
+
+@login_required
+@role_required(['BIENESTAR_UNIVERSITARIO'])
+def bienestar_dashboard(request):
+    """Panel principal para Personal de Bienestar Universitario."""
+    from apps.evaluations.models import EvaluationScore
+    from apps.activities.models import Activity
+    from django.db.models import Avg
+
+    students = CustomUser.objects.filter(role__name='ESTUDIANTE', is_active=True)
+    competencies = Competency.objects.filter(is_active=True)
+
+    alert_count = 0
+    for st in students:
+        avg = EvaluationScore.objects.filter(
+            evaluation__evaluated=st
+        ).aggregate(avg=Avg('score'))['avg'] or 0.0
+        if float(avg) > 0 and float(avg) < 3.0:
+            alert_count += 1
+
+    recent_activities = Activity.objects.filter(
+        instructor=request.user
+    ).order_by('-created_at')[:5]
+
+    return render(request, 'core/bienestar_dashboard.html', {
+        'total_students': students.count(),
+        'alert_count': alert_count,
+        'total_competencies': competencies.count(),
+        'recent_activities': recent_activities,
+    })
+
+
+@login_required
+@role_required(['TUTOR_ACADEMICO', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
+def add_tutor_note(request, student_id):
+    """Agregar nota de seguimiento a un estudiante tutorado."""
+    from apps.users.models import TutorNote
+    student = get_object_or_404(CustomUser, pk=student_id)
+    if request.method == 'POST':
+        note_text = request.POST.get('note', '').strip()
+        if note_text:
+            TutorNote.objects.create(tutor=request.user, student=student, note=note_text)
+            messages.success(request, 'Nota de seguimiento guardada.')
+        else:
+            messages.error(request, 'La nota no puede estar vacía.')
+    return redirect('tutor_student_detail', student_id=student_id)
 
 
 @login_required

@@ -8,7 +8,7 @@ from .forms import ActivityForm
 
 # --- VISTAS PARA DOCENTES Y COORDINADORES ---
 
-@role_required(['DOCENTE', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
+@role_required(['DOCENTE', 'COORDINADOR_CARRERA', 'ADMINISTRADOR', 'BIENESTAR_UNIVERSITARIO'])
 def activity_list(request):
     """Lista de actividades formativas para gestión docente."""
     user_role = request.user.role.name if request.user.role else ''
@@ -24,7 +24,7 @@ def activity_list(request):
         ).order_by('-created_at')
     return render(request, 'activities/activity_list.html', {'activities': activities})
 
-@role_required(['DOCENTE', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
+@role_required(['DOCENTE', 'COORDINADOR_CARRERA', 'ADMINISTRADOR', 'BIENESTAR_UNIVERSITARIO'])
 def activity_create(request):
     """Crear una nueva actividad formativa."""
     if request.method == 'POST':
@@ -43,7 +43,7 @@ def activity_create(request):
     return render(request, 'activities/activity_form.html', {'form': form, 'obj': None})
 
 
-@role_required(['DOCENTE', 'COORDINADOR_CARRERA', 'ADMINISTRADOR'])
+@role_required(['DOCENTE', 'COORDINADOR_CARRERA', 'ADMINISTRADOR', 'BIENESTAR_UNIVERSITARIO'])
 def activity_update(request, pk):
     """Editar una actividad formativa existente."""
     activity = get_object_or_404(Activity, pk=pk)

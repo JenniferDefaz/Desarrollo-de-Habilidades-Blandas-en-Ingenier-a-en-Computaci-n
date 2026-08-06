@@ -1,17 +1,34 @@
-Credenciales
-	
-	Estudiante		
-		Robinson
-		@Vinicio2004
+Credenciales del Sistema Académico
+===================================
 
-	Administrador 
-		Vinicio
-		0504652140
-	
-	docente
-		Juan
-		1234567890
+Estudiante
+  Usuario:    Robinson
+  Contraseña: @Vinicio2004
 
-	coordinador
-		coordinador
-		coordinador
+Administrador
+  Usuario:    Vinicio
+  Contraseña: 0504652140
+
+Docente
+  Usuario:    Juan
+  Contraseña: 1234567890
+
+Coordinador de Carrera
+  Usuario:    coordinador
+  Contraseña: coordinador
+
+Tutor Académico
+  Usuario:    tutor
+  Contraseña: tutor12345
+
+Empresa Colaboradora
+  Usuario:    empresa
+  Contraseña: empresa123
+
+Bienestar Universitario
+  Usuario:    bienestar
+  Contraseña: bienestar1
+
+Graduado
+  Usuario:    0550673511
+  Contraseña: jenni2004
