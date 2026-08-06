@@ -4,6 +4,21 @@
 {% block page_title %}Catálogo de Actividades Formativas{% endblock %}
 
 {% block content %}
+
+<!-- Botón regresar al panel -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <p class="text-muted mb-0">Explora las actividades formativas disponibles.</p>
+    {% if request.user.role.name == 'GRADUADO' %}
+        <a href="{% url 'graduate_dashboard' %}" class="btn btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-arrow-left me-1"></i> Regresar a mi Panel
+        </a>
+    {% elif request.user.role.name == 'ESTUDIANTE' %}
+        <a href="{% url 'student_dashboard' %}" class="btn btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-arrow-left me-1"></i> Regresar a mi Panel
+        </a>
+    {% endif %}
+</div>
+
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     {% for activity in activities %}
     <div class="col">
@@ -48,7 +63,9 @@
                 {% endif %}
             </div>
             <div class="card-footer bg-white border-0 pb-4 pt-0">
-                {% if activity.pk in user_enrolled_ids %}
+                {% if request.user.role.name == 'GRADUADO' %}
+                    <!-- El graduado solo puede postularse como mentor, no inscribirse -->
+                {% elif activity.pk in user_enrolled_ids %}
                     <div class="d-grid gap-2">
                         <span class="badge bg-info text-white p-2 mb-1">Inscrito</span>
                         <a href="{% url 'upload_evidence' %}?activity={{ activity.pk }}" class="btn btn-success btn-sm fw-bold">
@@ -62,7 +79,11 @@
                     </div>
                 {% else %}
                     <div class="d-grid">
-                        <a href="{% url 'enroll_activity' activity.pk %}" class="btn btn-primary">Inscribirme</a>
+                        <button 
+                            class="btn btn-primary btn-inscribir"
+                            data-url="{% url 'enroll_activity' activity.pk %}"
+                            data-title="{{ activity.title }}"
+                        >Inscribirme</button>
                     </div>
                 {% endif %}
                 
@@ -86,4 +107,78 @@
     </div>
     {% endfor %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    // ── Confirmación antes de inscribirse ──────────────────────────
+    document.querySelectorAll('.btn-inscribir').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            const url   = this.dataset.url;
+            const title = this.dataset.title;
+
+            Swal.fire({
+                title: '¿Confirmar inscripción?',
+                html: `<p class="mb-0">¿Estás seguro de que deseas inscribirte en <strong>${title}</strong>?</p>`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: '<i class="bi bi-check-circle me-1"></i> Sí, inscribirme',
+                cancelButtonText:  '<i class="bi bi-x-circle me-1"></i> Cancelar',
+                confirmButtonColor: '#0d6efd',
+                cancelButtonColor:  '#6c757d',
+                reverseButtons: true,
+                focusCancel: true,
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        });
+    });
+
+    // ── Mensaje de éxito / info / error desde Django messages ─────
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+        Swal.fire({
+            title: '¡Listo!',
+            text: "{{ message|escapejs }}",
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#0d6efd',
+            timer: 3500,
+            timerProgressBar: true,
+        });
+        {% elif message.tags == 'error' %}
+        Swal.fire({
+            title: 'Error',
+            text: "{{ message|escapejs }}",
+            icon: 'error',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#d33',
+        });
+        {% elif message.tags == 'info' %}
+        Swal.fire({
+            title: 'Información',
+            text: "{{ message|escapejs }}",
+            icon: 'info',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#0d6efd',
+            timer: 3000,
+            timerProgressBar: true,
+        });
+        {% elif message.tags == 'warning' %}
+        Swal.fire({
+            title: 'Atención',
+            text: "{{ message|escapejs }}",
+            icon: 'warning',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#ffc107',
+        });
+        {% endif %}
+    {% endfor %}
+
+});
+</script>
 {% endblock %}

@@ -750,7 +750,7 @@ def graduate_feedback_create(request):
             )
 
             messages.success(request, '¡Muchas gracias! Tu retroalimentación laboral ha sido registrada exitosamente.')
-            return redirect('dashboard')
+            return redirect('graduate_dashboard')
     else:
         form = GraduateFeedbackForm()
 
@@ -766,6 +766,20 @@ def graduate_feedback_list(request):
 
     feedbacks = GraduateFeedback.objects.select_related('graduate', 'competency').all()
     return render(request, 'evaluations/graduate_feedback_list.html', {
+        'feedbacks': feedbacks
+    })
+
+
+@role_required(['GRADUADO'])
+def my_graduate_feedbacks(request):
+    """Historial de retroalimentaciones laborales enviadas por el graduado."""
+    from .models import GraduateFeedback
+
+    feedbacks = GraduateFeedback.objects.filter(
+        graduate=request.user
+    ).select_related('competency').order_by('-created_at')
+
+    return render(request, 'evaluations/my_graduate_feedbacks.html', {
         'feedbacks': feedbacks
     })
 

@@ -1,0 +1,87 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block page_title %}Mis Postulaciones de Mentoría{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="text-primary mb-1"><i class="bi bi-person-up me-2"></i>Mis Postulaciones de Mentoría</h2>
+        <p class="text-muted mb-0">Historial completo de tus solicitudes para ser mentor en actividades formativas.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a href="{% url 'student_activities' %}" class="btn btn-outline-primary rounded-pill px-3">
+            <i class="bi bi-grid me-1"></i> Ver Actividades
+        </a>
+        <a href="{% url 'graduate_dashboard' %}" class="btn btn-outline-secondary rounded-pill px-3">
+            <i class="bi bi-arrow-left me-1"></i> Mi Panel
+        </a>
+    </div>
+</div>
+
+<div class="card shadow-sm border-0" style="border-radius: 12px;">
+    <div class="card-body p-0">
+        {% if applications %}
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">Actividad</th>
+                        <th>Fecha de Postulación</th>
+                        <th>Estado</th>
+                        <th class="pe-4">Nota</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td class="ps-4">
+                            <p class="fw-bold mb-0">{{ app.activity.title }}</p>
+                            <p class="small text-muted mb-0">
+                                <i class="bi bi-calendar me-1"></i>
+                                {{ app.activity.start_date|date:"d M Y" }}
+                            </p>
+                        </td>
+                        <td>{{ app.applied_at|date:"d M Y, H:i" }}</td>
+                        <td>
+                            <span class="badge fs-6
+                                {% if app.status == 'APROBADO' %}bg-success
+                                {% elif app.status == 'RECHAZADO' %}bg-danger
+                                {% else %}bg-warning text-dark{% endif %}">
+                                {% if app.status == 'APROBADO' %}
+                                    <i class="bi bi-check-circle me-1"></i>
+                                {% elif app.status == 'RECHAZADO' %}
+                                    <i class="bi bi-x-circle me-1"></i>
+                                {% else %}
+                                    <i class="bi bi-hourglass-split me-1"></i>
+                                {% endif %}
+                                {{ app.get_status_display }}
+                            </span>
+                        </td>
+                        <td class="pe-4 text-muted small">
+                            {% if app.status == 'APROBADO' %}
+                                Ya puedes participar como mentor en esta actividad.
+                            {% elif app.status == 'RECHAZADO' %}
+                                Tu solicitud no fue aprobada esta vez.
+                            {% else %}
+                                En espera de revisión por el Coordinador.
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <i class="bi bi-person-up text-muted" style="font-size: 4rem;"></i>
+            <h5 class="text-muted mt-3">Aún no has postulado como mentor</h5>
+            <p class="text-muted">Explora las actividades disponibles y postúlate como mentor.</p>
+            <a href="{% url 'student_activities' %}" class="btn btn-primary mt-2">
+                <i class="bi bi-grid me-1"></i> Ver Actividades
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

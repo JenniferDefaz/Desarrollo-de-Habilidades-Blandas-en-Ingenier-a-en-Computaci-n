@@ -1,0 +1,176 @@
+{% extends 'core/dashboard_base.html' %}
+{% load static %}
+
+{% block page_title %}Panel de Graduado{% endblock %}
+
+{% block content %}
+<!-- Bienvenida -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card p-4 bg-white border-0 shadow-sm" style="border-radius: 12px;">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; font-size: 24px;">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 fw-bold text-dark">Bienvenido, {{ request.user.first_name|default:request.user.username }}</h4>
+                        <p class="text-muted mb-0">Panel del Graduado — Mentoría y Retroalimentación Laboral</p>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a href="{% url 'graduate_feedback_create' %}" class="btn btn-success rounded-pill px-3">
+                        <i class="bi bi-journal-plus me-1"></i> Nueva Retroalimentación
+                    </a>
+                    <a href="{% url 'student_activities' %}" class="btn btn-outline-primary rounded-pill px-3">
+                        <i class="bi bi-person-up me-1"></i> Ver Actividades
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tarjetas de resumen -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card border-0 shadow-sm text-center p-4" style="border-radius: 12px; border-left: 4px solid #ffc107 !important;">
+            <div class="text-warning mb-2" style="font-size: 2rem;"><i class="bi bi-hourglass-split"></i></div>
+            <h2 class="fw-bold mb-0">{{ pending_count }}</h2>
+            <p class="text-muted mb-0 small">Postulaciones Pendientes</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card border-0 shadow-sm text-center p-4" style="border-radius: 12px; border-left: 4px solid #198754 !important;">
+            <div class="text-success mb-2" style="font-size: 2rem;"><i class="bi bi-patch-check-fill"></i></div>
+            <h2 class="fw-bold mb-0">{{ approved_count }}</h2>
+            <p class="text-muted mb-0 small">Mentorías Aprobadas</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card border-0 shadow-sm text-center p-4" style="border-radius: 12px; border-left: 4px solid #0d6efd !important;">
+            <div class="text-primary mb-2" style="font-size: 2rem;"><i class="bi bi-chat-quote-fill"></i></div>
+            <h2 class="fw-bold mb-0">{{ total_feedbacks }}</h2>
+            <p class="text-muted mb-0 small">Retroalimentaciones Enviadas</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Mis Postulaciones de Mentoría -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 h-100" style="border-radius: 12px;">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0"><i class="bi bi-person-up me-2 text-primary"></i>Mis Postulaciones de Mentoría</h5>
+                <a href="{% url 'my_mentor_applications' %}" class="btn btn-sm btn-outline-primary">Ver Todas</a>
+            </div>
+            <div class="card-body">
+                {% if my_applications %}
+                    <div class="list-group list-group-flush">
+                        {% for app in my_applications %}
+                        <div class="list-group-item px-0 py-3 border-bottom">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1 fw-bold">{{ app.activity.title }}</h6>
+                                    <p class="mb-0 small text-muted">
+                                        <i class="bi bi-calendar me-1"></i>{{ app.applied_at|date:"d M Y" }}
+                                    </p>
+                                </div>
+                                <span class="badge
+                                    {% if app.status == 'APROBADO' %}bg-success
+                                    {% elif app.status == 'RECHAZADO' %}bg-danger
+                                    {% else %}bg-warning text-dark{% endif %}">
+                                    {{ app.get_status_display }}
+                                </span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-person-up text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-3">Aún no te has postulado como mentor.</p>
+                        <a href="{% url 'student_activities' %}" class="btn btn-sm btn-outline-primary mt-1">Ver Actividades Disponibles</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Mis Retroalimentaciones enviadas -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm border-0 h-100" style="border-radius: 12px;">
+            <div class="card-header bg-white border-bottom-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold mb-0"><i class="bi bi-chat-quote me-2 text-success"></i>Mis Retroalimentaciones</h5>
+                <a href="{% url 'my_graduate_feedbacks' %}" class="btn btn-sm btn-outline-success">Ver Todas</a>
+            </div>
+            <div class="card-body">
+                {% if my_feedbacks %}
+                    <div class="list-group list-group-flush">
+                        {% for fb in my_feedbacks %}
+                        <div class="list-group-item px-0 py-3 border-bottom">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h6 class="mb-1 fw-bold">{{ fb.competency.name }}</h6>
+                                    <p class="mb-0 small text-muted">
+                                        <i class="bi bi-building me-1"></i>{{ fb.company_name }} — {{ fb.job_title }}
+                                    </p>
+                                </div>
+                                <div class="text-end">
+                                    <span class="badge bg-primary">{{ fb.relevance_rating }}/5</span>
+                                    <p class="small text-muted mb-0 mt-1">{{ fb.created_at|date:"d M Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-journal-text text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-3">Aún no has enviado retroalimentación laboral.</p>
+                        <a href="{% url 'graduate_feedback_create' %}" class="btn btn-sm btn-success mt-1">Enviar Ahora</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Información de su rol -->
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm p-4" style="border-radius: 12px; background: linear-gradient(135deg, #f8f9fa, #e9f7ef);">
+            <h6 class="fw-bold text-success mb-3"><i class="bi bi-info-circle me-2"></i>¿Qué puedes hacer como Graduado?</h6>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="d-flex align-items-start gap-2">
+                        <i class="bi bi-check-circle-fill text-success mt-1"></i>
+                        <div>
+                            <p class="mb-0 fw-semibold">Postularte como Mentor</p>
+                            <p class="small text-muted mb-0">Inscríbete en actividades como mentor. El coordinador aprueba tu participación.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex align-items-start gap-2">
+                        <i class="bi bi-check-circle-fill text-success mt-1"></i>
+                        <div>
+                            <p class="mb-0 fw-semibold">Registrar Retroalimentación</p>
+                            <p class="small text-muted mb-0">Comparte cómo las habilidades blandas impactan tu vida laboral.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex align-items-start gap-2">
+                        <i class="bi bi-check-circle-fill text-success mt-1"></i>
+                        <div>
+                            <p class="mb-0 fw-semibold">Orientar Estudiantes</p>
+                            <p class="small text-muted mb-0">Una vez aprobado como mentor, apoya a los estudiantes que mentorizas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

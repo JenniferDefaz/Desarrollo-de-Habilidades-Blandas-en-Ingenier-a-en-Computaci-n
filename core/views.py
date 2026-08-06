@@ -82,6 +82,8 @@ def login_view(request):
                     return redirect('teacher_dashboard')
                 elif user.role.name in ['COORDINADOR_CARRERA', 'ADMINISTRADOR']:
                     return redirect('coordinator_dashboard')
+                elif user.role.name == 'GRADUADO':
+                    return redirect('graduate_dashboard')
             return redirect('dashboard')
         else:
             failed_attempts += 1
@@ -124,6 +126,8 @@ def dashboard(request):
             return redirect('teacher_dashboard')
         elif user.role.name in ['COORDINADOR_CARRERA', 'ADMINISTRADOR']:
             return redirect('coordinator_dashboard')
+        elif user.role.name == 'GRADUADO':
+            return redirect('graduate_dashboard')
     
     return render(request, 'core/dashboard_home.html')
 
@@ -163,6 +167,33 @@ def student_dashboard(request):
 @role_required(['DOCENTE'])
 def teacher_dashboard(request):
     return render(request, 'core/teacher_dashboard.html')
+
+
+@login_required
+@role_required(['GRADUADO'])
+def graduate_dashboard(request):
+    """Panel principal para el rol Graduado."""
+    from apps.activities.models import MentorApplication
+    from apps.evaluations.models import GraduateFeedback
+
+    my_applications = MentorApplication.objects.filter(
+        graduate=request.user
+    ).select_related('activity').order_by('-applied_at')
+
+    my_feedbacks = GraduateFeedback.objects.filter(
+        graduate=request.user
+    ).select_related('competency').order_by('-created_at')
+
+    pending_count = my_applications.filter(status='PENDIENTE').count()
+    approved_count = my_applications.filter(status='APROBADO').count()
+
+    return render(request, 'core/graduate_dashboard.html', {
+        'my_applications': my_applications[:5],
+        'my_feedbacks': my_feedbacks[:5],
+        'pending_count': pending_count,
+        'approved_count': approved_count,
+        'total_feedbacks': my_feedbacks.count(),
+    })
 
 
 @login_required

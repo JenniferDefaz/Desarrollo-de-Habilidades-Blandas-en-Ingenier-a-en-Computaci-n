@@ -205,6 +205,12 @@ def apply_as_mentor(request, pk):
 def manage_mentors(request, activity_id):
     """Permitir al Coordinador de Carrera aprobar o rechazar mentores."""
     from .models import MentorApplication, MentorApplicationStatus
+    from django.core.mail import EmailMessage
+    from django.conf import settings
+    from django.template.loader import get_template
+    from django.utils import timezone
+    from io import BytesIO
+
     activity = get_object_or_404(Activity, pk=activity_id)
     applications = activity.mentor_applications.select_related('graduate').all()
 
@@ -213,17 +219,105 @@ def manage_mentors(request, activity_id):
         action = request.POST.get('action')
         if app_id and action in ['APROBAR', 'RECHAZAR']:
             application = get_object_or_404(MentorApplication, id=app_id, activity=activity)
-            if action == 'APROBAR':
+            graduate = application.graduate
+            graduate_email = graduate.institutional_email or graduate.email
+            approved = action == 'APROBAR'
+
+            if approved:
                 application.status = MentorApplicationStatus.APROBADO
-                messages.success(request, f'Solicitud de {application.graduate.get_full_name()} aprobada.')
+                messages.success(request, f'Solicitud de {graduate.get_full_name()} aprobada.')
             else:
                 application.status = MentorApplicationStatus.RECHAZADO
-                messages.warning(request, f'Solicitud de {application.graduate.get_full_name()} rechazada.')
+                messages.warning(request, f'Solicitud de {graduate.get_full_name()} rechazada.')
+
             application.save()
+
+            # Generar PDF y enviar correo
+            if graduate_email:
+                try:
+                    pdf_context = {
+                        'approved': approved,
+                        'graduate_name': graduate.get_full_name() or graduate.username,
+                        'graduate_username': graduate.username,
+                        'graduate_email': graduate_email,
+                        'activity_title': activity.title,
+                        'activity_type': activity.get_activity_type_display(),
+                        'activity_date': activity.start_date.strftime('%d/%m/%Y %H:%M'),
+                        'activity_location': activity.location,
+                        'activity_competency': activity.competency.name if activity.competency else 'N/A',
+                        'coordinator_name': request.user.get_full_name() or request.user.username,
+                        'resolution_date': timezone.now().strftime('%d/%m/%Y %H:%M'),
+                    }
+
+                    # Generar PDF con xhtml2pdf
+                    pdf_data = None
+                    try:
+                        from xhtml2pdf import pisa
+                        template = get_template('activities/pdf/mentor_approval.html')
+                        html = template.render(pdf_context)
+                        pdf_buffer = BytesIO()
+                        pisa.pisaDocument(BytesIO(html.encode('UTF-8')), pdf_buffer, encoding='UTF-8')
+                        pdf_data = pdf_buffer.getvalue()
+                    except Exception:
+                        pdf_data = None
+
+                    if approved:
+                        subject = 'Postulacion como Mentor APROBADA - ' + activity.title
+                        body = (
+                            'Estimado/a ' + (graduate.first_name or graduate.username) + ',\n\n'
+                            'Tu postulacion como Mentor en "' + activity.title + '" ha sido APROBADA.\n'
+                            'Adjuntamos el documento oficial con los detalles.\n\n'
+                            'Gracias por tu aporte a la formacion academica!\n\n'
+                            'Saludos,\nSistema Academico - Habilidades Blandas'
+                        )
+                    else:
+                        subject = 'Resultado de tu postulacion como Mentor - ' + activity.title
+                        body = (
+                            'Estimado/a ' + (graduate.first_name or graduate.username) + ',\n\n'
+                            'Tu postulacion como Mentor en "' + activity.title + '" no fue aprobada.\n'
+                            'Adjuntamos el documento con los detalles de la resolucion.\n\n'
+                            'Te invitamos a postularte en otras actividades.\n\n'
+                            'Saludos,\nSistema Academico - Habilidades Blandas'
+                        )
+
+                    email = EmailMessage(
+                        subject=subject,
+                        body=body,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        to=[graduate_email],
+                    )
+
+                    if pdf_data:
+                        estado = 'aprobacion' if approved else 'resultado'
+                        email.attach(
+                            f'postulacion_mentor_{estado}.pdf',
+                            pdf_data,
+                            'application/pdf'
+                        )
+
+                    email.send(fail_silently=False)
+
+                except Exception as e:
+                    import logging
+                    logging.getLogger(__name__).error(f'Error enviando correo a mentor: {e}')
+
             return redirect('manage_mentors', activity_id=activity.id)
 
     return render(request, 'activities/manage_mentors.html', {
         'activity': activity,
+        'applications': applications
+    })
+
+
+@role_required(['GRADUADO'])
+def my_mentor_applications(request):
+    """Lista de postulaciones de mentoría del graduado con su estado actual."""
+    from .models import MentorApplication
+    applications = MentorApplication.objects.filter(
+        graduate=request.user
+    ).select_related('activity').order_by('-applied_at')
+
+    return render(request, 'activities/my_mentor_applications.html', {
         'applications': applications
     })
 

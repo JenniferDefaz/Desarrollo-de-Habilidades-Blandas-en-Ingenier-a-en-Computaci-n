@@ -21,4 +21,5 @@ urlpatterns = [
     # Gestión de Mentores
     path('<int:pk>/postular-mentor/', views.apply_as_mentor, name='apply_as_mentor'),
     path('<int:activity_id>/mentores/', views.manage_mentors, name='manage_mentors'),
+    path('mis-postulaciones/', views.my_mentor_applications, name='my_mentor_applications'),
 ]

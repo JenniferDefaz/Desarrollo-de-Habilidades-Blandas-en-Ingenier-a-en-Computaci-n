@@ -45,6 +45,7 @@ urlpatterns = [
     # Retroalimentación de Graduados
     path('graduados/retroalimentacion/', views.graduate_feedback_create, name='graduate_feedback_create'),
     path('graduados/respuestas/', views.graduate_feedback_list, name='graduate_feedback_list'),
+    path('graduados/mi-retroalimentacion/', views.my_graduate_feedbacks, name='my_graduate_feedbacks'),
 ]
 
 

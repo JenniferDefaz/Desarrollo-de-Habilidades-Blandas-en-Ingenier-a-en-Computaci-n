@@ -9,5 +9,6 @@ urlpatterns = [
     path('student_dashboard/', views.student_dashboard, name='student_dashboard'),
     path('teacher_dashboard/', views.teacher_dashboard, name='teacher_dashboard'),
     path('coordinator_dashboard/', views.coordinator_dashboard, name='coordinator_dashboard'),
+    path('graduate_dashboard/', views.graduate_dashboard, name='graduate_dashboard'),
     path('api/check-session/', views.check_session_status, name='check_session_status'),
 ]

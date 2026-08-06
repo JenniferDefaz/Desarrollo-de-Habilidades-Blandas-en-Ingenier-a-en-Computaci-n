@@ -133,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
-            'min_length': 10,
+            'min_length': 8,
         }
     },
     {
@@ -206,8 +206,9 @@ if USE_MINIO_STORAGE:
 # Configuración de Correo Electrónico (SMTP Gmail)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+EMAIL_USE_TLS = False
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER', '')
+DEFAULT_FROM_EMAIL = f'Sistema Academico <{os.environ.get("EMAIL_HOST_USER", "")}>'

@@ -116,8 +116,23 @@
                     {% elif request.user.role and request.user.role.name in 'GRADUADO,Graduado' %}
                     <!-- ═══ GRADUADO ═══ -->
                     <li class="nav-item">
+                        <a href="{% url 'graduate_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'graduate_dashboard' %}active{% endif %}">
+                            <i class="bi bi-grid-1x2-fill"></i> Mi Panel
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{% url 'graduate_feedback_create' %}" class="nav-link {% if request.resolver_match.url_name == 'graduate_feedback_create' %}active{% endif %}">
                             <i class="bi bi-journal-check"></i> Retroalimentación Laboral
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'student_activities' %}" class="nav-link {% if request.resolver_match.url_name == 'student_activities' %}active{% endif %}">
+                            <i class="bi bi-calendar-event-fill"></i> Actividades
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'my_mentor_applications' %}" class="nav-link {% if request.resolver_match.url_name == 'my_mentor_applications' %}active{% endif %}">
+                            <i class="bi bi-person-up"></i> Mis Postulaciones
                         </a>
                     </li>
                     <li class="nav-item">
